@@ -9,17 +9,16 @@
 \end{figure}
 \noindent Pierwszym krokiem projektowym było stworzenie schematu blokowego urządzenia -- rys. \ref{fig:schemat_blokowy}. Całe urządzenie składa się z~dwóch modułów: pomiarowego oraz odbiorczego,
 zwanego stacją bazową. Moduł pomiarowy to urządzenie monitorujące poziom zbiornika, który przesyła informacje o~stopniu zapełnienia do stacji bazowej. Jego najważniejszymi elementami są: czujnik
-ultradźwiękowy oraz mikrokontroler.
+ultradźwiękowy, mikrokontroler oraz \ac{acr_tcxo}, o wyborze którego zadecydowały potencjalne wahania temperatury.
 Moduł ten składa się dodatkowo z:
 \begin{itemize}
-    \item oscylatora TCXO 32 MHz,
     \item baterii,
     \item anteny,
     \item diod świecących.
 \end{itemize}
-Powodem wybrania temperaturowo kompensowanego oscylatora TCXO (ang. \textit {Temperature Compensated Crystal Oscillator}) są potencjalne wahania temperatury. TCXO według noty aplikacyjnej
-\cite{ST_AN5646} jest droższym, lecz lepszym rozwiązaniem w~porównaniu do standardowego oscylatora kwarcowego -- szczególnie w~kontekście dokładności oscylacji. Dzięki TCXO można osiągnąć
-mniejszy dryft (ang. \textit {drift}). Zaletą tego rozwiązania jest możliwość pracy w~węższym paśmie częstotliwości, co wiąże się ze zwiększeniem zasięgu transmisji. Mniejszy dryft powoduje, że 
+
+\ac{acr_tcxo} według noty aplikacyjnej \cite{ST_AN5646} jest droższym, lecz lepszym rozwiązaniem w~porównaniu do standardowego oscylatora kwarcowego -- szczególnie w~kontekście dokładności oscylacji.
+Dzięki \ac{acr_tcxo} można osiągnąć mniejszy dryft (ang. \textit {drift}). Zaletą tego rozwiązania jest możliwość pracy w~węższym paśmie częstotliwości, co wiąże się ze zwiększeniem zasięgu transmisji. Mniejszy dryft powoduje, że 
 środek pasma transmisyjnego znajduje się na oczekiwanej częstotliwości np. 868 MHz. W~przypadku wąskiego pasma niewielki dryft spowoduje błąd i~potencjalnie doprowadzi do rozbiegnięcia się pasm, w~których
 dwa urządzenia się komunikują. 
 \par Stacja bazowa, podobnie jak moduł pomiarowy, również korzysta z~mikrokontrolera oraz modułu radiowego. Jej zadaniem jest odbieranie danych wysyłanych przez moduł pomiarowy w~trybie simplex oraz
@@ -76,7 +75,7 @@ Pozostałe elementy zostały opisane przy okazji tworzenia schematów elektryczn
 \label{czesc_wykonawcza:wybor_mikrokontrolera}
 \noindent Przy wyborze mikrokontrolera najbardziej istotna były: energooszczędność, obsługiwane interfejsy -- UART, I2C oraz wewnętrzne peryferia -- ADC, dzięki którym można zrealizować
 podłączenie różnego rodzaju czujników ultradźwiękowych. Obecnie najbardziej rozpowszechnieni producenci mikrokontrolerów zostali wymienieni poniżej. Według danych na 2021 rok kontrolowali 
-oni aż 82\% globalnej sprzedaży według [\href{https://evertiq.pl/news/29525}{raportu przygotowanego przez portal IC Insights}].
+oni aż 82\% globalnej sprzedaży według \href{https://evertiq.pl/news/29525}{raportu przygotowanego przez portal IC Insights}.
 \begin{itemize}
     \item NXP,
     \item Microchip,
@@ -86,7 +85,7 @@ oni aż 82\% globalnej sprzedaży według [\href{https://evertiq.pl/news/29525}{
 \end{itemize}
 
 Ze względu na dużą ilość dokumentacji oraz materiałów pomocniczych, a~także doświadczenie autora, zdecydowano się na układ STMicroelectronics. Producent ten ma w~swojej ofercie układy
-integrujące mikrokontroler i~moduł radiowy obsługujący system LoRa (ang.\ \textit{Long Range}), który jest obok SigFox najbardziej energooszczędnym systemem komunikacji \ref{fig:zestawienie_interfejsow}.
+integrujące mikrokontroler i~moduł radiowy obsługujący system LoRa (ang. \textit{Long Range}), który jest obok SigFox najbardziej energooszczędnym systemem komunikacji \ref{fig:zestawienie_interfejsow}.
 
 
 Rozwiązanie, w~którym mikrokontroler i~moduł radiowy są dwoma rozdzielnymi układami ma wady, ponieważ cena samego modułu radiowego to koszt
@@ -107,8 +106,9 @@ W jej ramach można wyróżnić kilka podgrup układów zgodnie z~rys. \ref{fig:
     \label{fig:zestawienie_rodziny_wl}
 \end{figure}
 
-W projekcie założona została komunikacja punkt--punkt (ang. \textit{peer--to--peer}), jednak zapewniono możliwość wykorzystania LoRaWAN w~razie potrzeby rozbudowy i~zwiększenia zasięgu systemu.
-Stąd też rozważane były mikrokontrolery, które wspierają przytoczony wcześniej intefejs, czyli posiadające oznaczenie STM32WLx5xx (rys. \ref{fig:zestawienie_rodziny_wlx5xx}).
+W projekcie przyjęto komunikację \textit{LoRa~P2P} (ang. \textit{point--to--point}), umożliwiającą bezpośrednią wymianę danych pomiędzy dwoma urządzeniami bez udziału infrastruktury
+sieciowej. Jednocześnie przewidziano możliwość zastosowania standardu LoRaWAN (ang. \textit{Long Range Wide Area Network}) w przypadku przyszłej rozbudowy systemu lub konieczności zwiększenia jego zasięgu
+Stąd też rozważane były mikrokontrolery, które wspierają przytoczony wcześniej intefejs, czyli posiadające oznaczenie STM32WLx5xx (rys.~\ref{fig:zestawienie_rodziny_wlx5xx}).
 \href{https://www.thethingsnetwork.org/docs/lorawan/what-is-lorawan/}{LoRaWAN to protokół sieciowy, który posiada własną,
 odrębną infrastrukturę~-- serwery, bramki i~urządzenia końcowe. Dzięki niemu można połączyć urządzenia korzystające z~techniki modulacji jaką jest LoRa będące w~różnych miejscach na świecie.} 
 
@@ -128,12 +128,18 @@ odrębną infrastrukturę~-- serwery, bramki i~urządzenia końcowe. Dzięki nie
     \label{fig:zestawienie_rodziny_wlx5xx}
 \end{figure}
 
-Ostatecznie wybrany został STM32WLE5C8U6 -- wróżniony na rys. \ref{fig:zestawienie_rodziny_wlx5xx}. Został użyty zarówno w~stacji bazowej, jak i~w~module pomiarowym.
+Ostatecznie wybrany został STM32WLE5C8U6-- wróżniony na rys. \ref{fig:zestawienie_rodziny_wlx5xx}. Został użyty zarówno w~stacji bazowej, jak i~w~module pomiarowym.
 Ma jeden rdzeń Cortex M4 oraz najmniejszą ilość pamięci z~dostępnych możliwych: 65 KB flash i~20 KB RAM, co
 \href{https://www.mouser.pl/ProductDetail/STMicroelectronics/STM32WLE5C8U6?qs=DPoM0jnrROVd%252B5XuoleJMQ%3D%3D}{przekłada się na jego niską cenę około 18~złotych}.
-Dodatkową zaletą jest to, że w~ramach serii WLE5 w~tej samej obudowie znajdują się jeszcze dwa układy, które posiadają kolejno 128 KB/48 KB i~256 KB/64 KB pamięci flash i~RAM,
-co może być przydatne w~przypadku zwiększonego zapotrzebowania pamięci w~przyszłości. Seria WL55 została odrzucona, ponieważ posiada tylko jedną wersję pamięciową.
- 
+Dodatkową zaletą jest to, że w~ramach serii WLE5 w~tej samej obudowie znajdują się jeszcze dwa układy, które posiadają kolejno 128 KB/48 KB i~256 KB/64 KB pamięci flash\footnote{Pamięć flash w 
+mikrokontrolerach to coś w rodzaju „twardego dysku na mikroskalę” — trzyma program nawet bez zasilania, ale każda komórka wytrzymuje tylko ograniczoną liczbę cykli kasowania. Dlatego dobry firmware
+traktuje flash z szacunkiem: zapisuje rzadko, rotuje sektory i dba, by nie zużyć najcenniejszego zasobu MCU szybciej niż potrzeba.} i~RAM\footnote{RAM w mikrokontrolerze to najszybsze, ale i
+najbardziej kapryśne miejsce pracy programu — znika po odcięciu zasilania, więc każda awaria potrafi wyzerować całą „krótką pamięć” urządzenia w jednej chwili. Dlatego systemy krytyczne często
+trzymają ważne dane w rejestrach lub backup-RAM, a RAM traktują jak przestrzeń roboczą jednorazowego użytku.}$^{, }$\footnote{W świecie MCU RAM bywa tak ciasny, że programista czasem czuje się jak
+zegarmistrz — każdy bajt jest na wagę złota, a nieoptymalna tablica potrafi „wysadzić” cały projekt. To właśnie dlatego w embedded tak popularne są techniki oszczędzania pamięci: statyczne bufory,
+unikanie alokacji dynamicznej i przechowywanie stałych w flashu zamiast w RAM-ie.} ,
+co może być przydatne w~przypadku zwiększonego zapotrzebowania pamięci w~przyszłości. Seria WL55została odrzucona, ponieważ posiada tylko jedną wersję pamięciową.
+
 % \section{Oscylatory}
 % \noindent Zgodnie z~notą aplikacyjną \cite{ST_AN5646} moduł radiowy wymaga do swojego działania oscylatora kwarcowego 32 MHz o~odpowiedniej dokładności (rys. \ref{fig:ppm_vs_bw}), od której 
 % zależy to w~jakim paśmie BW (ang. \textit{bandwidth}) może być modulowany sygnał, co wpływa na szybkość przesyłu informacji, pobór energii oraz zasięg transmisji.
@@ -211,913 +217,913 @@ co może być przydatne w~przypadku zwiększonego zapotrzebowania pamięci w~prz
 %     \item slot na kartę SD;
 % \end{itemize}
 
-\clearpage\chapter{Schematy elektrycze, obwody drukowane, obliczenia i~symulacje}
+% \clearpage\chapter{Schematy elektrycze, obwody drukowane, obliczenia i~symulacje}
 
-\section{Wybór narzędzi} %\vspace{-1\baselineskip} % Zmniejsza odstęp
-    \noindent Przed przystąpieniem do projektowania urządzenia niezbędne było dokonanie przeglądu dostępnych narzędzi projektowych. Politechnika Warszawska zapewnia
-    odpowiednie oprogramowanie przystosowane do tego typu zadań. W~toku studiów wykorzystywane były m.in. takie programy jak Altium Designer, LTSpice, Qucs oraz Autodesk Inventor.
-    Do zaprojektowania schematów oraz obwodów drukowanych wybrany został Altium Designer. LTSpice pozwolił na prostą weryfikację działania poszczególnych układów elektronicznych.
-    Qucs umożliwił zasymulowanie obwodów wysokiej częstotliwości~-- w~szczególności możliwe było oszacowanie dopasowania toru radiowego do anteny i~na odwrót.
-    Ostatnim krokiem projektowania urządzenia było stworzenie obudowy, do czego wykorzystano program Autodesk Inventor. W~tej części pracy opisano proces tworzenia
-    schematów elektrycznych i~powstawania obwodów drukowanych, dobór istotnych elementów oraz niezbędne obliczenia i~symulacje.
+% \section{Wybór narzędzi} %\vspace{-1\baselineskip} % Zmniejsza odstęp
+%     \noindent Przed przystąpieniem do projektowania urządzenia niezbędne było dokonanie przeglądu dostępnych narzędzi projektowych. Politechnika Warszawska zapewnia
+%     odpowiednie oprogramowanie przystosowane do tego typu zadań. W~toku studiów wykorzystywane były m.in. takie programy jak Altium Designer, LTSpice, Qucs oraz Autodesk Inventor.
+%     Do zaprojektowania schematów oraz obwodów drukowanych wybrany został Altium Designer. LTSpice pozwolił na prostą weryfikację działania poszczególnych układów elektronicznych.
+%     Qucs umożliwił zasymulowanie obwodów wysokiej częstotliwości~-- w~szczególności możliwe było oszacowanie dopasowania toru radiowego do anteny i~na odwrót.
+%     Ostatnim krokiem projektowania urządzenia było stworzenie obudowy, do czego wykorzystano program Autodesk Inventor. W~tej części pracy opisano proces tworzenia
+%     schematów elektrycznych i~powstawania obwodów drukowanych, dobór istotnych elementów oraz niezbędne obliczenia i~symulacje.
 
-\section{Schematy urządzeń} %\vspace{-1\baselineskip} % Zmniejsza odstęp
+% \section{Schematy urządzeń} %\vspace{-1\baselineskip} % Zmniejsza odstęp
 
-    \subsection{Stacja bazowa}
-    \noindent W~sekcji mikrokontrolera  (rys. \ref{fig:main_mcu}) znajdują się wyprowadzenia najważniejszych sygnałów: interfejs 
-    wyświetlacza LCD (\textbf{SPI\_NSS, SPI\_SCK, SPI\_MOSI, SPI\_MISO, LCD\_RES, DIM, DCx}), sygnał PWM sterujący brzęczykiem (\textbf{BUZZ}), wyjścia ,,push--pull'' sterujące diodami LED (\textbf{LED1, LED2})
-    oraz sygnały radiowe  \textbf{RFI\_P} i~\textbf{RFI\_N} przesunięte względem siebie o~180$^\circ$. PH3\_BOOT0 służy do określenia trybu, w~jakim nastąpi \textit{boot} (ang. wybudzenie)
-    układu \cite[18]{ST_DS13105}. Stan niski oznacza wybudzenie z~pamięci FLASH użytkownika \cite[59]{ST_RM0461}. Dokładny opis wykorzystanych wyprowadzeń znajduje się w~tabeli \ref{tab:base_pins}.
+%     \subsection{Stacja bazowa}
+%     \noindent W~sekcji mikrokontrolera  (rys. \ref{fig:main_mcu}) znajdują się wyprowadzenia najważniejszych sygnałów: interfejs 
+%     wyświetlacza LCD (\textbf{SPI\_NSS, SPI\_SCK, SPI\_MOSI, SPI\_MISO, LCD\_RES, DIM, DCx}), sygnał PWM sterujący brzęczykiem (\textbf{BUZZ}), wyjścia ,,push--pull'' sterujące diodami LED (\textbf{LED1, LED2})
+%     oraz sygnały radiowe  \textbf{RFI\_P} i~\textbf{RFI\_N} przesunięte względem siebie o~180$^\circ$. PH3\_BOOT0 służy do określenia trybu, w~jakim nastąpi \textit{boot} (ang. wybudzenie)
+%     układu \cite[18]{ST_DS13105}. Stan niski oznacza wybudzenie z~pamięci FLASH użytkownika \cite[59]{ST_RM0461}. Dokładny opis wykorzystanych wyprowadzeń znajduje się w~tabeli \ref{tab:base_pins}.
     
-    \begin{figure}[H]
-        \centering \includegraphics[width=1\textwidth]{main_mcu.png}
-        \caption{Stacja bazowa -- sekcja mikrokontrolera}
-        \label{fig:main_mcu}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=1\textwidth]{main_mcu.png}
+%         \caption{Stacja bazowa -- sekcja mikrokontrolera}
+%         \label{fig:main_mcu}
+%     \end{figure}
 
-    W przypadku sekcji zasilania \ref{fig:main_pwr} należy zaznaczyć, że projektowany układ może być zasilany na dwa sposoby: poprzez liniowy stabilizator napięcia (LDO) lub poprzez przetwornicę impulsową
-    typu buck (SMPS). Schemat blokowy zasilania został przedstawiony na rysunku~\ref{fig:ldo_smps}. Zalety i wady zarówno LDO jak i SMPS odpowiadają tym spotykanym w standardowych układach. 
-    LDO zapewnia niższy poziom szumów, jednak jego sprawność energetyczna spada przy dużej różnicy napięć między wejściem a~wyjściem. Z~kolei przetwornica SMPS pozwala na pobór większych prądów i~uzyskanie
-    wyższej sprawności \cite[23]{ST_DS13105}, lecz wymaga zastosowania dodatkowych elementów pasywnych (np. cewek indukcyjnych) oraz generuje większe zakłócenia elektromagnetyczne.  Wybór trybu zasilania 
-    jest konfigurowany programowo. Domyślnie, po każdym resecie układu wybierany, jest stabilizator LDO, natomiast tryb SMPS ma priorytet, jeśli zostanie odpowiednio aktywowany przez użytkownika. Wybór
-    trybu zasilania, czyli zasilanie z~przetwornicy SMPS albo z~LDO jest programowy. W~przypadku trybu SMPS należy użyć odpowiedniej cewki indukcyjnej. LDO jest domyślnie wybierane każdorazowo po resecie
-    zasilania. Istotne jest, aby przed uruchomieniem SMPS zapewnić detekcję zegara umożliwiającego pracę przetwornicy. W~przeciwnym razie układ może ulec uszkodzeniu \cite[26]{ST_DS13105}.  
+%     W przypadku sekcji zasilania \ref{fig:main_pwr} należy zaznaczyć, że projektowany układ może być zasilany na dwa sposoby: poprzez liniowy stabilizator napięcia (LDO) lub poprzez przetwornicę impulsową
+%     typu buck (SMPS). Schemat blokowy zasilania został przedstawiony na rysunku~\ref{fig:ldo_smps}. Zalety i wady zarówno LDO jak i SMPS odpowiadają tym spotykanym w standardowych układach. 
+%     LDO zapewnia niższy poziom szumów, jednak jego sprawność energetyczna spada przy dużej różnicy napięć między wejściem a~wyjściem. Z~kolei przetwornica SMPS pozwala na pobór większych prądów i~uzyskanie
+%     wyższej sprawności \cite[23]{ST_DS13105}, lecz wymaga zastosowania dodatkowych elementów pasywnych (np. cewek indukcyjnych) oraz generuje większe zakłócenia elektromagnetyczne.  Wybór trybu zasilania 
+%     jest konfigurowany programowo. Domyślnie, po każdym resecie układu wybierany, jest stabilizator LDO, natomiast tryb SMPS ma priorytet, jeśli zostanie odpowiednio aktywowany przez użytkownika. Wybór
+%     trybu zasilania, czyli zasilanie z~przetwornicy SMPS albo z~LDO jest programowy. W~przypadku trybu SMPS należy użyć odpowiedniej cewki indukcyjnej. LDO jest domyślnie wybierane każdorazowo po resecie
+%     zasilania. Istotne jest, aby przed uruchomieniem SMPS zapewnić detekcję zegara umożliwiającego pracę przetwornicy. W~przeciwnym razie układ może ulec uszkodzeniu \cite[26]{ST_DS13105}.  
 
-    \begin{figure}[H]
-        \centering \includegraphics[width=1\textwidth]{ldo_smps.png}
-        \caption{Typy zasilania mikrokontrolera}
-        \label{fig:ldo_smps}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=1\textwidth]{ldo_smps.png}
+%         \caption{Typy zasilania mikrokontrolera}
+%         \label{fig:ldo_smps}
+%     \end{figure}
 
-    Podsekcja z~TCXO została zaprojektowana na podstawie komercyjnego układu (Nucleo-WL5JC) znalezionego w~dokumentacji STMicroelectronics \cite[5]{ST_MB1389}. Wartości pojemności
-    oraz rezystancji w~obwodzie wyjściowym zostały zaczerpnięte z~dokumentacji technicznej przyjętego w~projekcie mikrokontrolera \cite[96]{ST_DS13105}.
-    % \begin{figure}[H]
-    %     \centering \includegraphics[width=0.4\textwidth]{tcxo_circuitry.png}
-    %     \caption{Układ TCXO na płytce ewaluacyjnej Nucleo-WL5JC \cite{ST_MB1389}}
-    %     \label{fig:tcxo_circuitry}
-    % \end{figure}
+%     Podsekcja z~TCXO została zaprojektowana na podstawie komercyjnego układu (Nucleo-WL5JC) znalezionego w~dokumentacji STMicroelectronics \cite[5]{ST_MB1389}. Wartości pojemności
+%     oraz rezystancji w~obwodzie wyjściowym zostały zaczerpnięte z~dokumentacji technicznej przyjętego w~projekcie mikrokontrolera \cite[96]{ST_DS13105}.
+%     % \begin{figure}[H]
+%     %     \centering \includegraphics[width=0.4\textwidth]{tcxo_circuitry.png}
+%     %     \caption{Układ TCXO na płytce ewaluacyjnej Nucleo-WL5JC \cite{ST_MB1389}}
+%     %     \label{fig:tcxo_circuitry}
+%     % \end{figure}
 
-    \begin{table}[H] \centering
-        \caption{Opis wyprowadzeń i~sygnałów w~stacji bazowej}
-        \label{tab:base_pins}
-        \begin{tabular}{l l l l}
-            \hline\hline
-            \textbf{\uline{Terminal}}     &  \textbf{\uline{Sygnał}}&   \textbf{\uline{Typ}} &  \textbf{\uline{Przeznacznie}}           \\
-            PB4                      & DCx                      & push-pull              & LCD: Wybór dane / komenda                    \\  
-            PB6                      & LCD\_RES                 & push-pull              & LCD: reset                                   \\ 
-            PA2                      & DIM                      & PWM                    & LCD: kontrola jasności ekranu                \\ 
-            PA3                      & BUZZ                     & push-pull              & Sygnał sterujący brzęczykiem                 \\ 
-            PA4                      & SPI\_NSS                 & alternatywny           & LCD: zezwolenie na komunikację               \\ 
-            PA5                      & SPI\_SCK                 & alternatywny           & LCD: sygnał zegarowy                         \\ 
-            PA6                      & SPI\_MISO                & alternatywny           & LCD: dane przychodządze                      \\ 
-            PA7                      & SPI\_MOSI                & alternatywny           & LCD: dane wychodzące                         \\ 
-            PH3-BOOT0                & ---                      & wejście                & wybór trybu wybudzenia                       \\ 
-            RFI\_P                   & RFI\_P                   & alternatywny           & RF: wejście P~                               \\ 
-            RFI\_N                   & RFI\_N                   & alternatywny           & RF: wejście N~                               \\ 
-            PA10                     & LED2                     & push-pull              & sterowanie diodą 2                           \\ 
-            PA11                     & SUBGHZ\_RES              & alternatywny           & RF: sygnał reset radia                       \\ 
-            PA12                     & LED1                     & push-pull              & sterowanie diodą 1                           \\ 
-            PA13                     & SWDIO                    & alternatywny           & Programator: dane                            \\ 
-            PA14                     & SWCLK                    & alternatywny           & Programator: sygnał zegarowy                 \\ 
-            PB0-VDD\_TCXO            & VDDTCXO                  & alternatywny           & TCXO: zasilanie                              \\ 
-            OSC\_IN                  & ---                      & alternatywny           & TCXO: sygnał zegarowy z~TCXO                 \\ \hline
-            VDD                      & ---                      & zasilanie              & zasilanie cz. cyfrowej układu                \\ 
-            VBAT                     & ---                      & zasilanie              & zastępcze zasilanie (RTC, TAMP etc)          \\ 
-            VDDSMPS                  & ---                      & zasilanie              & zasilanie  przetwornicy SMPS                 \\ 
-            VDDRF                    & ---                      & zasilanie              & RF: zasilanie bloku radiowego                \\ 
-            VDDA                     & ---                      & zasilanie              & zasilanie cz. analogowej układu              \\ 
-            VLXSMPS                  & ---                      & zasilanie              & wyjście przetwornicy SMPS                    \\ 
-            VFBSMPS                  & ---                      & zasilanie              & pętla sprzężenia zwrotnego do SMPS           \\ 
-            VDDRF1V55                & ---                      & zasilanie              & RF: zasilanie bloku radiowego przez LDO/SMPS \\ 
-            VDDPA                    & ---                      & zasilanie              & RF: zasilanie wzmacniacza mocy PA            \\ 
-            NRST                     & nRST                     & zasilanie              & sygnał resetu (aktywny stan niski)           \\ 
-            VSSSMPS                  & ---                      & zasilanie              & masa układu                                  \\ 
-            VSS                      & ---                      & zasilanie              & masa układu                                  \\ 
-            \hline\hline
-        \end{tabular}
-    \end{table}
-    \newpage
+    % \begin{table}[H] \centering
+    %     \caption{Opis wyprowadzeń i~sygnałów w~stacji bazowej}
+    %     \label{tab:base_pins}
+    %     \begin{tabular}{l l l l}
+    %         \hline\hline
+    %         \textbf{\uline{Terminal}}     &  \textbf{\uline{Sygnał}}&   \textbf{\uline{Typ}} &  \textbf{\uline{Przeznacznie}}           \\
+    %         PB4                      & DCx                      & push-pull              & LCD: Wybór dane / komenda                    \\  
+    %         PB6                      & LCD\_RES                 & push-pull              & LCD: reset                                   \\ 
+    %         PA2                      & DIM                      & PWM                    & LCD: kontrola jasności ekranu                \\ 
+    %         PA3                      & BUZZ                     & push-pull              & Sygnał sterujący brzęczykiem                 \\ 
+    %         PA4                      & SPI\_NSS                 & alternatywny           & LCD: zezwolenie na komunikację               \\ 
+    %         PA5                      & SPI\_SCK                 & alternatywny           & LCD: sygnał zegarowy                         \\ 
+    %         PA6                      & SPI\_MISO                & alternatywny           & LCD: dane przychodządze                      \\ 
+    %         PA7                      & SPI\_MOSI                & alternatywny           & LCD: dane wychodzące                         \\ 
+    %         PH3-BOOT0                & ---                      & wejście                & wybór trybu wybudzenia                       \\ 
+    %         RFI\_P                   & RFI\_P                   & alternatywny           & RF: wejście P~                               \\ 
+    %         RFI\_N                   & RFI\_N                   & alternatywny           & RF: wejście N~                               \\ 
+    %         PA10                     & LED2                     & push-pull              & sterowanie diodą 2                           \\ 
+    %         PA11                     & SUBGHZ\_RES              & alternatywny           & RF: sygnał reset radia                       \\ 
+    %         PA12                     & LED1                     & push-pull              & sterowanie diodą 1                           \\ 
+    %         PA13                     & SWDIO                    & alternatywny           & Programator: dane                            \\ 
+    %         PA14                     & SWCLK                    & alternatywny           & Programator: sygnał zegarowy                 \\ 
+    %         PB0-VDD\_TCXO            & VDDTCXO                  & alternatywny           & TCXO: zasilanie                              \\ 
+    %         OSC\_IN                  & ---                      & alternatywny           & TCXO: sygnał zegarowy z~TCXO                 \\ \hline
+    %         VDD                      & ---                      & zasilanie              & zasilanie cz. cyfrowej układu                \\ 
+    %         VBAT                     & ---                      & zasilanie              & zastępcze zasilanie (RTC, TAMP etc)          \\ 
+    %         VDDSMPS                  & ---                      & zasilanie              & zasilanie  przetwornicy SMPS                 \\ 
+    %         VDDRF                    & ---                      & zasilanie              & RF: zasilanie bloku radiowego                \\ 
+    %         VDDA                     & ---                      & zasilanie              & zasilanie cz. analogowej układu              \\ 
+    %         VLXSMPS                  & ---                      & zasilanie              & wyjście przetwornicy SMPS                    \\ 
+    %         VFBSMPS                  & ---                      & zasilanie              & pętla sprzężenia zwrotnego do SMPS           \\ 
+    %         VDDRF1V55                & ---                      & zasilanie              & RF: zasilanie bloku radiowego przez LDO/SMPS \\ 
+    %         VDDPA                    & ---                      & zasilanie              & RF: zasilanie wzmacniacza mocy PA            \\ 
+    %         NRST                     & nRST                     & zasilanie              & sygnał resetu (aktywny stan niski)           \\ 
+    %         VSSSMPS                  & ---                      & zasilanie              & masa układu                                  \\ 
+    %         VSS                      & ---                      & zasilanie              & masa układu                                  \\ 
+    %         \hline\hline
+    %     \end{tabular}
+    % \end{table}
+%     \newpage
 
     
-    \begin{table}[H] \centering
-        \caption{Opis wyprowadzeń i~sygnałów -- moduł pomiarowy}
-        \label{tab:sensor_pins}
-        \begin{tabular}{l l l l}
-            \hline\hline
-            \textbf{Terminal}        &  \textbf{Sygnał}         &   \textbf{Konfiguracja}        &  \textbf{Przeznacznie}                         \\ \hline
-            PB3                      & LED1                     & push-pull                      & sterowanie diodą 1                             \\  
-            PB4                      & LED2                     & push-pull                      & sterowanie diodą 2                             \\  
-            PA4                      & SPI\_NSS                 & alternatywny                   & zezwolenie na komunikację                      \\  
-            PA5                      & SPI\_SCK                 & alternatywny                   & sygnał zegarowy                                \\  
-            PA6                      & SPI\_MISO                & alternatywny                   & LCD: dane przychodzące                         \\  
-            PA7                      & SPI\_MOSI                & alternatywny                   & LCD: dane wychodzące                           \\  
-            PA9\textsuperscript{a}   & SENSOR\_2                & alternatywny                   & I2C1\_SCL || USART1\_TX                        \\  
-            PH3-BOOT0                & ---                      & wejście                        & wybór trybu wybudzenia                         \\ 
-            RFO\_LP                  & RFO\_LP                  & alternatywny                   & RF: wyjście LP                                 \\  
-            RFO\_HP                  & RFO\_HP                  & alternatywny                   & RF: wyjście HP                                 \\  
-            VR\_PA                   & VR\_PA                   & alternatywny                   & RF: wyjście wzmacniacza mocy PA                \\  
-            PA10\textsuperscript{b}  & SENSOR\_1                & alternatywny                   & I2C1\_SDA || USART1\_RX || ADC                 \\  
-            PA11                     & RES\_OUT                 & alternatywny                   & RF: wyjście reset\textsuperscript{c}           \\  
-            PA13                     & SWDIO                    & alternatywny                   & Programator: dane                              \\ 
-            PA14                     & SWCLK                    & alternatywny                   & Programator: sygnał zegarowy                   \\ 
-            PB0-VDD\_TCXO            & VDDTCXO                  & alternatywny                   & TCXO: zasilanie                                \\ 
-            OSC\_IN                  & ---                      & alternatywny                   & TCXO: sygnał zegarowy z~TCXO                   \\ \hline
-            VDD                      & ---                      & zasilanie                      & zasilanie cz. cyfrowej układu                  \\ 
-            VBAT                     & ---                      & zasilanie                      & zastępcze zasilanie (RTC, TAMP etc)            \\ 
-            VDDSMPS                  & ---                      & zasilanie                      & zasilanie  przetwornicy SMPS                   \\ 
-            VDDRF                    & ---                      & zasilanie                      & RF: zasilanie bloku radiowego                  \\ 
-            VDDA                     & ---                      & zasilanie                      & zasilanie cz. analogowej układu                \\ 
-            VLXSMPS                  & ---                      & zasilanie                      & wyjście przetwornicy SMPS                      \\ 
-            VFBSMPS                  & ---                      & zasilanie                      & pętla sprzężenia zwrotnego do SMPS             \\ 
-            VDDRF1V55                & ---                      & zasilanie                      & RF: zasilanie bloku radiowego przez LDO/SMPS   \\ 
-            VDDPA                    & ---                      & zasilanie                      & RF: zasilanie wzmacniacza mocy PA              \\ 
-            NRST                     & nRST                     & zasilanie                      & sygnał resetu (aktywny stan niski)             \\ 
-            VSSSMPS                  & ---                      & zasilanie                      & masa układu                                    \\ 
-            VSS                      & ---                      & zasilanie                      & masa układu                                    \\             
-            \hline\hline
-        \end{tabular}
+    % \begin{table}[H] \centering
+    %     \caption{Opis wyprowadzeń i~sygnałów -- moduł pomiarowy}
+    %     \label{tab:sensor_pins}
+    %     \begin{tabular}{l l l l}
+    %         \hline\hline
+    %         \textbf{Terminal}        &  \textbf{Sygnał}         &   \textbf{Konfiguracja}        &  \textbf{Przeznacznie}                         \\ \hline
+    %         PB3                      & LED1                     & push-pull                      & sterowanie diodą 1                             \\  
+    %         PB4                      & LED2                     & push-pull                      & sterowanie diodą 2                             \\  
+    %         PA4                      & SPI\_NSS                 & alternatywny                   & zezwolenie na komunikację                      \\  
+    %         PA5                      & SPI\_SCK                 & alternatywny                   & sygnał zegarowy                                \\  
+    %         PA6                      & SPI\_MISO                & alternatywny                   & LCD: dane przychodzące                         \\  
+    %         PA7                      & SPI\_MOSI                & alternatywny                   & LCD: dane wychodzące                           \\  
+    %         PA9\textsuperscript{a}   & SENSOR\_2                & alternatywny                   & I2C1\_SCL || USART1\_TX                        \\  
+    %         PH3-BOOT0                & ---                      & wejście                        & wybór trybu wybudzenia                         \\ 
+    %         RFO\_LP                  & RFO\_LP                  & alternatywny                   & RF: wyjście LP                                 \\  
+    %         RFO\_HP                  & RFO\_HP                  & alternatywny                   & RF: wyjście HP                                 \\  
+    %         VR\_PA                   & VR\_PA                   & alternatywny                   & RF: wyjście wzmacniacza mocy PA                \\  
+    %         PA10\textsuperscript{b}  & SENSOR\_1                & alternatywny                   & I2C1\_SDA || USART1\_RX || ADC                 \\  
+    %         PA11                     & RES\_OUT                 & alternatywny                   & RF: wyjście reset\textsuperscript{c}           \\  
+    %         PA13                     & SWDIO                    & alternatywny                   & Programator: dane                              \\ 
+    %         PA14                     & SWCLK                    & alternatywny                   & Programator: sygnał zegarowy                   \\ 
+    %         PB0-VDD\_TCXO            & VDDTCXO                  & alternatywny                   & TCXO: zasilanie                                \\ 
+    %         OSC\_IN                  & ---                      & alternatywny                   & TCXO: sygnał zegarowy z~TCXO                   \\ \hline
+    %         VDD                      & ---                      & zasilanie                      & zasilanie cz. cyfrowej układu                  \\ 
+    %         VBAT                     & ---                      & zasilanie                      & zastępcze zasilanie (RTC, TAMP etc)            \\ 
+    %         VDDSMPS                  & ---                      & zasilanie                      & zasilanie  przetwornicy SMPS                   \\ 
+    %         VDDRF                    & ---                      & zasilanie                      & RF: zasilanie bloku radiowego                  \\ 
+    %         VDDA                     & ---                      & zasilanie                      & zasilanie cz. analogowej układu                \\ 
+    %         VLXSMPS                  & ---                      & zasilanie                      & wyjście przetwornicy SMPS                      \\ 
+    %         VFBSMPS                  & ---                      & zasilanie                      & pętla sprzężenia zwrotnego do SMPS             \\ 
+    %         VDDRF1V55                & ---                      & zasilanie                      & RF: zasilanie bloku radiowego przez LDO/SMPS   \\ 
+    %         VDDPA                    & ---                      & zasilanie                      & RF: zasilanie wzmacniacza mocy PA              \\ 
+    %         NRST                     & nRST                     & zasilanie                      & sygnał resetu (aktywny stan niski)             \\ 
+    %         VSSSMPS                  & ---                      & zasilanie                      & masa układu                                    \\ 
+    %         VSS                      & ---                      & zasilanie                      & masa układu                                    \\             
+    %         \hline\hline
+    %     \end{tabular}
         
-        \begin{minipage}{\textwidth}
-            \footnotesize
-            \raggedright
-            \vspace{0.2cm}
-            \textsuperscript{a,b} PA9 oraz PA10 służą komunikacji z~sensorem ultradźwiękowym. \\
-            \textsuperscript{c} Wyjście pozwalające sprawdzić, czy moduł radiowy jest w~stanie resetu.
-        \end{minipage}
-    \end{table}
+    %     \begin{minipage}{\textwidth}
+    %         \footnotesize
+    %         \raggedright
+    %         \vspace{0.2cm}
+    %         \textsuperscript{a,b} PA9 oraz PA10 służą komunikacji z~sensorem ultradźwiękowym. \\
+    %         \textsuperscript{c} Wyjście pozwalające sprawdzić, czy moduł radiowy jest w~stanie resetu.
+    %     \end{minipage}
+    % \end{table}
   
-    W~przypadku stacji bazowej, która nie ma tak krytycznych wymagań dotyczących zużycia energii, zdecydowano się użyć przetwornicy typu \textit{step-down} z~5 V na 3,3 V (rys. \ref{fig:main_pwr}).
-    Przyjęto 5 V jako napięcie wejściowe z~powodu większej ich popularności oraz oferowanej większej mocy, co mogłoby okazać się przydatne w~przypadku rozbudowy projektu.
+%     W~przypadku stacji bazowej, która nie ma tak krytycznych wymagań dotyczących zużycia energii, zdecydowano się użyć przetwornicy typu \textit{step-down} z~5 V na 3,3 V (rys. \ref{fig:main_pwr}).
+%     Przyjęto 5 V jako napięcie wejściowe z~powodu większej ich popularności oraz oferowanej większej mocy, co mogłoby okazać się przydatne w~przypadku rozbudowy projektu.
     
-    Przy projektowaniu układu zasilania wzięto pod uwagę wskazówki dotyczące ilości i~rozmieszczenia kondensatorów filtrujących znajdujące się w~dokumentacji mikrokontrolera zgodnie
-    z~rys. \ref{fig:pwr_supply_scheme}. 
+%     Przy projektowaniu układu zasilania wzięto pod uwagę wskazówki dotyczące ilości i~rozmieszczenia kondensatorów filtrujących znajdujące się w~dokumentacji mikrokontrolera zgodnie
+%     z~rys. \ref{fig:pwr_supply_scheme}. 
 
 
-    \begin{figure}[H]
-        \centering \includegraphics[width=1\textwidth]{main_pwr.png}
-        \caption{Stacja bazowa -- układ zasilania}
-        \label{fig:main_pwr}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=1\textwidth]{main_pwr.png}
+%         \caption{Stacja bazowa -- układ zasilania}
+%         \label{fig:main_pwr}
+%     \end{figure}
 
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.8\textwidth]{pwr_supply_scheme.png}
-        \caption{Zalecany układ zasilania. Dokumentacja techniczna STM32WLE5C8U6 \cite[62]{ST_DS13105}}
-        \label{fig:pwr_supply_scheme}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.8\textwidth]{pwr_supply_scheme.png}
+%         \caption{Zalecany układ zasilania. Dokumentacja techniczna STM32WLE5C8U6 \cite[62]{ST_DS13105}}
+%         \label{fig:pwr_supply_scheme}
+%     \end{figure}
 
-    \clearpage
-    Przy złączu programatora widoczny jest rezystor podciągający podłączony do sygnału nRST, czyli mikrokontroler domyślnie jest w~trybie pracy. Rezystory w~liniach SWDIO i~SWCLK 
-    mają dwojakie przeznaczenie -- umożliwiają proste sprawdzenie stanu linii lub komunikacji np. oscyloskopem oraz mogą zostać użyte do ograniczenia prądu i~kontroli czasu narastania zboczy. 
+%     \clearpage
+%     Przy złączu programatora widoczny jest rezystor podciągający podłączony do sygnału nRST, czyli mikrokontroler domyślnie jest w~trybie pracy. Rezystory w~liniach SWDIO i~SWCLK 
+%     mają dwojakie przeznaczenie -- umożliwiają proste sprawdzenie stanu linii lub komunikacji np. oscyloskopem oraz mogą zostać użyte do ograniczenia prądu i~kontroli czasu narastania zboczy. 
     
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.7\textwidth]{main_debug_header.png}
-        \caption{Stacja bazowa -- złącze programatora}
-        \label{fig:main_debug_header}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.7\textwidth]{main_debug_header.png}
+%         \caption{Stacja bazowa -- złącze programatora}
+%         \label{fig:main_debug_header}
+%     \end{figure}
 
-    Ilustracja \ref{fig:main_lcd_header} ukazuje złącze wyświetlacza LCD. Rezystor \textit{pull--up} (ang. podciągający) R22 na stałe wyłącza sygnał resetu.
-    Rezystor R13 zapewnia maksymalną jasność ekranu, ale w~przypadku chęci oszczędzania energii można go wymontować i~sterować linią sygnałem PWM. R22 podciąga linię reset ekranu, co zapewnia
-    nieprzerwaną pracę wyświetlacza. Rezystor R23 zapewnia stały stan niski na linii SPI\_NSS, co oznacza, że komunikacja z~wyświetlaczem jest cały czas aktywna.
+%     Ilustracja \ref{fig:main_lcd_header} ukazuje złącze wyświetlacza LCD. Rezystor \textit{pull--up} (ang. podciągający) R22 na stałe wyłącza sygnał resetu.
+%     Rezystor R13 zapewnia maksymalną jasność ekranu, ale w~przypadku chęci oszczędzania energii można go wymontować i~sterować linią sygnałem PWM. R22 podciąga linię reset ekranu, co zapewnia
+%     nieprzerwaną pracę wyświetlacza. Rezystor R23 zapewnia stały stan niski na linii SPI\_NSS, co oznacza, że komunikacja z~wyświetlaczem jest cały czas aktywna.
    
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.7\textwidth]{main_lcd_header.png}
-        \caption{Stacja bazowa -- złącze wyświetlacza LCD}
-        \label{fig:main_lcd_header}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.7\textwidth]{main_lcd_header.png}
+%         \caption{Stacja bazowa -- złącze wyświetlacza LCD}
+%         \label{fig:main_lcd_header}
+%     \end{figure}
 
-    Na rys. \ref{fig:main_bzzzzzzzzzzt} można zobaczyć brzęczyk sterowany sygnałem PWM przez klucz tranzystorowy Q1. Rezystor ściągający R11 został dodany na wypadek, gdyby wyjście mikrokontrolera 
-    było w~stanie pływającym (ang. \textit{floating}), żeby bramka mogła ulec rozładowaniu, a~brzęczyk wyłączył się.
+%     Na rys. \ref{fig:main_bzzzzzzzzzzt} można zobaczyć brzęczyk sterowany sygnałem PWM przez klucz tranzystorowy Q1. Rezystor ściągający R11 został dodany na wypadek, gdyby wyjście mikrokontrolera 
+%     było w~stanie pływającym (ang. \textit{floating}), żeby bramka mogła ulec rozładowaniu, a~brzęczyk wyłączył się.
 
-    \begin{figure}[H]
-        \centering \includegraphics[width=1\textwidth]{main_bzzzzzzzzzzt.png}
-        \caption{Stacja bazowa -- sekcja brzęczyka}
-        \label{fig:main_bzzzzzzzzzzt}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=1\textwidth]{main_bzzzzzzzzzzt.png}
+%         \caption{Stacja bazowa -- sekcja brzęczyka}
+%         \label{fig:main_bzzzzzzzzzzt}
+%     \end{figure}
 
-\subsection{Moduł pomiarowy}
-\noindent
-    \begin{figure}[H]
-        \centering \includegraphics[width=1\textwidth]{sensor_mcu.png}
-        \caption{Moduł pomiarowy -- sekcja mikrokontrolera}
-        \label{fig:sensor_mcu}
-    \end{figure}
+% \subsection{Moduł pomiarowy}
+% \noindent
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=1\textwidth]{sensor_mcu.png}
+%         \caption{Moduł pomiarowy -- sekcja mikrokontrolera}
+%         \label{fig:sensor_mcu}
+%     \end{figure}
 
-    Zmiana mocy transmisji odbywa się w następujący sposób: w pierwszej kolejności należy umieścić odpowiednią zworę w~torze transmisyjnym
-    (rezystory R22 oraz R23, rys. \ref{fig:sensor_rf}) oraz odpowiednio zasilić terminal VDDPA \cite[20]{ST_DS13105}:
-    \begin{itemize}
-        \item zasilenie REG PA z~VDD (3,3~V): +22 dBm;
-        \item zasilenie REG PA z~VFBSMPS (1,55~V): +15 dBm.
-    \end{itemize}
+%     Zmiana mocy transmisji odbywa się w następujący sposób: w pierwszej kolejności należy umieścić odpowiednią zworę w~torze transmisyjnym
+%     (rezystory R22 oraz R23, rys. \ref{fig:sensor_rf}) oraz odpowiednio zasilić terminal VDDPA \cite[20]{ST_DS13105}:
+%     \begin{itemize}
+%         \item zasilenie REG PA z~VDD (3,3~V): +22 dBm;
+%         \item zasilenie REG PA z~VFBSMPS (1,55~V): +15 dBm.
+%     \end{itemize}
 
-    \begin{figure}[H]
-        \centering \includegraphics[width=1\textwidth]{sensor_pwr.png}
-        \caption{Moduł pomiarowy -- układ zasilania}
-        \label{fig:sensor_pwr}
-    \end{figure}
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.7\textwidth]{sensor_debug_header.png}
-        \caption{Moduł pomiarowy -- złącze programatora}
-        \label{fig:sensor_debug_header}
-    \end{figure}
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.7\textwidth]{sensor_sensor_itf.png}
-        \caption{Moduł pomiarowy -- złącze sensora}
-        \label{fig:sensor_sensor_itf}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=1\textwidth]{sensor_pwr.png}
+%         \caption{Moduł pomiarowy -- układ zasilania}
+%         \label{fig:sensor_pwr}
+%     \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.7\textwidth]{sensor_debug_header.png}
+%         \caption{Moduł pomiarowy -- złącze programatora}
+%         \label{fig:sensor_debug_header}
+%     \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.7\textwidth]{sensor_sensor_itf.png}
+%         \caption{Moduł pomiarowy -- złącze sensora}
+%         \label{fig:sensor_sensor_itf}
+%     \end{figure}
 
 
-    \clearpage
-    \vspace{-1\baselineskip}
-    \subsection{Tor nadawczy i~odbiorczy}
-    \vspace{-0.5\baselineskip}
-    \noindent Projekt toru radiowego oparto w~całości na nocie aplikacyjnej STMicroelectronics \cite{ST_AN5457}. Każdy fragment toru radiowego posiada impedancję charakterystyczną na poziomie 50
-    $\Omega$ w~celu dopasowania impedancji wyprowadzenia mikrokontrolera oraz anteny i~zminimalizowania tym samym strat w~torze sygnałowym \cite[6]{ST_AN5457}. 
-    Na ilustracji \ref{fig:rf_tx_diagram}. widoczny jest schemat ideowy toru nadawczego wykorzystanego w~projekcie. Na wyjściu wzmacniacza mocy PA jest znajduje się tranzystor MOS, któru generuje
-    wysokoczęstotliwościowy sygnał PWM, którego częstotliwość stanowi częstotliwość podstawową sinusoidalnego sygnału wyjściowego. LoRa jest techniką modulacji opartą o~sygnał typu \textit{chirp},
-    czyli sygnał o~zmiennej w~sposób ciągły częstotliwości w~czasie. Efekt zmiany częstotliwości sygnału sinusoidalnego osiąga się, zmieniając częstotliwość sygnału PWM. PWM należy przed transmisją
-    przefiltrować. Szybkie przełączanie tranzystorów wytwarza pożądany sygnał, który jest potem przekształcany przez układ filtrów i~trafia do anteny skąd jest emitowany w~przestrzeń.
+%     \clearpage
+%     \vspace{-1\baselineskip}
+%     \subsection{Tor nadawczy i~odbiorczy}
+%     \vspace{-0.5\baselineskip}
+%     \noindent Projekt toru radiowego oparto w~całości na nocie aplikacyjnej STMicroelectronics \cite{ST_AN5457}. Każdy fragment toru radiowego posiada impedancję charakterystyczną na poziomie 50
+%     $\Omega$ w~celu dopasowania impedancji wyprowadzenia mikrokontrolera oraz anteny i~zminimalizowania tym samym strat w~torze sygnałowym \cite[6]{ST_AN5457}. 
+%     Na ilustracji \ref{fig:rf_tx_diagram}. widoczny jest schemat ideowy toru nadawczego wykorzystanego w~projekcie. Na wyjściu wzmacniacza mocy PA jest znajduje się tranzystor MOS, któru generuje
+%     wysokoczęstotliwościowy sygnał PWM, którego częstotliwość stanowi częstotliwość podstawową sinusoidalnego sygnału wyjściowego. LoRa jest techniką modulacji opartą o~sygnał typu \textit{chirp},
+%     czyli sygnał o~zmiennej w~sposób ciągły częstotliwości w~czasie. Efekt zmiany częstotliwości sygnału sinusoidalnego osiąga się, zmieniając częstotliwość sygnału PWM. PWM należy przed transmisją
+%     przefiltrować. Szybkie przełączanie tranzystorów wytwarza pożądany sygnał, który jest potem przekształcany przez układ filtrów i~trafia do anteny skąd jest emitowany w~przestrzeń.
    
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.7\textwidth]{rf_tx_diagram.png}
-        \caption{Schemat ideowy toru nadawczego wg. \cite[15]{ST_AN5457}}
-        \label{fig:rf_tx_diagram}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.7\textwidth]{rf_tx_diagram.png}
+%         \caption{Schemat ideowy toru nadawczego wg. \cite[15]{ST_AN5457}}
+%         \label{fig:rf_tx_diagram}
+%     \end{figure}
 
-    \begin{figure}[H]
-        \centering \includegraphics[width=1\textwidth]{rf_tx.png}
-        \caption{Typowy tor nadawczy wg. \cite[20]{ST_AN5457}}
-        \label{fig:rf_tx}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=1\textwidth]{rf_tx.png}
+%         \caption{Typowy tor nadawczy wg. \cite[20]{ST_AN5457}}
+%         \label{fig:rf_tx}
+%     \end{figure}
 
-    W~dokumentacji przedstawione zostały metody analityczne obliczenia wartości dla poszczególnych elementów toru. Obliczenia:
-    Pojemność wyjściowa:
-    \begin{align}
-        C_{\text{out}} & = \frac{1}{2 \pi f~\cdot X_C} = \frac{1}{2 \pi \cdot 868 \cdot 10^6 \, \text{Hz} \cdot 1.27 \, \Omega}
-    \end{align}
+%     W~dokumentacji przedstawione zostały metody analityczne obliczenia wartości dla poszczególnych elementów toru. Obliczenia:
+%     Pojemność wyjściowa:
+%     \begin{align}
+%         C_{\text{out}} & = \frac{1}{2 \pi f~\cdot X_C} = \frac{1}{2 \pi \cdot 868 \cdot 10^6 \, \text{Hz} \cdot 1.27 \, \Omega}
+%     \end{align}
 
 
-    Indukcyjność L1
-    \begin{align}
-        m~& = \frac{50}{15.27} - 1 = 1.508 \\
-        L_1 & = \frac{1}{2 \pi f~\cdot 50} \cdot \frac{m}{m^2 + 1 + X_C} \\
-        L_1 & = \frac{1}{2 \pi \cdot 868 \cdot 10^6} \cdot \frac{1.508}{1.508^2 + 1 + 1.27} \approx 4.45 \, \text{nH}
-    \end{align}
+%     Indukcyjność L1
+%     \begin{align}
+%         m~& = \frac{50}{15.27} - 1 = 1.508 \\
+%         L_1 & = \frac{1}{2 \pi f~\cdot 50} \cdot \frac{m}{m^2 + 1 + X_C} \\
+%         L_1 & = \frac{1}{2 \pi \cdot 868 \cdot 10^6} \cdot \frac{1.508}{1.508^2 + 1 + 1.27} \approx 4.45 \, \text{nH}
+%     \end{align}
 
 
     
-    Pojemność C1
-    \begin{align}
-        C_1 & = \frac{1}{2 \pi f~\cdot \frac{R_{\text{out}}}{50}} \cdot \left(1 + m^2 - \frac{1 + m}{R_{\text{out}}}\right) \\
-        C_1 & = \frac{1}{2 \pi \cdot 868 \cdot 10^6} \cdot \left(\frac{15.27}{50}\right) \cdot \left(1 + 1.508^2 - \frac{1 + 1.508}{15.27}\right) \approx 5.53 \, \text{pF} \\
-    \end{align}
+%     Pojemność C1
+%     \begin{align}
+%         C_1 & = \frac{1}{2 \pi f~\cdot \frac{R_{\text{out}}}{50}} \cdot \left(1 + m^2 - \frac{1 + m}{R_{\text{out}}}\right) \\
+%         C_1 & = \frac{1}{2 \pi \cdot 868 \cdot 10^6} \cdot \left(\frac{15.27}{50}\right) \cdot \left(1 + 1.508^2 - \frac{1 + 1.508}{15.27}\right) \approx 5.53 \, \text{pF} \\
+%     \end{align}
 
-    Filtr pasmowoprzepustowy -- wartości C2 oraz L2:
-    \begin{align}
-        C_2 & = \frac{1}{2 \pi H_2^2 \cdot L_2} \\
-        H_2 & = 2 \cdot 868 \cdot 10^6 = 1.736 \, \text{GHz} \\
-        C_2 & = \frac{1}{2 \pi \cdot (1.736 \cdot 10^9)^2 \cdot 3.34 \cdot 10^{-9}} \approx 2.52 \, \text{pF} \\
-        L_2 & = \frac{3}{4} \cdot L_1 = \frac{3}{4} \cdot 4.45 \, \text{nH} = 3.34 \, \text{nH}
-    \end{align}
+%     Filtr pasmowoprzepustowy -- wartości C2 oraz L2:
+%     \begin{align}
+%         C_2 & = \frac{1}{2 \pi H_2^2 \cdot L_2} \\
+%         H_2 & = 2 \cdot 868 \cdot 10^6 = 1.736 \, \text{GHz} \\
+%         C_2 & = \frac{1}{2 \pi \cdot (1.736 \cdot 10^9)^2 \cdot 3.34 \cdot 10^{-9}} \approx 2.52 \, \text{pF} \\
+%         L_2 & = \frac{3}{4} \cdot L_1 = \frac{3}{4} \cdot 4.45 \, \text{nH} = 3.34 \, \text{nH}
+%     \end{align}
 
-    Filtr dolnoprzepustowy:
-    \begin{align}
-             L~  & = \frac{50}{2 \pi f} \\
-             L~  & = \frac{50}{2 \pi \cdot 868 \cdot 10^6} \approx 9.18 \, \text{nH} \\
-        C' = C'' & = \frac{0.95}{50 \cdot 2 \pi f}\\
-        C' = C'' & = \frac{0.95}{50 \cdot 2 \pi \cdot 868 \cdot 10^6} \approx 3.47 \, \text{pF}
-    \end{align}
+%     Filtr dolnoprzepustowy:
+%     \begin{align}
+%              L~  & = \frac{50}{2 \pi f} \\
+%              L~  & = \frac{50}{2 \pi \cdot 868 \cdot 10^6} \approx 9.18 \, \text{nH} \\
+%         C' = C'' & = \frac{0.95}{50 \cdot 2 \pi f}\\
+%         C' = C'' & = \frac{0.95}{50 \cdot 2 \pi \cdot 868 \cdot 10^6} \approx 3.47 \, \text{pF}
+%     \end{align}
 
-    Na bazie obliczonych wartości oraz wzorując się na przykładowym zestawieniu BOM (ang. \textit{bill of materials}), przedstawionym w~dokumentacji \cite[48]{ST_AN5457}, dobrane
-    zostały rzeczywiste elementy. Wszystkie kondensatory oraz cewki pochodzą od jednego producenta -- Murata. Cewki  z~seri \textit{LQW} posiadają wysokie poziomy dobroci \textit{Q} częstotliwośi
-    rezonansowej drgań; kondensatory charakteryzują się niskim ESR (ang. \textit{equivalent series resistance}), dielektrykiem CG0(NP0) oraz oba rodzaje elementów są w~obudowie 0402, co
-    umożliwia zapewnienie dopasowania impedancji w~większym stopniu, gdyż szerokość ścieżek jest zbliżona do wymiarów padów cewek i~kondensatorów. STMicroelectronics zaleca użycie,
-    szczególnie w~przypadku nowych projektów, elementów precyzyjnych -- o~niskim zakresie tolerancji, gdyż w~przeciwnym razie efekty pasożytnicze w~połączeniu z~rozrzutem parametrów
-    poszczególnych części składowych mogą znacząco pogorszyć finalny efekt pracy -- dopasowanie układu. W~procesie doboru elementów wykorzystane zostało 
-    \href{https://ds.murata.co.jp/simsurfing/index.html?lcid=en-us&md5=12458f7b5acc116a5fd4de3b5daf5105}{internetowe narzędzie  \textbf{SimSurfing}}, za pomocą którego można
-    obejrzeć charakterystyki konkretnych komponentów -- przykładowo przebieg modułu impedancji kondensatora w~funkcji częstotliwości, co pozwala w~szerszym zakresie kontrolować ich parametry.
+%     Na bazie obliczonych wartości oraz wzorując się na przykładowym zestawieniu BOM (ang. \textit{bill of materials}), przedstawionym w~dokumentacji \cite[48]{ST_AN5457}, dobrane
+%     zostały rzeczywiste elementy. Wszystkie kondensatory oraz cewki pochodzą od jednego producenta -- Murata. Cewki  z~seri \textit{LQW} posiadają wysokie poziomy dobroci \textit{Q} częstotliwośi
+%     rezonansowej drgań; kondensatory charakteryzują się niskim ESR (ang. \textit{equivalent series resistance}), dielektrykiem CG0(NP0) oraz oba rodzaje elementów są w~obudowie 0402, co
+%     umożliwia zapewnienie dopasowania impedancji w~większym stopniu, gdyż szerokość ścieżek jest zbliżona do wymiarów padów cewek i~kondensatorów. STMicroelectronics zaleca użycie,
+%     szczególnie w~przypadku nowych projektów, elementów precyzyjnych -- o~niskim zakresie tolerancji, gdyż w~przeciwnym razie efekty pasożytnicze w~połączeniu z~rozrzutem parametrów
+%     poszczególnych części składowych mogą znacząco pogorszyć finalny efekt pracy -- dopasowanie układu. W~procesie doboru elementów wykorzystane zostało 
+%     \href{https://ds.murata.co.jp/simsurfing/index.html?lcid=en-us&md5=12458f7b5acc116a5fd4de3b5daf5105}{internetowe narzędzie  \textbf{SimSurfing}}, za pomocą którego można
+%     obejrzeć charakterystyki konkretnych komponentów -- przykładowo przebieg modułu impedancji kondensatora w~funkcji częstotliwości, co pozwala w~szerszym zakresie kontrolować ich parametry.
     
-    Każdy element wykorzystany w~projekcie został dodany do specjalnie do tego przeznaczonej biblioteki elementów. Elementy były zakupione na stronie dystrybutora \textit{Mouser}, skąd też były
-    pobrane symbole, \textit{footprinty} i~modele 3D. 
+%     Każdy element wykorzystany w~projekcie został dodany do specjalnie do tego przeznaczonej biblioteki elementów. Elementy były zakupione na stronie dystrybutora \textit{Mouser}, skąd też były
+%     pobrane symbole, \textit{footprinty} i~modele 3D. 
 
-    \begin{figure}[H]
-        \centering \includegraphics[width=1\textwidth]{simsurfing.png}
-        \caption{SimSurfing -- przykładowy wykres i~dane dla wybranego elementu}
-        \label{fig:simsurfing}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=1\textwidth]{simsurfing.png}
+%         \caption{SimSurfing -- przykładowy wykres i~dane dla wybranego elementu}
+%         \label{fig:simsurfing}
+%     \end{figure}
     
-    Ostatecznia postać toru nadawczego widoczna jest na ilustracji \ref{fig:sensor_rf}, a~toru odbiorczego na ilustracji \ref{fig:main_rf}. Układ może nadawać zarówno z~dużą, jak i~małą mocą sygnału -- służą do tego zwory R22 oraz 
-    R23, dzięki którym wyprowadzany jest sygnał albo z RFO\_LP albo RFO\_HP. Droższą, lecz wygodniejszą w~użyciu alternatywą są przełączniki -- tak zwane \textit{RF-switche},
-    które odpowiednio wysterowane mogłyby kontrolować przełączanie ścieżek. Postanowiono na maksymalną oszczędność, dlatego też w~przypadku zmiany mocy sygnału należałoby zmienić część elementów 
-    znajdujących się w~torze RF. Celem zapewnienia odpowiedniej elastyczności dołożony został jeszcze jeden stopień dopasowująco--filtrujący (cewka L6, kondensator C26). Kondensator C27 umożliwia
-    ewentualną blokadę składowej stałej.
+%     Ostatecznia postać toru nadawczego widoczna jest na ilustracji \ref{fig:sensor_rf}, a~toru odbiorczego na ilustracji \ref{fig:main_rf}. Układ może nadawać zarówno z~dużą, jak i~małą mocą sygnału -- służą do tego zwory R22 oraz 
+%     R23, dzięki którym wyprowadzany jest sygnał albo z RFO\_LP albo RFO\_HP. Droższą, lecz wygodniejszą w~użyciu alternatywą są przełączniki -- tak zwane \textit{RF-switche},
+%     które odpowiednio wysterowane mogłyby kontrolować przełączanie ścieżek. Postanowiono na maksymalną oszczędność, dlatego też w~przypadku zmiany mocy sygnału należałoby zmienić część elementów 
+%     znajdujących się w~torze RF. Celem zapewnienia odpowiedniej elastyczności dołożony został jeszcze jeden stopień dopasowująco--filtrujący (cewka L6, kondensator C26). Kondensator C27 umożliwia
+%     ewentualną blokadę składowej stałej.
     
-    \begin{figure}[H]
-        \centering \includegraphics[width=1\textwidth]{sensor_rf.png}
-        \caption{Moduł pomiarowy: tor radiowy -- nadawczy}
-        \label{fig:sensor_rf}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=1\textwidth]{sensor_rf.png}
+%         \caption{Moduł pomiarowy: tor radiowy -- nadawczy}
+%         \label{fig:sensor_rf}
+%     \end{figure}
     
-    \begin{figure}[H]
-        \centering \includegraphics[width=1\textwidth]{main_rf.png}
-        \caption{Stacja bazowa: tor radiowy -- odbiorczy}
-        \label{fig:main_rf}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=1\textwidth]{main_rf.png}
+%         \caption{Stacja bazowa: tor radiowy -- odbiorczy}
+%         \label{fig:main_rf}
+%     \end{figure}
 
-\section{Obwody drukowane}
-\noindent Na etapie projektowania płytek PCB nacisk położono na uniknięcie podstawowych błędów, prostotę oraz odseparowanie torów radiowych, choć nie było to konieczne, gdyż układ składa się głównie
-z części cyfrowej. Stąd też, między innymi niewielka ilość ścieżek prowadzonych na warstwie innej niż wierzchnia płytki. Na samym początku znaleziono producenta płytek PCB, który był w~stanie za~niewielką cenę
-oraz w~możliwie krótkim czasie dostarczyć prototypowe egzemplarze. Wybór padł na \textit{JLCPCB} -- chińskiego dostawcę, który oferuje okresowo wysokie zniżki, w~szczególności dla nowych klientów. 
-JLCPCB dostarcza klientom zestaw reguł projektowych, których należy przestrzegać, ponieważ wynikają one z~możliwości technologicznych parku maszynowego. Zestaw reguł projektowych -- (\textit{rules}) został wprowadzony
-do programu Altium , który przy odpowiedniej konfiguracji automatycznie koryguje i~ostrzega w~przypadku ich naruszenia. Dodatkowo wykorzystana została możliwość przeprowadzenia
-znacznie głębszej analizy, również w~oparciu o~wprowadzone wcześniej ograniczenia~-- tak zwana analiza (\textit{DRC}) (ang. \textit{design rule check}). Drugim krokiem było 
-zadecydowanie o~układzie warstw w~projekcie. Wytwórca ma możliwość wykonania PCB zarówno jednowarstowych jak i~nawet 32~-warstwowych. Płytki posiadające tak znaczną liczbę warstw dają możliwość
-bardzo dużej gęstości połączeń, minimalizują problem integralności sygnałowej oraz przesłuchów, więc są drogie. W~przypadku tego projektu zdecydowano się na cztery warstwy, dzięki czemu możliwa była
-opcja kontroli impedancji, bez której dopasowanie toru radiowego byłoby bardzo trudne. Oprócz wyboru ilości warstw, należało wybrać również odpowiedni wariant grubości
-poszczególnych warstw. JLCPCB oferuje czternaście standardowych opcji. Wybrany układ warstw -- \textit{JLC0416H-3313}, dla którego grubość ścieżki o~impedancji charakterystycznej 50 ohm była zbliżona
-do gabarytów padów elementów w~obudowie 0402, które zostały wybrane do toru nadawczego i~odbiorczego.
+% \section{Obwody drukowane}
+% \noindent Na etapie projektowania płytek PCB nacisk położono na uniknięcie podstawowych błędów, prostotę oraz odseparowanie torów radiowych, choć nie było to konieczne, gdyż układ składa się głównie
+% z części cyfrowej. Stąd też, między innymi niewielka ilość ścieżek prowadzonych na warstwie innej niż wierzchnia płytki. Na samym początku znaleziono producenta płytek PCB, który był w~stanie za~niewielką cenę
+% oraz w~możliwie krótkim czasie dostarczyć prototypowe egzemplarze. Wybór padł na \textit{JLCPCB} -- chińskiego dostawcę, który oferuje okresowo wysokie zniżki, w~szczególności dla nowych klientów. 
+% JLCPCB dostarcza klientom zestaw reguł projektowych, których należy przestrzegać, ponieważ wynikają one z~możliwości technologicznych parku maszynowego. Zestaw reguł projektowych -- (\textit{rules}) został wprowadzony
+% do programu Altium , który przy odpowiedniej konfiguracji automatycznie koryguje i~ostrzega w~przypadku ich naruszenia. Dodatkowo wykorzystana została możliwość przeprowadzenia
+% znacznie głębszej analizy, również w~oparciu o~wprowadzone wcześniej ograniczenia~-- tak zwana analiza (\textit{DRC}) (ang. \textit{design rule check}). Drugim krokiem było 
+% zadecydowanie o~układzie warstw w~projekcie. Wytwórca ma możliwość wykonania PCB zarówno jednowarstowych jak i~nawet 32~-warstwowych. Płytki posiadające tak znaczną liczbę warstw dają możliwość
+% bardzo dużej gęstości połączeń, minimalizują problem integralności sygnałowej oraz przesłuchów, więc są drogie. W~przypadku tego projektu zdecydowano się na cztery warstwy, dzięki czemu możliwa była
+% opcja kontroli impedancji, bez której dopasowanie toru radiowego byłoby bardzo trudne. Oprócz wyboru ilości warstw, należało wybrać również odpowiedni wariant grubości
+% poszczególnych warstw. JLCPCB oferuje czternaście standardowych opcji. Wybrany układ warstw -- \textit{JLC0416H-3313}, dla którego grubość ścieżki o~impedancji charakterystycznej 50 ohm była zbliżona
+% do gabarytów padów elementów w~obudowie 0402, które zostały wybrane do toru nadawczego i~odbiorczego.
 
-Po konfiguracji programu przystąpiono do rozmieszczania elementów na planie prostokąta -- w~bliskiej odległości elementy z~tych samych sekcji. Proces projektowania obu płytek był bardzo podobny -- na początku
-ułożona została sekcja zasilania, mikrokontroler oraz kondensatory filtrujące w~pobliżu padów. Następnie część radiowa -- położona zdecydowanie dalej od pozostałych elementów z~dodatkowym zabezpieczeniem
-w postaci osłony z~przelotek (ang. \textit{via-shielding}). \href{https://www.altium.com/documentation/altium-designer/via-stitching-via-shielding-pcb?srsltid=AfmBOop3OkNDzUuFfS844VtpEmkzZ8sMglQ_hj78dT1XZrPT4O3YZGLM#including-shielding-copper-with-the-stitching}
-{Praktykę taką zaleca między innymi dystrybutor samego oprogramowania.} Złącza zostały umieszone na krawędziach. Szerokość ścieżek RF została obliczona przez wbudowany w~program kalkulator, co pozwoliło
-na kontrolę impedancji. Po rozmieszczeniu najważniejszych elementów położone zostały pozostałe, mniej istotne komponenty.
+% Po konfiguracji programu przystąpiono do rozmieszczania elementów na planie prostokąta -- w~bliskiej odległości elementy z~tych samych sekcji. Proces projektowania obu płytek był bardzo podobny -- na początku
+% ułożona została sekcja zasilania, mikrokontroler oraz kondensatory filtrujące w~pobliżu padów. Następnie część radiowa -- położona zdecydowanie dalej od pozostałych elementów z~dodatkowym zabezpieczeniem
+% w postaci osłony z~przelotek (ang. \textit{via-shielding}). \href{https://www.altium.com/documentation/altium-designer/via-stitching-via-shielding-pcb?srsltid=AfmBOop3OkNDzUuFfS844VtpEmkzZ8sMglQ_hj78dT1XZrPT4O3YZGLM#including-shielding-copper-with-the-stitching}
+% {Praktykę taką zaleca między innymi dystrybutor samego oprogramowania.} Złącza zostały umieszone na krawędziach. Szerokość ścieżek RF została obliczona przez wbudowany w~program kalkulator, co pozwoliło
+% na kontrolę impedancji. Po rozmieszczeniu najważniejszych elementów położone zostały pozostałe, mniej istotne komponenty.
 
-Szerokość ścieżek w~projekcie:
-\begin{itemize}
-    \item zasilania: 15--20 mils;
-    \item RF: 6,665 mils;
-    \item innych: 10 mils.
-\end{itemize}
+% Szerokość ścieżek w~projekcie:
+% \begin{itemize}
+%     \item zasilania: 15--20 mils;
+%     \item RF: 6,665 mils;
+%     \item innych: 10 mils.
+% \end{itemize}
 
-Parametry przelotek:
-\begin{itemize}
-    \item średnica otworu: 0,3 mm;
-    \item średnica metalizacji (całkowita): 0,45 mm;
-    \item przykryte soldermaską (ang. \textit{tenting}).
-\end{itemize}
+% Parametry przelotek:
+% \begin{itemize}
+%     \item średnica otworu: 0,3 mm;
+%     \item średnica metalizacji (całkowita): 0,45 mm;
+%     \item przykryte soldermaską (ang. \textit{tenting}).
+% \end{itemize}
 
 
-\subsection{Stacja bazowa}
-\noindent   
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.9\textwidth]{main_2d.png}
-        \caption{Stacja bazowa --  widok 2D}
-        \label{fig:main_2d}
-    \end{figure}
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.9\textwidth]{main_pcb_3d.png}
-        \caption{Stacja bazowa --  widok 3D}
-        \label{fig:main_pcb_3d}
-    \end{figure}
-\subsection{Moduł pomiarowy}
-\noindent
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.85\textwidth]{sensor_2d.png}
-        \caption{Moduł pomiarowy --  widok 2D PCB}
-        \label{fig:sensor_2d}
-    \end{figure}
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.85\textwidth]{sensor_pcb_3d.png}
-        \caption{Moduł pomiarowy --  widok 3D PCB -- góra}
-        \label{fig:sensor_pcb_3d}
-    \end{figure}
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.85\textwidth]{sensor_pcb_3d_bot.png}
-        \caption{Moduł pomiarowy --  widok 3D PCB -- dół}
-        \label{fig:sensor_pcb_3d_bot}
-    \end{figure}
+% \subsection{Stacja bazowa}
+% \noindent   
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.9\textwidth]{main_2d.png}
+%         \caption{Stacja bazowa --  widok 2D}
+%         \label{fig:main_2d}
+%     \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.9\textwidth]{main_pcb_3d.png}
+%         \caption{Stacja bazowa --  widok 3D}
+%         \label{fig:main_pcb_3d}
+%     \end{figure}
+% \subsection{Moduł pomiarowy}
+% \noindent
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.85\textwidth]{sensor_2d.png}
+%         \caption{Moduł pomiarowy --  widok 2D PCB}
+%         \label{fig:sensor_2d}
+%     \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.85\textwidth]{sensor_pcb_3d.png}
+%         \caption{Moduł pomiarowy --  widok 3D PCB -- góra}
+%         \label{fig:sensor_pcb_3d}
+%     \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.85\textwidth]{sensor_pcb_3d_bot.png}
+%         \caption{Moduł pomiarowy --  widok 3D PCB -- dół}
+%         \label{fig:sensor_pcb_3d_bot}
+%     \end{figure}
 
-\section{Obliczenia i~symulacje}
-    \subsection{Stabilizator modułu pomiarowego}
-        \noindent W~przypadku modułu pomiarowego najważniejszą kwestią był długi czas życia na baterii, który można wydłużyć, maksymalizując sprawność układu. Dlatego też w~przypadku stopnia 
-        zasilającego były brane pod uwagę przetwornice, zostały jednak odrzucone, ponieważ ich sprawność gwałtownie maleje wraz ze spadkiem prądu wyjściowego -- szczególnie jeśli prąd wyjściowy jest rzędu
-        mikroamperów, tak jak na przykład w~trybie głębokiego uśpienia, w~którym układ pozostawałby większość czasu. Wejściowe napięcie modułu to 5 V, wyjściowe 3,3 V -- przy tak niewielkiej
-        różnicy napięć zdecydowano się na stabilizator LDO (ang. \textit{low dropout regulator}). Dzięki LDO możliwe jest działanie przy małej różnicy napięć wejściowego i~wyjściowego, co przy
-        pracy na baterii może wydłużyć czas pracy. Parametry elektryczne wybranego modelu stabilizatora -- \textit{ADP123AUJZ--R7}:
+% \section{Obliczenia i~symulacje}
+%     \subsection{Stabilizator modułu pomiarowego}
+%         \noindent W~przypadku modułu pomiarowego najważniejszą kwestią był długi czas życia na baterii, który można wydłużyć, maksymalizując sprawność układu. Dlatego też w~przypadku stopnia 
+%         zasilającego były brane pod uwagę przetwornice, zostały jednak odrzucone, ponieważ ich sprawność gwałtownie maleje wraz ze spadkiem prądu wyjściowego -- szczególnie jeśli prąd wyjściowy jest rzędu
+%         mikroamperów, tak jak na przykład w~trybie głębokiego uśpienia, w~którym układ pozostawałby większość czasu. Wejściowe napięcie modułu to 5 V, wyjściowe 3,3 V -- przy tak niewielkiej
+%         różnicy napięć zdecydowano się na stabilizator LDO (ang. \textit{low dropout regulator}). Dzięki LDO możliwe jest działanie przy małej różnicy napięć wejściowego i~wyjściowego, co przy
+%         pracy na baterii może wydłużyć czas pracy. Parametry elektryczne wybranego modelu stabilizatora -- \textit{ADP123AUJZ--R7}:
 
-        \begin{itemize}
-            \item regulowane napięcie wejściowe: od 2,3 V do 5,5 V;
-            \item prąd wyjściowy: do 350 mA;
-            \item dropout: do 150 mV;
-            \item prąd zasilania: $I_{\mathrm{GND}}$ do $240\ \mu\text{A}$.
-        \end{itemize}
+%         \begin{itemize}
+%             \item regulowane napięcie wejściowe: od 2,3 V do 5,5 V;
+%             \item prąd wyjściowy: do 350 mA;
+%             \item dropout: do 150 mV;
+%             \item prąd zasilania: $I_{\mathrm{GND}}$ do $240\ \mu\text{A}$.
+%         \end{itemize}
         
-        Na bazie dokumentacji \cite{ADP123_DS} obliczono wartości dzielnika rezystancyjnego ustalającego napięcie wyjściowe a~także maksymalą temperaturę złącza w~trakcie pracy. Szacunkowe wartości
-        prądu pobierane przez urządzenie zostały przedstawione w~tabeli \ref{tab:sensor module current}.
+%         Na bazie dokumentacji \cite{ADP123_DS} obliczono wartości dzielnika rezystancyjnego ustalającego napięcie wyjściowe a~także maksymalą temperaturę złącza w~trakcie pracy. Szacunkowe wartości
+%         prądu pobierane przez urządzenie zostały przedstawione w~tabeli \ref{tab:sensor module current}.
 
-        Napięcie wyjściowe przetwornicy:
-        \begin{align}
-            \label{eq:ADP resistor eq}
-            V_{OUT} & = 0,5\text{ V} \cdot \left(1+\frac{R_1}{R_2}\right)+I_{BIAS} \cdot R_1,
-        \end{align}
-        gdzie zalecana wartość dla R1 to mniej niż 200k$\Omega$ ze względu na pobierany przez terminal ADJ niezerowy prąd $I_\text{BIAS}$. Metodą iteracyjną zostały wyznaczone wartości $R_1 = 165\ \mathrm{k\Omega}$ oraz
-        $R_2 = 29,4\ \mathrm{k\Omega}$, które teoretycznie zapewniają odchylenie od napięcia 3,3 V na poziomie 10 mV. $I_\text{BIAS}$ jest pomijalnie mały w~obliczeniach \cite[11]{ADP123_DS} -- jego wkład wynosi tylko 
-        0,3 \% przy założeniu temperatury pokojowej. 
-        Podstawiając znalezione wartości do wzoru \ref{eq:ADP resistor eq}:
-        \begin{align}
-            \label{eq:ADP resistor}
-            V_{OUT} & = 0,5\text{ V} \cdot \left(1+\frac{165\text{ k$\Omega$}}{29,4\text{ k$\Omega$}}\right) = 3,306\text{ V}
-        \end{align}
+%         Napięcie wyjściowe przetwornicy:
+%         \begin{align}
+%             \label{eq:ADP resistor eq}
+%             V_{OUT} & = 0,5\text{ V} \cdot \left(1+\frac{R_1}{R_2}\right)+I_{BIAS} \cdot R_1,
+%         \end{align}
+%         gdzie zalecana wartość dla R1 to mniej niż 200k$\Omega$ ze względu na pobierany przez terminal ADJ niezerowy prąd $I_\text{BIAS}$. Metodą iteracyjną zostały wyznaczone wartości $R_1 = 165\ \mathrm{k\Omega}$ oraz
+%         $R_2 = 29,4\ \mathrm{k\Omega}$, które teoretycznie zapewniają odchylenie od napięcia 3,3 V na poziomie 10 mV. $I_\text{BIAS}$ jest pomijalnie mały w~obliczeniach \cite[11]{ADP123_DS} -- jego wkład wynosi tylko 
+%         0,3 \% przy założeniu temperatury pokojowej. 
+%         Podstawiając znalezione wartości do wzoru \ref{eq:ADP resistor eq}:
+%         \begin{align}
+%             \label{eq:ADP resistor}
+%             V_{OUT} & = 0,5\text{ V} \cdot \left(1+\frac{165\text{ k$\Omega$}}{29,4\text{ k$\Omega$}}\right) = 3,306\text{ V}
+%         \end{align}
 
-        Temperatura złącza:
-        \begin{align}
-            \label{eq:thermal_ADP}
-            T_J & = T_A + {[(V_\text{IN}-V_\text{OUT}) \cdot I_\text{LOAD}] \cdot \varTheta_\text{JA}},
-        \end{align}
-        gdzie:
-        \begin{itemize}
-            \item $T_J$ -- maksymalna temperatura złącza w~$^\circ$C,
-            \item $T_A$ -- temperatura otoczenia w~$^\circ$C,
-            \item $V_\text{IN}$ -- napięcie wejściowe w~V,
-            \item $V_\text{OUT}$ -- napięcie wyjściowe w~V,
-            \item $I_\text{LOAD}$ -- prąd obciążenia w~A,
-            \item $\varTheta_\text{JA}$ -- współczynnik przewodnictwa termicznego złącze--otoczenie w~$^\circ$C/W.
-        \end{itemize}
-        W~najgorszym przypadku temperatura nie może przekroczyć 125$^\circ$C, to jest kiedy temperatura otoczenia wynosi 40$^\circ$C, urządzenie pobiera maksymalny prąd oraz występuje największy
-        współczynnik przewodnictwa termicznego, czyli dla wąskich ścieżek. Po podstawieniu do wzoru (\ref{eq:thermal_ADP}):
-        \begin{align}
-            T_J & = 40^\circ\text{C}  + [(5,0\text{ V}-3,3\text{ V}) \cdot 0,148 \text{ A}] \cdot 170^\circ\text{C/W}=82,772^\circ\text{C}\cong 82.8^\circ\text{C}< 125^\circ\text{C}
-        \end{align}
-        Wartości prądów i~napięć oraz temperatura złącza mieszczą się w~dopuszczalnym zakresie.
+%         Temperatura złącza:
+%         \begin{align}
+%             \label{eq:thermal_ADP}
+%             T_J & = T_A + {[(V_\text{IN}-V_\text{OUT}) \cdot I_\text{LOAD}] \cdot \varTheta_\text{JA}},
+%         \end{align}
+%         gdzie:
+%         \begin{itemize}
+%             \item $T_J$ -- maksymalna temperatura złącza w~$^\circ$C,
+%             \item $T_A$ -- temperatura otoczenia w~$^\circ$C,
+%             \item $V_\text{IN}$ -- napięcie wejściowe w~V,
+%             \item $V_\text{OUT}$ -- napięcie wyjściowe w~V,
+%             \item $I_\text{LOAD}$ -- prąd obciążenia w~A,
+%             \item $\varTheta_\text{JA}$ -- współczynnik przewodnictwa termicznego złącze--otoczenie w~$^\circ$C/W.
+%         \end{itemize}
+%         W~najgorszym przypadku temperatura nie może przekroczyć 125$^\circ$C, to jest kiedy temperatura otoczenia wynosi 40$^\circ$C, urządzenie pobiera maksymalny prąd oraz występuje największy
+%         współczynnik przewodnictwa termicznego, czyli dla wąskich ścieżek. Po podstawieniu do wzoru (\ref{eq:thermal_ADP}):
+%         \begin{align}
+%             T_J & = 40^\circ\text{C}  + [(5,0\text{ V}-3,3\text{ V}) \cdot 0,148 \text{ A}] \cdot 170^\circ\text{C/W}=82,772^\circ\text{C}\cong 82.8^\circ\text{C}< 125^\circ\text{C}
+%         \end{align}
+%         Wartości prądów i~napięć oraz temperatura złącza mieszczą się w~dopuszczalnym zakresie.
 
-        W~tabelach \ref{tab:sensor module current} oraz \ref{tab:main module current} znajdują się zaokrąglone w~górę wartości masymalnego poboru prądu
-        (w przypadku mikrokontrolera wszystkie peryferia włączone, taktowane najszybszym sygnałem zegarowym, maksymalna moc transmisji) na bazie \cite[65,78]{ST_DS13105} oraz dokumentacji 
-        poszczególnych komponentów:
+%         W~tabelach \ref{tab:sensor module current} oraz \ref{tab:main module current} znajdują się zaokrąglone w~górę wartości masymalnego poboru prądu
+%         (w przypadku mikrokontrolera wszystkie peryferia włączone, taktowane najszybszym sygnałem zegarowym, maksymalna moc transmisji) na bazie \cite[65,78]{ST_DS13105} oraz dokumentacji 
+%         poszczególnych komponentów:
 
-        \begin{table}[H] \centering
-            \caption{Szacunkowy pobór prądu -- moduł pomiarowy}
-            \label{tab:sensor module current}
-            \begin{tabular}{l c}
-                \hline\hline    
-                \multicolumn{1}{c}{\textbf{Układ}}&\multicolumn{1}{r}{\textbf{Prąd [mA]}}\\\hline
-                STM32WLE5C8U6      &                                \\  
-                --rdzeń            & 15,0                           \\
-                --radio (Tx)       & 110,0                          \\ 
-                TCXO               & 5,0                            \\ 
-                diody LED          & 10,0                           \\
-                sensor             & 8,0                            \\ \hline
-                \multicolumn{1}{r}{\textbf{Suma}}& \textbf{148 mA}  \\ \hline
-                ADP123 ($I_{LOAD}$ = 300 mA)     & 0,240            \\
-                \hline\hline
-            \end{tabular}
-        \end{table}     
+%         \begin{table}[H] \centering
+%             \caption{Szacunkowy pobór prądu -- moduł pomiarowy}
+%             \label{tab:sensor module current}
+%             \begin{tabular}{l c}
+%                 \hline\hline    
+%                 \multicolumn{1}{c}{\textbf{Układ}}&\multicolumn{1}{r}{\textbf{Prąd [mA]}}\\\hline
+%                 STM32WLE5C8U6      &                                \\  
+%                 --rdzeń            & 15,0                           \\
+%                 --radio (Tx)       & 110,0                          \\ 
+%                 TCXO               & 5,0                            \\ 
+%                 diody LED          & 10,0                           \\
+%                 sensor             & 8,0                            \\ \hline
+%                 \multicolumn{1}{r}{\textbf{Suma}}& \textbf{148 mA}  \\ \hline
+%                 ADP123 ($I_{LOAD}$ = 300 mA)     & 0,240            \\
+%                 \hline\hline
+%             \end{tabular}
+%         \end{table}     
 
-        \begin{table}[H] \centering
-            \caption{Szacunkowy pobór prądu -- stacja bazowa}
-            \label{tab:main module current}
-            \begin{tabular}{l c}
-                \hline\hline    
-                \multicolumn{1}{c}{\textbf{Układ}}&\multicolumn{1}{r}{\textbf{Prąd [mA]}}\\\hline
-                STM32WLE5C8U6               &                               \\  
-                --rdzeń                     & 15,0                          \\ 
-                --radio (Rx boosted, SMPS)  & 11,0                          \\ 
-                TCXO                        & 4,0                           \\ 
-                diody LED                   & 10,0                          \\
-                wyświetlacz LCD             & 100,0                         \\
-                brzęczyk                    & 90,0                          \\ \hline
-                \multicolumn{1}{r}{\textbf{Suma}}& \textbf{230 mA}          \\
-                \hline\hline
-            \end{tabular}
-        \end{table}
+%         \begin{table}[H] \centering
+%             \caption{Szacunkowy pobór prądu -- stacja bazowa}
+%             \label{tab:main module current}
+%             \begin{tabular}{l c}
+%                 \hline\hline    
+%                 \multicolumn{1}{c}{\textbf{Układ}}&\multicolumn{1}{r}{\textbf{Prąd [mA]}}\\\hline
+%                 STM32WLE5C8U6               &                               \\  
+%                 --rdzeń                     & 15,0                          \\ 
+%                 --radio (Rx boosted, SMPS)  & 11,0                          \\ 
+%                 TCXO                        & 4,0                           \\ 
+%                 diody LED                   & 10,0                          \\
+%                 wyświetlacz LCD             & 100,0                         \\
+%                 brzęczyk                    & 90,0                          \\ \hline
+%                 \multicolumn{1}{r}{\textbf{Suma}}& \textbf{230 mA}          \\
+%                 \hline\hline
+%             \end{tabular}
+%         \end{table}
 
-        \begin{table}[H] \centering
-            \caption{Szacunkowy pobór prądu w~trybie oszczędzania energii -- moduł pomiarowy}
-            \label{tab:sensor module current LP}
-            \begin{tabular}{l c}
-                \hline\hline    
-                \multicolumn{1}{c}{\textbf{Układ}}&\multicolumn{1}{r}{\textbf{Prąd [$\mu$A]}}\\\hline
-                STM32WLE5C8U6                                                       &                  \\ 
-                --rdzeń (tryb \textit{standby})                                     & 0,36             \\
-                --radio (tryb \textit{sleep})                                       & 0,15             \\ 
-                ADP123 (bez obciążenia)                                             & 45,0             \\ \hline
-                \multicolumn{1}{r}{\textbf{Suma}}& \textbf{45,51 $\mu$A}    \\ 
-                \hline\hline
-            \end{tabular}
-        \end{table}
+%         \begin{table}[H] \centering
+%             \caption{Szacunkowy pobór prądu w~trybie oszczędzania energii -- moduł pomiarowy}
+%             \label{tab:sensor module current LP}
+%             \begin{tabular}{l c}
+%                 \hline\hline    
+%                 \multicolumn{1}{c}{\textbf{Układ}}&\multicolumn{1}{r}{\textbf{Prąd [$\mu$A]}}\\\hline
+%                 STM32WLE5C8U6                                                       &                  \\ 
+%                 --rdzeń (tryb \textit{standby})                                     & 0,36             \\
+%                 --radio (tryb \textit{sleep})                                       & 0,15             \\ 
+%                 ADP123 (bez obciążenia)                                             & 45,0             \\ \hline
+%                 \multicolumn{1}{r}{\textbf{Suma}}& \textbf{45,51 $\mu$A}    \\ 
+%                 \hline\hline
+%             \end{tabular}
+%         \end{table}
         
-    \subsection{Moduł pomiarowy -- czas życia przy zasilaniu bateryjnym}
-        \noindent Szacowany średni pobór prądu modułu pomiarowego obliczony został przy założeniu, że urządzenie będzie dokonywało 10 pomiarów w~ciągu doby. Czas pracy urządzenia w~kolejnych fazach:
-        \begin{table}[H] \centering
-            \caption{Średni czas pracy urządzenia w~ciągu doby -- 10 cykli}
-            \label{tab:battery life expectancy}
-            \begin{tabular}{l c c}
-                \hline\hline 
-                \multicolumn{1}{c}{\textbf{Faza}}&\multicolumn{1}{c}{\textbf{Średni prąd [mA]}}&\multicolumn{1}{c}{\textbf{Czas trwania fazy [s]}} \\\hline
-                \textbf{Sen}                                                 & 0,046  &                 ---                         \\  
-                \textbf{Pomiar}                                              & 38,0   &                  3                          \\ 
-                \textbf{Transmisja}                                          & 138,0  &                  5                          \\
-                \hline\hline
-            \end{tabular}
-        \end{table}
-        Na tej podstawie średni pobór prądu w~ciągu doby:
-        \begin{align}
-            \label{eq:mean current eq}
-            I_{avg} & = \frac{1}{T} \left( I_{sleep} \cdot t_{sleep} + I_{measure} \cdot  t_{measure} + I_{transmit} \cdot  t_{transmit} \right)
-        \end{align}
-        gdzie:
-        \begin{itemize}
-            \item $I_{\text{avg}}$ -- średni prąd w~ciągu doby w~mA;
-            \item $t_{\text{sleep}}$, $t_{\text{measure}}$, $t_{\text{transmit}}$ -- średni prąd w~poszczególnych fazach w~mA;
-            \item $T$ -- czas, za który prąd jest uśredniany w~sekundach;
-            \item $P_{\text{sleep}}$, $P_{\text{measure}}$, $P_{\text{transmit}}$ -- czasy poszczególnych faz w~sekundach.
-        \end{itemize}
-        Po podstawieniu:
-        \begin{align}
-            \label{eq:mean current}
-            I_{avg} & = \frac{1}{24\cdot3600 \text{ s}} \left({0,046 \text{ mA}  \cdot 86320 \text{ s} + 38,0 \text{ mA}  \cdot 3 \text{ s} \cdot 10 + 138,0 \text{ mA}  \cdot 5 \text{ s} \cdot 10} \right)
-            = 0,139 \text{ mA}
-        \end{align}
+%     \subsection{Moduł pomiarowy -- czas życia przy zasilaniu bateryjnym}
+%         \noindent Szacowany średni pobór prądu modułu pomiarowego obliczony został przy założeniu, że urządzenie będzie dokonywało 10 pomiarów w~ciągu doby. Czas pracy urządzenia w~kolejnych fazach:
+%         \begin{table}[H] \centering
+%             \caption{Średni czas pracy urządzenia w~ciągu doby -- 10 cykli}
+%             \label{tab:battery life expectancy}
+%             \begin{tabular}{l c c}
+%                 \hline\hline 
+%                 \multicolumn{1}{c}{\textbf{Faza}}&\multicolumn{1}{c}{\textbf{Średni prąd [mA]}}&\multicolumn{1}{c}{\textbf{Czas trwania fazy [s]}} \\\hline
+%                 \textbf{Sen}                                                 & 0,046  &                 ---                         \\  
+%                 \textbf{Pomiar}                                              & 38,0   &                  3                          \\ 
+%                 \textbf{Transmisja}                                          & 138,0  &                  5                          \\
+%                 \hline\hline
+%             \end{tabular}
+%         \end{table}
+%         Na tej podstawie średni pobór prądu w~ciągu doby:
+%         \begin{align}
+%             \label{eq:mean current eq}
+%             I_{avg} & = \frac{1}{T} \left( I_{sleep} \cdot t_{sleep} + I_{measure} \cdot  t_{measure} + I_{transmit} \cdot  t_{transmit} \right)
+%         \end{align}
+%         gdzie:
+%         \begin{itemize}
+%             \item $I_{\text{avg}}$ -- średni prąd w~ciągu doby w~mA;
+%             \item $t_{\text{sleep}}$, $t_{\text{measure}}$, $t_{\text{transmit}}$ -- średni prąd w~poszczególnych fazach w~mA;
+%             \item $T$ -- czas, za który prąd jest uśredniany w~sekundach;
+%             \item $P_{\text{sleep}}$, $P_{\text{measure}}$, $P_{\text{transmit}}$ -- czasy poszczególnych faz w~sekundach.
+%         \end{itemize}
+%         Po podstawieniu:
+%         \begin{align}
+%             \label{eq:mean current}
+%             I_{avg} & = \frac{1}{24\cdot3600 \text{ s}} \left({0,046 \text{ mA}  \cdot 86320 \text{ s} + 38,0 \text{ mA}  \cdot 3 \text{ s} \cdot 10 + 138,0 \text{ mA}  \cdot 5 \text{ s} \cdot 10} \right)
+%             = 0,139 \text{ mA}
+%         \end{align}
 
-        Na bazie średniego poboru prądu oszacowana została długość pracy urządzenia przy zasilaniu bateryjnym. Dodatkowe założenia to:
-        \begin{itemize}
-            \item urządzenie zasilane przez 3 ogniwa 1,5 V  1500 mAh(Aa Duracell Lr6/Mn1500);
-            \item płaska charakterystyka prąd-napięcie.
-        \end{itemize}
+%         Na bazie średniego poboru prądu oszacowana została długość pracy urządzenia przy zasilaniu bateryjnym. Dodatkowe założenia to:
+%         \begin{itemize}
+%             \item urządzenie zasilane przez 3 ogniwa 1,5 V  1500 mAh(Aa Duracell Lr6/Mn1500);
+%             \item płaska charakterystyka prąd-napięcie.
+%         \end{itemize}
 
-        \begin{align}
-            \label{eq:life_expectancy}
-            T~& = \frac{C_{bat}}{I_{śr}}=\frac{3 \cdot 1500 \text{ mAh}}{0,139\text{ mA} \cdot 24\text{ h}} = 1348,8 \simeq ~ 1349\text{ dni} = 3,7\text{ lat}
-        \end{align}
+%         \begin{align}
+%             \label{eq:life_expectancy}
+%             T~& = \frac{C_{bat}}{I_{śr}}=\frac{3 \cdot 1500 \text{ mAh}}{0,139\text{ mA} \cdot 24\text{ h}} = 1348,8 \simeq ~ 1349\text{ dni} = 3,7\text{ lat}
+%         \end{align}
 
-    \subsection{Moduł pomiarowy -- dopasowanie toru radiowego}
-        \noindent Po wstępnym dobraniu elementów toru nadawczego przeprowadzono niezbędne symulacje pozwalające ocenić stopień dopasowania. W~symulacji uwzględnione zostały modele pojemności i~
-        indukcyjności pasożytniczych, których wartości zostały oszacowane na bazie długości odcinków linii między kolejnymi elementami oraz wskazaniami programu Altium. Na ilustracji \ref{fig:parasitics}. widoczne
-        są indukcyjność i~pojemność linii mikropaskowej na jednostkę długości, zgodne z~przyjętym stosem warstw PCB.
-        \begin{figure}[H]
-            \centering \includegraphics[width=0.6\textwidth]{parasitics.png}
-            \caption{Pojemności i~indukcyjności pasożytnicze na płytce PCB}
-            \label{fig:parasitics}
-        \end{figure}
-        Do obliczeń wykorzystany został arkusz kalkulacyjny Excel. Na ilustracji \ref{fig:parasitics sensor unit} oznaczone zostały kolejne ścieżki toru. Na bazie ich długości, która jest
-        podawana prze program Altium, możliwe było przeprowadzenie kalkulacji. Wyniki zebrane zostały w~tabeli \ref{tab:parasitics lp hp}.
+%     \subsection{Moduł pomiarowy -- dopasowanie toru radiowego}
+%         \noindent Po wstępnym dobraniu elementów toru nadawczego przeprowadzono niezbędne symulacje pozwalające ocenić stopień dopasowania. W~symulacji uwzględnione zostały modele pojemności i~
+%         indukcyjności pasożytniczych, których wartości zostały oszacowane na bazie długości odcinków linii między kolejnymi elementami oraz wskazaniami programu Altium. Na ilustracji \ref{fig:parasitics}. widoczne
+%         są indukcyjność i~pojemność linii mikropaskowej na jednostkę długości, zgodne z~przyjętym stosem warstw PCB.
+%         \begin{figure}[H]
+%             \centering \includegraphics[width=0.6\textwidth]{parasitics.png}
+%             \caption{Pojemności i~indukcyjności pasożytnicze na płytce PCB}
+%             \label{fig:parasitics}
+%         \end{figure}
+%         Do obliczeń wykorzystany został arkusz kalkulacyjny Excel. Na ilustracji \ref{fig:parasitics sensor unit} oznaczone zostały kolejne ścieżki toru. Na bazie ich długości, która jest
+%         podawana prze program Altium, możliwe było przeprowadzenie kalkulacji. Wyniki zebrane zostały w~tabeli \ref{tab:parasitics lp hp}.
 
-        \begin{figure}[H]
-            \centering \includegraphics[width=1\textwidth]{parasitics_sensor_unit.png}
-            \caption{Fragment modułu pomiarowego wraz ze ścieżkami uwzględnionymi w~obliczeniach pasożytniczych pojemności i~indukcyjności}
-            \label{fig:parasitics sensor unit}
-        \end{figure}
-        \begin{table}[H] \centering
-            \caption{Wyniki obliczeń pojemności i~indukcyjności pasożytniczych}
-            \label{tab:parasitics lp hp}
-            \begin{tabular}{c c c c}
-                \hline\hline 
-                \multicolumn{1}{c}{\textbf{Nr linii}} & \multicolumn{1}{c}{\textbf{L [mm]}} & \multicolumn{1}{c}{\textbf{L [nH]}} & \multicolumn{1}{c}{\textbf{C [pF]}} \\\hline
-                1. & 3.993 & 1.18 & 0.47 \\  
-                2. & 3.615 & 1.07 & 0.43 \\ 
-                3. & 1.801 & 0.53 & 0.21 \\ 
-                4. & 1.617 & 0.48 & 0.19 \\ 
-                5. & 1.256 & 0.37 & 0.15 \\ 
-                6. & 1.788 & 0.53 & 0.21 \\ 
-                7. & 1.804 & 0.53 & 0.21 \\ 
-                8. & 4.225 & 1.25 & 0.50 \\ 
-                9. & 4.549 & 1.35 & 0.54 \\  
-                10. & 3.615 & 1.07 & 0.43 \\ 
-                11. & 2.132 & 0.63 & 0.25 \\ 
-                12. & 1.084 & 0.32 & 0.13 \\ 
-                7+8\textsuperscript{a} & 9.906 & 2.93 & 1.17 \\ 
-                \hline\hline
-            \end{tabular}
-            \vspace{0.1cm}
-            \begin{center}
-                \footnotesize{\textsuperscript{a} Oznaczenie ,,7+8'' reprezentuje linię od kondensatora C25 do gniazda SMA.}
-            \end{center}
-        \end{table}
-        Podobne rozważania zostały przeprowadzone dla stacji bazowej. Wyniki znajdują się w~tabeli \ref{tab:parasitics_main} a~zaznaczone ścieżki na \ref{fig:parasitics_main_unit}.
-        \begin{figure}[H]
-            \centering \includegraphics[width=1\textwidth]{parasitics_main_unit.png}
-            \caption{Fragment PCB stacji bazowej wraz ze ścieżkami uwzględnionymi w~obliczeniach \\ pasożytniczych pojemności i~indukcyjności}
-            \label{fig:parasitics_main_unit}
-        \end{figure}
-        \begin{table}[H] \centering
-            \caption{Wyniki obliczeń pojemności i~indukcyjności pasożytniczych dla stacji bazowej}
-            \label{tab:parasitics_main}
-            \begin{tabular}{c c c c}
-                \hline\hline 
-                \multicolumn{1}{c}{\textbf{Nr linii}} & \multicolumn{1}{c}{\textbf{L [mm]}} & \multicolumn{1}{c}{\textbf{L [nH]}} & \multicolumn{1}{c}{\textbf{C [pF]}} \\\hline
-                1. & 5.906 & 1.75 & 0.70 \\  
-                2. & 3.769 & 1.12 & 0.45 \\ 
-                3. & 3.667 & 1.09 & 0.43 \\ 
-                4. & 4.722 & 1.40 & 0.56 \\ 
-                5. & 6.078 & 1.80 & 0.72 \\ 
-                6. & 3.769 & 1.12 & 0.45 \\ 
-                7. & 2.618 & 0.78 & 0.31 \\ 
-                \hline\hline
-            \end{tabular}
-        \end{table}
-        Na podstawie zebranych danych możliwe było przeprowadzenie symulacji. Na parach ilustracji \ref{fig:symulacja_lp_par_schemat}. i~\ref{fig:symulacja_lp_par_wyniki}., 
-        \ref{fig:symulacja_hp_par_schemat}. i~\ref{fig:symulacja_hp_par_wyniki}. oraz \ref{fig:symulacja_rx_par_schemat}. i~\ref{fig:symulacja_rx_par_wyniki}. przedstawione zostały obwody transmisyjny LP, HP oraz odbiorczy stacji bazowej wraz z~odpowiadającymi
-        im wynikami symulacji.
-        \begin{figure}[H]
-            \centering \includegraphics[width=1\textwidth]{symulacja_lp_par_schemat.png}
-            \caption{Obwód transmisyjny LP modułu pomiarowego wykorzystany w~symulacji}
-            \label{fig:symulacja_lp_par_schemat}
-        \end{figure}
+%         \begin{figure}[H]
+%             \centering \includegraphics[width=1\textwidth]{parasitics_sensor_unit.png}
+%             \caption{Fragment modułu pomiarowego wraz ze ścieżkami uwzględnionymi w~obliczeniach pasożytniczych pojemności i~indukcyjności}
+%             \label{fig:parasitics sensor unit}
+%         \end{figure}
+%         \begin{table}[H] \centering
+%             \caption{Wyniki obliczeń pojemności i~indukcyjności pasożytniczych}
+%             \label{tab:parasitics lp hp}
+%             \begin{tabular}{c c c c}
+%                 \hline\hline 
+%                 \multicolumn{1}{c}{\textbf{Nr linii}} & \multicolumn{1}{c}{\textbf{L [mm]}} & \multicolumn{1}{c}{\textbf{L [nH]}} & \multicolumn{1}{c}{\textbf{C [pF]}} \\\hline
+%                 1. & 3.993 & 1.18 & 0.47 \\  
+%                 2. & 3.615 & 1.07 & 0.43 \\ 
+%                 3. & 1.801 & 0.53 & 0.21 \\ 
+%                 4. & 1.617 & 0.48 & 0.19 \\ 
+%                 5. & 1.256 & 0.37 & 0.15 \\ 
+%                 6. & 1.788 & 0.53 & 0.21 \\ 
+%                 7. & 1.804 & 0.53 & 0.21 \\ 
+%                 8. & 4.225 & 1.25 & 0.50 \\ 
+%                 9. & 4.549 & 1.35 & 0.54 \\  
+%                 10. & 3.615 & 1.07 & 0.43 \\ 
+%                 11. & 2.132 & 0.63 & 0.25 \\ 
+%                 12. & 1.084 & 0.32 & 0.13 \\ 
+%                 7+8\textsuperscript{a} & 9.906 & 2.93 & 1.17 \\ 
+%                 \hline\hline
+%             \end{tabular}
+%             \vspace{0.1cm}
+%             \begin{center}
+%                 \footnotesize{\textsuperscript{a} Oznaczenie ,,7+8'' reprezentuje linię od kondensatora C25 do gniazda SMA.}
+%             \end{center}
+%         \end{table}
+%         Podobne rozważania zostały przeprowadzone dla stacji bazowej. Wyniki znajdują się w~tabeli \ref{tab:parasitics_main} a~zaznaczone ścieżki na \ref{fig:parasitics_main_unit}.
+%         \begin{figure}[H]
+%             \centering \includegraphics[width=1\textwidth]{parasitics_main_unit.png}
+%             \caption{Fragment PCB stacji bazowej wraz ze ścieżkami uwzględnionymi w~obliczeniach \\ pasożytniczych pojemności i~indukcyjności}
+%             \label{fig:parasitics_main_unit}
+%         \end{figure}
+%         \begin{table}[H] \centering
+%             \caption{Wyniki obliczeń pojemności i~indukcyjności pasożytniczych dla stacji bazowej}
+%             \label{tab:parasitics_main}
+%             \begin{tabular}{c c c c}
+%                 \hline\hline 
+%                 \multicolumn{1}{c}{\textbf{Nr linii}} & \multicolumn{1}{c}{\textbf{L [mm]}} & \multicolumn{1}{c}{\textbf{L [nH]}} & \multicolumn{1}{c}{\textbf{C [pF]}} \\\hline
+%                 1. & 5.906 & 1.75 & 0.70 \\  
+%                 2. & 3.769 & 1.12 & 0.45 \\ 
+%                 3. & 3.667 & 1.09 & 0.43 \\ 
+%                 4. & 4.722 & 1.40 & 0.56 \\ 
+%                 5. & 6.078 & 1.80 & 0.72 \\ 
+%                 6. & 3.769 & 1.12 & 0.45 \\ 
+%                 7. & 2.618 & 0.78 & 0.31 \\ 
+%                 \hline\hline
+%             \end{tabular}
+%         \end{table}
+%         Na podstawie zebranych danych możliwe było przeprowadzenie symulacji. Na parach ilustracji \ref{fig:symulacja_lp_par_schemat}. i~\ref{fig:symulacja_lp_par_wyniki}., 
+%         \ref{fig:symulacja_hp_par_schemat}. i~\ref{fig:symulacja_hp_par_wyniki}. oraz \ref{fig:symulacja_rx_par_schemat}. i~\ref{fig:symulacja_rx_par_wyniki}. przedstawione zostały obwody transmisyjny LP, HP oraz odbiorczy stacji bazowej wraz z~odpowiadającymi
+%         im wynikami symulacji.
+%         \begin{figure}[H]
+%             \centering \includegraphics[width=1\textwidth]{symulacja_lp_par_schemat.png}
+%             \caption{Obwód transmisyjny LP modułu pomiarowego wykorzystany w~symulacji}
+%             \label{fig:symulacja_lp_par_schemat}
+%         \end{figure}
 
-        \begin{figure}[H]
-            \centering \includegraphics[width=1\textwidth]{symulacja_lp_par_wyniki.png}
-            \caption{Wyniki symulacji obwodu transmisyjnego LP}
-            \label{fig:symulacja_lp_par_wyniki}
-        \end{figure}
+%         \begin{figure}[H]
+%             \centering \includegraphics[width=1\textwidth]{symulacja_lp_par_wyniki.png}
+%             \caption{Wyniki symulacji obwodu transmisyjnego LP}
+%             \label{fig:symulacja_lp_par_wyniki}
+%         \end{figure}
 
-        \begin{figure}[H]
-            \centering \includegraphics[width=1\textwidth]{symulacja_hp_par_schemat.png}
-            \caption{Obwód transmisyjny LP modułu pomiarowego wykorzystany w~symulacji}
-            \label{fig:symulacja_hp_par_schemat}
-        \end{figure}
+%         \begin{figure}[H]
+%             \centering \includegraphics[width=1\textwidth]{symulacja_hp_par_schemat.png}
+%             \caption{Obwód transmisyjny LP modułu pomiarowego wykorzystany w~symulacji}
+%             \label{fig:symulacja_hp_par_schemat}
+%         \end{figure}
 
-        \begin{figure}[H]
-            \centering \includegraphics[width=1\textwidth]{symulacja_hp_par_wyniki.png}
-            \caption{Wyniki symulacji obwodu transmisyjnego LP}
-            \label{fig:symulacja_hp_par_wyniki}
-        \end{figure}
+%         \begin{figure}[H]
+%             \centering \includegraphics[width=1\textwidth]{symulacja_hp_par_wyniki.png}
+%             \caption{Wyniki symulacji obwodu transmisyjnego LP}
+%             \label{fig:symulacja_hp_par_wyniki}
+%         \end{figure}
 
-        \begin{figure}[H]
-            \centering \includegraphics[width=1\textwidth]{symulacja_rx_par_schemat.png}
-            \caption{Obwód odbiorczy stacji bazowej wykorzystany w~symulacji}
-            \label{fig:symulacja_rx_par_schemat}
-        \end{figure}
+%         \begin{figure}[H]
+%             \centering \includegraphics[width=1\textwidth]{symulacja_rx_par_schemat.png}
+%             \caption{Obwód odbiorczy stacji bazowej wykorzystany w~symulacji}
+%             \label{fig:symulacja_rx_par_schemat}
+%         \end{figure}
 
-        \begin{figure}[H]
-            \centering \includegraphics[width=1\textwidth]{symulacja_rx_par_wyniki.png}
-            \caption{Wyniki symulacji obwodu odbiorczego stacji bazowej}
-            \label{fig:symulacja_rx_par_wyniki}
-        \end{figure}
+%         \begin{figure}[H]
+%             \centering \includegraphics[width=1\textwidth]{symulacja_rx_par_wyniki.png}
+%             \caption{Wyniki symulacji obwodu odbiorczego stacji bazowej}
+%             \label{fig:symulacja_rx_par_wyniki}
+%         \end{figure}
 
-        \begin{table}[H] \centering
-            \caption{Wyniki symulacji}
-            \label{tab:parasitics results}
-            \begin{tabular}{c c c}
-                \hline\hline 
-                \multicolumn{3}{c}{\textbf{\hspace{40pt}\uline{Moduł pomiarowy}}}           \\
-                                            & \textbf{LP}           & \textbf{HP}           \\ \hline
-                S21 [j.u.]                  &  -0,713+j0,70         & -0,682+j0,73          \\
-                |S21|                       &  0,992                & 0,999                 \\
-                P$_\text{TX}$ [\%]\textsuperscript{a}      &   99,8                &   99,8 \\
-                S11 [dB]                    &   -26,9               &   -27,5               \\ \hline
-                \multicolumn{3}{c}{\hspace{40pt}\textbf{Stacja bazowa}}                     \\ \hline
-                S31 [j.u.]                  &  \multicolumn{2}{c}{0,066-j0,887}             \\
-                |S31|                       &  \multicolumn{2}{c}{0,890}                    \\
-                S21 [dB]                    &  \multicolumn{2}{c}{-24,6}                    \\ 
-                P$_\text{TX}$ [\%] &  \multicolumn{2}{c}{79,1}                              \\
-                \hline\hline
-            \end{tabular}
-            \vspace{0.1cm}
-            \begin{center}
-                \footnotesize{\textsuperscript{a} Procentowa ilość transmitowanego sygnału między wrotami wejściowymi i~wyjściowymi.}
-            \end{center}
-        \end{table}
-        Na podstawie zebranych danych można stwierdzić, że obwody transmisyjne mają dobry stopień dopasowania, ponieważ na wrotach anteny odbija się tylko 1\% mocy. Obwód stacji bazowej
-        jest dopasowany znacznie gorzej, gdyż z~anteny do mikrokontrolera dociera jedynie 79\% sygnału. Charakterystyki wszystkich trzech torów są bardzo wąskopasmowe, więc każdy 
-        dodatkowy, nieuwzględniony element pasożytniczy, jest w~stanie ją mocno zmienić. Dlatego też poprawianie dopasowania obwodów powinno mieć miejsce dopiero po zlutowaniu układów. 
-        Symulacja miała za zadanie pokazać, czy obliczenia wartości elementów zostały wykonane poprawnie. Przeprowadzone obliczenia są obarczone niedokładnością i~powinny być traktowane
-        jedynie jako punkt odniesienia. Nie zostały uwzględnione pojemności padów, pojemności ścieżek do płaszczyzny masy na warstwie \textit{TOP}, a~także dodatkowe pojemności i~
-        indukcyjności pasożytnicze samych elementów, ponieważ dokładne dane nie zostały ukazane w~ich notach katalogowych, a~charakterystyki, choć dostępne w~SimSurfing, nie były wystarczające
-        do ekstrakcji wszystkich niezbędnych parametrów, ponieważ były nieliniowe i~mocno odbiegały od teoretycznych charakterystyk kondensatorów i~cewek indukcyjnych. 
+%         \begin{table}[H] \centering
+%             \caption{Wyniki symulacji}
+%             \label{tab:parasitics results}
+%             \begin{tabular}{c c c}
+%                 \hline\hline 
+%                 \multicolumn{3}{c}{\textbf{\hspace{40pt}\uline{Moduł pomiarowy}}}           \\
+%                                             & \textbf{LP}           & \textbf{HP}           \\ \hline
+%                 S21 [j.u.]                  &  -0,713+j0,70         & -0,682+j0,73          \\
+%                 |S21|                       &  0,992                & 0,999                 \\
+%                 P$_\text{TX}$ [\%]\textsuperscript{a}      &   99,8                &   99,8 \\
+%                 S11 [dB]                    &   -26,9               &   -27,5               \\ \hline
+%                 \multicolumn{3}{c}{\hspace{40pt}\textbf{Stacja bazowa}}                     \\ \hline
+%                 S31 [j.u.]                  &  \multicolumn{2}{c}{0,066-j0,887}             \\
+%                 |S31|                       &  \multicolumn{2}{c}{0,890}                    \\
+%                 S21 [dB]                    &  \multicolumn{2}{c}{-24,6}                    \\ 
+%                 P$_\text{TX}$ [\%] &  \multicolumn{2}{c}{79,1}                              \\
+%                 \hline\hline
+%             \end{tabular}
+%             \vspace{0.1cm}
+%             \begin{center}
+%                 \footnotesize{\textsuperscript{a} Procentowa ilość transmitowanego sygnału między wrotami wejściowymi i~wyjściowymi.}
+%             \end{center}
+%         \end{table}
+%         Na podstawie zebranych danych można stwierdzić, że obwody transmisyjne mają dobry stopień dopasowania, ponieważ na wrotach anteny odbija się tylko 1\% mocy. Obwód stacji bazowej
+%         jest dopasowany znacznie gorzej, gdyż z~anteny do mikrokontrolera dociera jedynie 79\% sygnału. Charakterystyki wszystkich trzech torów są bardzo wąskopasmowe, więc każdy 
+%         dodatkowy, nieuwzględniony element pasożytniczy, jest w~stanie ją mocno zmienić. Dlatego też poprawianie dopasowania obwodów powinno mieć miejsce dopiero po zlutowaniu układów. 
+%         Symulacja miała za zadanie pokazać, czy obliczenia wartości elementów zostały wykonane poprawnie. Przeprowadzone obliczenia są obarczone niedokładnością i~powinny być traktowane
+%         jedynie jako punkt odniesienia. Nie zostały uwzględnione pojemności padów, pojemności ścieżek do płaszczyzny masy na warstwie \textit{TOP}, a~także dodatkowe pojemności i~
+%         indukcyjności pasożytnicze samych elementów, ponieważ dokładne dane nie zostały ukazane w~ich notach katalogowych, a~charakterystyki, choć dostępne w~SimSurfing, nie były wystarczające
+%         do ekstrakcji wszystkich niezbędnych parametrów, ponieważ były nieliniowe i~mocno odbiegały od teoretycznych charakterystyk kondensatorów i~cewek indukcyjnych. 
 
-\clearpage\chapter{Projekt obudowy}
-\noindent Obudowa została zaprojektowana w~programie Inventor oraz wydrukowana na drukarce 3D Ender-3 S1 Pro. Proces tworzenia obudowy polegał na wyeksportowaniu z~programu Altium 
-modeli płytek PCB w~formacie .step oraz dopasowaniu do nich tworzonej geometrii. Model czujnika ultradźwiękowego został pobrany z~Internetu. Rezultat prac widoczny jest na poniższej 
-ilustacji \ref{fig:obudowy}.
+% \clearpage\chapter{Projekt obudowy}
+% \noindent Obudowa została zaprojektowana w~programie Inventor oraz wydrukowana na drukarce 3D Ender-3 S1 Pro. Proces tworzenia obudowy polegał na wyeksportowaniu z~programu Altium 
+% modeli płytek PCB w~formacie .step oraz dopasowaniu do nich tworzonej geometrii. Model czujnika ultradźwiękowego został pobrany z~Internetu. Rezultat prac widoczny jest na poniższej 
+% ilustacji \ref{fig:obudowy}.
 
-\begin{figure}[!h]
-    \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{sensor_3dd.png}
-    \end{subfigure}
-    \hspace{0.05\textwidth} % odstęp między podrysunkami
-    \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{main_3dd.png}
-    \end{subfigure}
-    \caption{Projekt obudowy. Po lewej obudowa czujnika. Po prawej obudowa stacji bazowej}
-    \label{fig:obudowy}
-\end{figure}
+% \begin{figure}[!h]
+%     \centering
+%     \begin{subfigure}[b]{0.45\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{sensor_3dd.png}
+%     \end{subfigure}
+%     \hspace{0.05\textwidth} % odstęp między podrysunkami
+%     \begin{subfigure}[b]{0.45\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{main_3dd.png}
+%     \end{subfigure}
+%     \caption{Projekt obudowy. Po lewej obudowa czujnika. Po prawej obudowa stacji bazowej}
+%     \label{fig:obudowy}
+% \end{figure}
 
-\part{Realizacja prototypu i~weryfikacja} 
-\clearpage\chapter{Montaż}
-\noindent Po dostarczeniu elementów oraz płytek PCB (nowe płytki PCB na zdjęciach \ref{fig:before soldering home} oraz \ref{fig:before soldering sensor}) przystąpiono do montażu urządzeń. Z~uwagi
-na dużą ilość elementów w~obudowach SMD oraz dostępność półautomatycznego dyspensera pasty lutowniczej oraz pieca zdecydowano się na lutowanie rozpływowe (ang. \textit{reflow soldering}), które nie wymaga 
-użycia topnika, zatem podłoże po zakończonym procesie jest czyste. Metoda ta eliminuje niebezpieczeństwo zdmuchnięcia elementów gorącym powietrzem (ang. \textit{hot-air}) oraz
-upraszcza lutowanie małych, nieporęcznych elementów. Na samym początku położone zostały rezystory, kondensatory i~cewki indukcyjne,
-a także koraliki ferrytowe. W~drugiej iteracji położone zostały większe elementy -- układy scalone, generatory TCXO oraz pozostałe elementy do~montażu powierzchniowego. Na samym końcu 
-zostały ręcznie polutowane gniazda SMA oraz złącza szpilkowe. 
+% \part{Realizacja prototypu i~weryfikacja} 
+% \clearpage\chapter{Montaż}
+% \noindent Po dostarczeniu elementów oraz płytek PCB (nowe płytki PCB na zdjęciach \ref{fig:before soldering home} oraz \ref{fig:before soldering sensor}) przystąpiono do montażu urządzeń. Z~uwagi
+% na dużą ilość elementów w~obudowach SMD oraz dostępność półautomatycznego dyspensera pasty lutowniczej oraz pieca zdecydowano się na lutowanie rozpływowe (ang. \textit{reflow soldering}), które nie wymaga 
+% użycia topnika, zatem podłoże po zakończonym procesie jest czyste. Metoda ta eliminuje niebezpieczeństwo zdmuchnięcia elementów gorącym powietrzem (ang. \textit{hot-air}) oraz
+% upraszcza lutowanie małych, nieporęcznych elementów. Na samym początku położone zostały rezystory, kondensatory i~cewki indukcyjne,
+% a także koraliki ferrytowe. W~drugiej iteracji położone zostały większe elementy -- układy scalone, generatory TCXO oraz pozostałe elementy do~montażu powierzchniowego. Na samym końcu 
+% zostały ręcznie polutowane gniazda SMA oraz złącza szpilkowe. 
 
-\begin{figure}[H]
-    \centering \includegraphics[width=0.8\textwidth]{main_bf_soldering.JPG}
-  \caption{Płytka PCB stacji bazowej przed montażem}
-    \label{fig:before soldering home}
-\end{figure}
+% \begin{figure}[H]
+%     \centering \includegraphics[width=0.8\textwidth]{main_bf_soldering.JPG}
+%   \caption{Płytka PCB stacji bazowej przed montażem}
+%     \label{fig:before soldering home}
+% \end{figure}
 
-\begin{figure}[H]
-    \centering \includegraphics[width=0.8\textwidth]{sensor_bf_soldering.JPG}
-  \caption{Płytka PCB modułu pomiarowego przed montażem}
-    \label{fig:before soldering sensor}
-\end{figure}
+% \begin{figure}[H]
+%     \centering \includegraphics[width=0.8\textwidth]{sensor_bf_soldering.JPG}
+%   \caption{Płytka PCB modułu pomiarowego przed montażem}
+%     \label{fig:before soldering sensor}
+% \end{figure}
 
-Na ilustracji \ref{fig:PCB_solder}. widoczne są dwie płytki PCB przed pierwszym lutowaniem. Pady obudów 0402 były na tyle małe, że dyspenser przy ustawieniu najmniejszej dostępnej kropli
-pasty wciąż dozował jej zbyt wiele -- pasty było za dużo i~po trzydziestu minutach zaczynała się rozpływać na boki. Dodatkowo wytrącała się z~niej ciecz, co powodowało, że komponenty 
-przestawały się trzymać podłoża. Z~tego względu co pewien czas pasta musiała zostać schłodzona w~lodówce, żeby odzyskała swoje pierwotne właściwości.
-Z uwagi na wymienione problemy nakładanie pasty i~lutowanie w~piecu odbywało się naprzemian w~kilku cyklach. 
+% Na ilustracji \ref{fig:PCB_solder}. widoczne są dwie płytki PCB przed pierwszym lutowaniem. Pady obudów 0402 były na tyle małe, że dyspenser przy ustawieniu najmniejszej dostępnej kropli
+% pasty wciąż dozował jej zbyt wiele -- pasty było za dużo i~po trzydziestu minutach zaczynała się rozpływać na boki. Dodatkowo wytrącała się z~niej ciecz, co powodowało, że komponenty 
+% przestawały się trzymać podłoża. Z~tego względu co pewien czas pasta musiała zostać schłodzona w~lodówce, żeby odzyskała swoje pierwotne właściwości.
+% Z uwagi na wymienione problemy nakładanie pasty i~lutowanie w~piecu odbywało się naprzemian w~kilku cyklach. 
 
-\begin{figure}[H]
-  \centering \includegraphics[width=0.8\textwidth]{PCB_solder.JPG}
-  \caption{Płytki przed lutowaniem w~piecu rozpływowym}
-  \label{fig:PCB_solder}
-\end{figure}
+% \begin{figure}[H]
+%   \centering \includegraphics[width=0.8\textwidth]{PCB_solder.JPG}
+%   \caption{Płytki przed lutowaniem w~piecu rozpływowym}
+%   \label{fig:PCB_solder}
+% \end{figure}
 
-\clearpage
-Na zdjęciu \ref{fig:main_zlut}. widoczny jest efekt prac nad modułem stacji bazowej.
-\begin{figure}[H]
-  \centering \includegraphics[width=0.8\textwidth]{main_zlut.JPG}
-  \caption{Stacja bazowa po zlutowaniu}
-  \label{fig:main_zlut}
-\end{figure}
+% \clearpage
+% Na zdjęciu \ref{fig:main_zlut}. widoczny jest efekt prac nad modułem stacji bazowej.
+% \begin{figure}[H]
+%   \centering \includegraphics[width=0.8\textwidth]{main_zlut.JPG}
+%   \caption{Stacja bazowa po zlutowaniu}
+%   \label{fig:main_zlut}
+% \end{figure}
 
-\clearpage\chapter{Pierwsze uruchomienie}
-\noindent Po zakończonym montażu przystąpiono do uruchomienia urządzeń. Okazało się, że popełniono kilka błędów, w~skutek czego uszkodzono aż pięć układów STM32WL. 
-Objawem był nienaturalnie wysoki pobór prądu obu urządzeń oraz nadmiernie wydzielane ciepło. Po pierwsze i~najważniejsze, okazało się, że w~wyniku przeoczenia został źle zaprojektowany fragment
-sekcji zasilania wspólny dla obu urządzeń. Zgodnie z~tym, co widać na ilustracji \ref{fig:VDDPA_issue} wyprowadzenia VDDPA (3,3~V) oraz VDDRF1V55 (1,55~V), zostały połączone na stałe. Zgodnie z~dokumentacją
-\cite[23]{ST_DS13105}, wyjście VDDRF1V55 dostarcza zasilanie dla modułu radiowego i~powinno być połączone z~VFBSMPS (wyjście LDO lub przetwornicy SMPS), jednak w~wyniku przylutowania rezystora R13, VDDRF1V55 
-zostało zwarte do~zasilania 3,3~V. Wyeliminowano problem poprzez wylutowanie rezystora R13 na stałe i~połączenie VDDPA oraz VDDRF1V55 z~VFBSMPS przez R14. Niestety, w~wyniku tej operacji utracona została
-możliwość nadawania sygnału radiowego z~maksymalną mocą +22 dBm (maksymalnie +14~dBm), gdyż w~tym celu VDDPA potrzebuje napięcia 3,3 V. Ilustracja \ref{fig:nagrzany_mcu} przedstawia zdjęcie wykonane kamerą
-termowizyjną grzejącego się układu. Pobierany prąd z~zasilacza wynosił około 120~mA. Po drugie, dobrano zbyt małe rezystory ograniczające prądy diod, sugerując się jedynie mało dokładną charakterystyką
-prąd--napięcie. Dodatkowo, jeden układ został uszkodzony wyładowaniem ESD.
+% \clearpage\chapter{Pierwsze uruchomienie}
+% \noindent Po zakończonym montażu przystąpiono do uruchomienia urządzeń. Okazało się, że popełniono kilka błędów, w~skutek czego uszkodzono aż pięć układów STM32WL. 
+% Objawem był nienaturalnie wysoki pobór prądu obu urządzeń oraz nadmiernie wydzielane ciepło. Po pierwsze i~najważniejsze, okazało się, że w~wyniku przeoczenia został źle zaprojektowany fragment
+% sekcji zasilania wspólny dla obu urządzeń. Zgodnie z~tym, co widać na ilustracji \ref{fig:VDDPA_issue} wyprowadzenia VDDPA (3,3~V) oraz VDDRF1V55 (1,55~V), zostały połączone na stałe. Zgodnie z~dokumentacją
+% \cite[23]{ST_DS13105}, wyjście VDDRF1V55 dostarcza zasilanie dla modułu radiowego i~powinno być połączone z~VFBSMPS (wyjście LDO lub przetwornicy SMPS), jednak w~wyniku przylutowania rezystora R13, VDDRF1V55 
+% zostało zwarte do~zasilania 3,3~V. Wyeliminowano problem poprzez wylutowanie rezystora R13 na stałe i~połączenie VDDPA oraz VDDRF1V55 z~VFBSMPS przez R14. Niestety, w~wyniku tej operacji utracona została
+% możliwość nadawania sygnału radiowego z~maksymalną mocą +22 dBm (maksymalnie +14~dBm), gdyż w~tym celu VDDPA potrzebuje napięcia 3,3 V. Ilustracja \ref{fig:nagrzany_mcu} przedstawia zdjęcie wykonane kamerą
+% termowizyjną grzejącego się układu. Pobierany prąd z~zasilacza wynosił około 120~mA. Po drugie, dobrano zbyt małe rezystory ograniczające prądy diod, sugerując się jedynie mało dokładną charakterystyką
+% prąd--napięcie. Dodatkowo, jeden układ został uszkodzony wyładowaniem ESD.
 
-\begin{figure}[htbp]
-  \centering \includegraphics[width=0.5\textwidth]{nagrzany_mcu.png}
-  \caption{PCB z~uszkodzonym mikrokontrolerem}
-  \label{fig:nagrzany_mcu}
-\end{figure}
+% \begin{figure}[htbp]
+%   \centering \includegraphics[width=0.5\textwidth]{nagrzany_mcu.png}
+%   \caption{PCB z~uszkodzonym mikrokontrolerem}
+%   \label{fig:nagrzany_mcu}
+% \end{figure}
 
-\begin{figure}[htbp]
-  \centering \includegraphics[width=0.7\textwidth]{VDDPA_issue.png}
-  \caption{Błąd w~schemacie elektrycznym}
-  \label{fig:VDDPA_issue}
-\end{figure}
+% \begin{figure}[htbp]
+%   \centering \includegraphics[width=0.7\textwidth]{VDDPA_issue.png}
+%   \caption{Błąd w~schemacie elektrycznym}
+%   \label{fig:VDDPA_issue}
+% \end{figure}
 
-Kolejnym problematycznym elementem był generator TCXO. Próba zmierzenia sygnału sondą oscyloskopową w~trybie skalowania \textbf{$\times 1$} nie dawała oczekiwanych rezultatów. Sygnał, który zgodnie
-z założeniami \cite{ECS_TCXO_DS} miał być sinusoidą o~amplitudzie minimum 0,8 V, miał około 20 mV i~co pewien czas ustawał. Błędnie przypuszczano, że generator został uszkodzony w~trakcie procesu
-odlutowywania i~ponownego lutowania mikrokontrolera z~użyciem gorącego powietrza. W~efekcie TCXO było kilkukrotnie zmieniane. Finalnie okazało się, że problem leży w~naturze samego pomiaru -- konkretnie
-w budowie sondy oscyloskopowej, która w~ustawieniu \textbf{$\times 1$} zwiększa pojemność widzianą z~poziomu wejścia oscyloskopu. TCXO jest w~stanie wysterować tylko około 10 pF, gdzie pojemność sondy 
-prawdopodobnie zwielokrotniła pojemność widzianą z~poziomu generatora -- ten nie był w~stanie zapewnić odpowiedniego prądu i~zostawał wyłączony. W~rozdziale \ref{errors}. omówione zostały wszystkie 
-problemy, które zostały zauważone na różnych etapach realizacji projektu. 
+% Kolejnym problematycznym elementem był generator TCXO. Próba zmierzenia sygnału sondą oscyloskopową w~trybie skalowania \textbf{$\times 1$} nie dawała oczekiwanych rezultatów. Sygnał, który zgodnie
+% z założeniami \cite{ECS_TCXO_DS} miał być sinusoidą o~amplitudzie minimum 0,8 V, miał około 20 mV i~co pewien czas ustawał. Błędnie przypuszczano, że generator został uszkodzony w~trakcie procesu
+% odlutowywania i~ponownego lutowania mikrokontrolera z~użyciem gorącego powietrza. W~efekcie TCXO było kilkukrotnie zmieniane. Finalnie okazało się, że problem leży w~naturze samego pomiaru -- konkretnie
+% w budowie sondy oscyloskopowej, która w~ustawieniu \textbf{$\times 1$} zwiększa pojemność widzianą z~poziomu wejścia oscyloskopu. TCXO jest w~stanie wysterować tylko około 10 pF, gdzie pojemność sondy 
+% prawdopodobnie zwielokrotniła pojemność widzianą z~poziomu generatora -- ten nie był w~stanie zapewnić odpowiedniego prądu i~zostawał wyłączony. W~rozdziale \ref{errors}. omówione zostały wszystkie 
+% problemy, które zostały zauważone na różnych etapach realizacji projektu. 
 
-Pomimo trudności udało się z~powodzeniem uruchomić oba urządzenia i~przetestować działanie poszczególnych peryferiów -- w~tym wyświetlacza LCD, brzęczyków, czujnika ultradźwiękowego oraz TCXO. 
+% Pomimo trudności udało się z~powodzeniem uruchomić oba urządzenia i~przetestować działanie poszczególnych peryferiów -- w~tym wyświetlacza LCD, brzęczyków, czujnika ultradźwiękowego oraz TCXO. 
 
-Następnym etapem były testy komunikacji bezprzewodowej. Niestety, pomimo wielu godzin spędzonych nad projektem, nie udało się doprowadzić do przesłania danych z~modułu pomiarowego do stacji bazowej. Na tym
-etapie, mając na uwadze ilość zaistniałych problemów, zadecydowano o~konieczności stworzenia kolejnej rewizji -- pozbawionej problemów pierwszej wersji.
+% Następnym etapem były testy komunikacji bezprzewodowej. Niestety, pomimo wielu godzin spędzonych nad projektem, nie udało się doprowadzić do przesłania danych z~modułu pomiarowego do stacji bazowej. Na tym
+% etapie, mając na uwadze ilość zaistniałych problemów, zadecydowano o~konieczności stworzenia kolejnej rewizji -- pozbawionej problemów pierwszej wersji.
 
-\clearpage\chapter{Popełnione błędy} \label{errors}
-  \noindent W~trakcie uruchamiania urządzeń napotkano szereg problemów. Podczas projektowania schematów popełniono krytyczny błąd, który doprowadził do uszkodzenia kilku sztuk układu STM32WLE5C8U6,
-  co w~efekcie opóźniło projekt (układy nie są dostępne w~lokalnej dystrybucji) i~zwiększyło nakład finansowy. W~wyniku przeoczenia VDDPA oraz VDDRF1V55 zostały na stałe połączone, więc próba zasilenia
-  VDDPA z~napięcia 3,3 V niezbędnego do transmisji z~dużą mocą 21~dBm prowadziła do uszkodzenia terminalu VDRF1V55 i~całego radia. 
-  Rozwiązaniem było montaż rezystorów w~odpowiedniej konfiguracji i~ograniczenie mocy w~układzie nadawczym do 14 dBm. 
+% \clearpage\chapter{Popełnione błędy} \label{errors}
+%   \noindent W~trakcie uruchamiania urządzeń napotkano szereg problemów. Podczas projektowania schematów popełniono krytyczny błąd, który doprowadził do uszkodzenia kilku sztuk układu STM32WLE5C8U6,
+%   co w~efekcie opóźniło projekt (układy nie są dostępne w~lokalnej dystrybucji) i~zwiększyło nakład finansowy. W~wyniku przeoczenia VDDPA oraz VDDRF1V55 zostały na stałe połączone, więc próba zasilenia
+%   VDDPA z~napięcia 3,3 V niezbędnego do transmisji z~dużą mocą 21~dBm prowadziła do uszkodzenia terminalu VDRF1V55 i~całego radia. 
+%   Rozwiązaniem było montaż rezystorów w~odpowiedniej konfiguracji i~ograniczenie mocy w~układzie nadawczym do 14 dBm. 
   
-  Dobrane zostały zbyt małe rezystory dla diod LED, co było wynikiem zbyt dużych uproszczeń i~doprowadziło do uszkodzenia GPIO -- w~notach katalogowych diod dołączone były jedynie mało dokładne
-  charakterystyki prąd -- napięcie. Należało na tamtym etapie zmienić model elementu, rozważyć sterowanie kluczem tranzystorowym albo użyć bezpiecznych, większych rezystancji.
+%   Dobrane zostały zbyt małe rezystory dla diod LED, co było wynikiem zbyt dużych uproszczeń i~doprowadziło do uszkodzenia GPIO -- w~notach katalogowych diod dołączone były jedynie mało dokładne
+%   charakterystyki prąd -- napięcie. Należało na tamtym etapie zmienić model elementu, rozważyć sterowanie kluczem tranzystorowym albo użyć bezpiecznych, większych rezystancji.
   
-  Kolejnym problemem było to, że nie przewidziano kluczowania zasilania dla sensora ultradźwiękowego, co negatywnie wpłynęłoby na długość życia urządzenia zasilanego z~baterii (według szacunków przy stałym 
-  poborze prądu rzędu $8,0\ \mathrm{mA}$ czas życia wyniósłby tylko około 20 dni). Rozwiązaniem jest zmiana konfiguracji jednego z~wyprowadzeń, które pierwotnie miało służyć do celów diagnostycznych interfejsu SPI
-  (rys. \ref{fig:sensor_issue}), na \textit{push--pull} oraz zewnętrznego klucza tranzystorowego. 
+%   Kolejnym problemem było to, że nie przewidziano kluczowania zasilania dla sensora ultradźwiękowego, co negatywnie wpłynęłoby na długość życia urządzenia zasilanego z~baterii (według szacunków przy stałym 
+%   poborze prądu rzędu $8,0\ \mathrm{mA}$ czas życia wyniósłby tylko około 20 dni). Rozwiązaniem jest zmiana konfiguracji jednego z~wyprowadzeń, które pierwotnie miało służyć do celów diagnostycznych interfejsu SPI
+%   (rys. \ref{fig:sensor_issue}), na \textit{push--pull} oraz zewnętrznego klucza tranzystorowego. 
 
-  \begin{figure}[H]
-    \centering \includegraphics[width=0.7\textwidth]{sensor_issue.png}
-    \caption{Dolna strona płytki sensora i~wyprowadzenia diagnostyczne}
-    \label{fig:sensor_issue}
-  \end{figure}
+%   \begin{figure}[H]
+%     \centering \includegraphics[width=0.7\textwidth]{sensor_issue.png}
+%     \caption{Dolna strona płytki sensora i~wyprowadzenia diagnostyczne}
+%     \label{fig:sensor_issue}
+%   \end{figure}
 
-  W~trakcie projektowania płytek PCB nie uwzględniono efektów pasożytniczych w~sekcjach ,,krytycznych". Przykładowo: na płytce stacji bazowej dodano dużą indukcyjność pasożytniczą w~torze RF,
-  ponieważ kondensator C21 ma połączenie z~masą tylko jedną przelotką, co widoczne jest poniżej na rys. \ref{fig:masa_issue}.
+%   W~trakcie projektowania płytek PCB nie uwzględniono efektów pasożytniczych w~sekcjach ,,krytycznych". Przykładowo: na płytce stacji bazowej dodano dużą indukcyjność pasożytniczą w~torze RF,
+%   ponieważ kondensator C21 ma połączenie z~masą tylko jedną przelotką, co widoczne jest poniżej na rys. \ref{fig:masa_issue}.
 
-  \begin{figure}[H]
-    \centering \includegraphics[width=0.7\textwidth]{masa_issue.png}
-    \caption{Dodatkowa indukcyjność w~torze RF}
-    \label{fig:masa_issue}
-  \end{figure}
+%   \begin{figure}[H]
+%     \centering \includegraphics[width=0.7\textwidth]{masa_issue.png}
+%     \caption{Dodatkowa indukcyjność w~torze RF}
+%     \label{fig:masa_issue}
+%   \end{figure}
 
-  Nieoptymalne są również ścieżki prowadzące od wyjścia TCXO do STM32 (rys. \ref{fig:clock_issue}). Szerokie ścieżki dodają niepotrzebnie pasożytniczą pojemność. Można było także użyć elementów w~obudowach 0402, które mają mniejsze pady.
+%   Nieoptymalne są również ścieżki prowadzące od wyjścia TCXO do STM32 (rys. \ref{fig:clock_issue}). Szerokie ścieżki dodają niepotrzebnie pasożytniczą pojemność. Można było także użyć elementów w~obudowach 0402, które mają mniejsze pady.
 
-  \begin{figure}[H]
-    \centering \includegraphics[width=0.45\textwidth]{clock_issue.png}
-    \caption{Zbyt szerokie ścieżki TCXO}
-    \label{fig:clock_issue}
-  \end{figure}
+%   \begin{figure}[H]
+%     \centering \includegraphics[width=0.45\textwidth]{clock_issue.png}
+%     \caption{Zbyt szerokie ścieżki TCXO}
+%     \label{fig:clock_issue}
+%   \end{figure}
 
-  Dodatkowo zaniedbana została warstwa opisowa na obu płytkach, przez co konieczne jest częste sięganie po dokumentację, żeby sprawdzić, gdzie na złączach szpilkowych wyprowadzony został jaki sygnał. 
-  Na płytkach brakuje też punktów pomiarowych oraz złączy, w~które można przykładowo wpiąć amperomierz, co uprościłoby przeprowadzenie pomiarów związanych z~zasilaniem.
-  Niektóre elementy na płytce mogłyby zostać wymienione. Przykładem mogą być złącza szpilkowe, które służą raczej prototypowaniu. Nie ma także potrzeby używania rezystorów w~obudowach 0402.
-  Elementy te są małe i~trudniejsze w~lutowaniu od komponentów w~obudowach 0603 czy 0805. Małe rezystory, kondensatory czy cewki powinny być używane tylko wtedy, kiedy zachodzi rzeczywista potrzeba.
+%   Dodatkowo zaniedbana została warstwa opisowa na obu płytkach, przez co konieczne jest częste sięganie po dokumentację, żeby sprawdzić, gdzie na złączach szpilkowych wyprowadzony został jaki sygnał. 
+%   Na płytkach brakuje też punktów pomiarowych oraz złączy, w~które można przykładowo wpiąć amperomierz, co uprościłoby przeprowadzenie pomiarów związanych z~zasilaniem.
+%   Niektóre elementy na płytce mogłyby zostać wymienione. Przykładem mogą być złącza szpilkowe, które służą raczej prototypowaniu. Nie ma także potrzeby używania rezystorów w~obudowach 0402.
+%   Elementy te są małe i~trudniejsze w~lutowaniu od komponentów w~obudowach 0603 czy 0805. Małe rezystory, kondensatory czy cewki powinny być używane tylko wtedy, kiedy zachodzi rzeczywista potrzeba.
 
-%Komunikacja na początku była ustawiona programowo na 868,7 MHz, co zostało wykryte po pierwszym dopasowywaniu obwodu. 
-%Przy trymowaniu obwodu RF jeden z~padów odpadł. Cewki lutowało się słabo i~w efekcie czasami nie stykały co bardzo wydłużyło czas trymowania obwodów.
+% %Komunikacja na początku była ustawiona programowo na 868,7 MHz, co zostało wykryte po pierwszym dopasowywaniu obwodu. 
+% %Przy trymowaniu obwodu RF jeden z~padów odpadł. Cewki lutowało się słabo i~w efekcie czasami nie stykały co bardzo wydłużyło czas trymowania obwodów.
 
-\part{Rewizja druga} 
-  \clearpage \chapter{Projekt}
-    \noindent W~związku z~nieprawidłowym działaniem pierwszej wersji projektu oraz trudnościami w~znalezieniu przyczyny stworzono drugą, poprawioną wersję. Wprowadzono dwie kluczowe z~punktu 
-    projektowego zmiany. Zamiast dwóch płytek PCB powstała jedna, co przełożyło się na znaczące obniżenie kosztów oraz skrócenie czasu wytworzenia, a~także lepsze dopracowanie układu. Drugą
-    istotną różnicą było całkowicie odmienne podejście do projektu części radiowej -- tym razem wzorowano się na referencyjnym projekcie od STMicroelectronics opartym o~scalony balun IPD 
-    (ang. \textit{integrated passive device}). Takie podejście ma szereg zalet \cite[65]{ST_AN5457} w~porównaniu z~budowaniem toru radiowego na elementach dyskretnych:
+% \part{Rewizja druga} 
+%   \clearpage \chapter{Projekt}
+%     \noindent W~związku z~nieprawidłowym działaniem pierwszej wersji projektu oraz trudnościami w~znalezieniu przyczyny stworzono drugą, poprawioną wersję. Wprowadzono dwie kluczowe z~punktu 
+%     projektowego zmiany. Zamiast dwóch płytek PCB powstała jedna, co przełożyło się na znaczące obniżenie kosztów oraz skrócenie czasu wytworzenia, a~także lepsze dopracowanie układu. Drugą
+%     istotną różnicą było całkowicie odmienne podejście do projektu części radiowej -- tym razem wzorowano się na referencyjnym projekcie od STMicroelectronics opartym o~scalony balun IPD 
+%     (ang. \textit{integrated passive device}). Takie podejście ma szereg zalet \cite[65]{ST_AN5457} w~porównaniu z~budowaniem toru radiowego na elementach dyskretnych:
 
-    \begin{itemize}
-        \item prostsze dopasowanie impedancji;
-        \item tańsze testowanie;
-        \item brak problemu rozrzutu parametrów,
-        \item mniejsza liczba elementów,
-        \item zmiejszenie wymiarów PCB.
-    \end{itemize}
+%     \begin{itemize}
+%         \item prostsze dopasowanie impedancji;
+%         \item tańsze testowanie;
+%         \item brak problemu rozrzutu parametrów,
+%         \item mniejsza liczba elementów,
+%         \item zmiejszenie wymiarów PCB.
+%     \end{itemize}
 
-    Nowy projekt umożliwił rozwiązanie wielu problemów, które miał stary układ. Wprowadzone poprawki to:
-    \begin{itemize}
-        \item eliminacja problemu bezpośredniego połączenia VDD i~VDDRF1V55;
-        \item dodanie kluczowania zasilania sensora;
-        \item dodanie czytelnej, odpowiedniej warstwy opisowej;
-        \item dodanie punktów, rezystorów i~złączy pomiarowych;
-        \item dodanie złącz i~diod do celów debugowania;
-        \item optymalizacja szerokości ścieżek;
-        \item wkorzystanie z~większych elementów (rozmiar 0603 zamiast 0402).
-    \end{itemize}
+%     Nowy projekt umożliwił rozwiązanie wielu problemów, które miał stary układ. Wprowadzone poprawki to:
+%     \begin{itemize}
+%         \item eliminacja problemu bezpośredniego połączenia VDD i~VDDRF1V55;
+%         \item dodanie kluczowania zasilania sensora;
+%         \item dodanie czytelnej, odpowiedniej warstwy opisowej;
+%         \item dodanie punktów, rezystorów i~złączy pomiarowych;
+%         \item dodanie złącz i~diod do celów debugowania;
+%         \item optymalizacja szerokości ścieżek;
+%         \item wkorzystanie z~większych elementów (rozmiar 0603 zamiast 0402).
+%     \end{itemize}
 
-    \section{Schematy elektryczne}
-        \noindent Nowy tor radiowy to nie jedyna zmiana w~projekcie. Pomniejszym modyfikacjom uległa każda wyodrębniona sekcja. W~przypadku mikrokontrolera (rys. \ref{fig:rev2_mcu}) zostały dodane między innymi: 
-        sterowanie przełącznikiem RF oraz zasilaniem sensora, przycisk oraz opcjonalny rezystor R13 w~torze TCXO. Wyprowadzony został również sygnał MCO, który umożliwia zweryfikowanie poprawności
-        sygnału zegarowego.
-        \begin{figure}[htbp]
-            \centering \includegraphics[width=1\textwidth]{rev2_mcu.png}
-            \caption{Rewizja druga -- mikrokontroler}
-            \label{fig:rev2_mcu}
-        \end{figure}
+%     \section{Schematy elektryczne}
+%         \noindent Nowy tor radiowy to nie jedyna zmiana w~projekcie. Pomniejszym modyfikacjom uległa każda wyodrębniona sekcja. W~przypadku mikrokontrolera (rys. \ref{fig:rev2_mcu}) zostały dodane między innymi: 
+%         sterowanie przełącznikiem RF oraz zasilaniem sensora, przycisk oraz opcjonalny rezystor R13 w~torze TCXO. Wyprowadzony został również sygnał MCO, który umożliwia zweryfikowanie poprawności
+%         sygnału zegarowego.
+%         \begin{figure}[htbp]
+%             \centering \includegraphics[width=1\textwidth]{rev2_mcu.png}
+%             \caption{Rewizja druga -- mikrokontroler}
+%             \label{fig:rev2_mcu}
+%         \end{figure}
 
-        Do sekcji zasilania (rys. \ref{fig:rev2_pwr}) dodano przycisk resetu, punkty testowe głównych napięć w~układzie, zwory oraz rezystory pomiarowe prądu. Ważną zmianą było
-        połączenie na stałe VDDPA z~VDDRF1V55, co odpowiada konfiguracji niskomocowej modułu radiowego (14 dBm). Wybrano także mocniejszy stabilizator (ADP124 zamiast APD123) -- o~większym prądzie
-        maksymalnym, tak aby możliwe było zasilenie bardziej prądożernego wyświetlacza LCD. %\textcolor{red}{\textbf{"prądożernego"}} wyświetlacza LCD.
-        \begin{figure}[htbp]
-            \centering \includegraphics[width=1\textwidth]{rev2_pwr.png}
-            \caption{Rewizja druga -- sekcja zasilania}
-            \label{fig:rev2_pwr}
-        \end{figure}
+%         Do sekcji zasilania (rys. \ref{fig:rev2_pwr}) dodano przycisk resetu, punkty testowe głównych napięć w~układzie, zwory oraz rezystory pomiarowe prądu. Ważną zmianą było
+%         połączenie na stałe VDDPA z~VDDRF1V55, co odpowiada konfiguracji niskomocowej modułu radiowego (14 dBm). Wybrano także mocniejszy stabilizator (ADP124 zamiast APD123) -- o~większym prądzie
+%         maksymalnym, tak aby możliwe było zasilenie bardziej prądożernego wyświetlacza LCD. %\textcolor{red}{\textbf{"prądożernego"}} wyświetlacza LCD.
+%         \begin{figure}[htbp]
+%             \centering \includegraphics[width=1\textwidth]{rev2_pwr.png}
+%             \caption{Rewizja druga -- sekcja zasilania}
+%             \label{fig:rev2_pwr}
+%         \end{figure}
 
-        Tor radiowy (rys. \ref{fig:rev2_radio}) powstał na bazie układu \cite{ST_REFERENCE} z~materiałów pomocniczych dostarczonych przez producenta. Użyty został balun w~postaci układu IPD oraz przełącznik
-        RF, który umożliwił dwustronną komunikację -- transmisję i~odbiór danych.
-        \begin{figure}[htbp]
-            \centering \includegraphics[width=1\textwidth]{rev2_radio.png}
-            \caption{Rewizja druga -- tor radiowy}
-            \label{fig:rev2_radio}
-        \end{figure}
+%         Tor radiowy (rys. \ref{fig:rev2_radio}) powstał na bazie układu \cite{ST_REFERENCE} z~materiałów pomocniczych dostarczonych przez producenta. Użyty został balun w~postaci układu IPD oraz przełącznik
+%         RF, który umożliwił dwustronną komunikację -- transmisję i~odbiór danych.
+%         \begin{figure}[htbp]
+%             \centering \includegraphics[width=1\textwidth]{rev2_radio.png}
+%             \caption{Rewizja druga -- tor radiowy}
+%             \label{fig:rev2_radio}
+%         \end{figure}
 
-        Obok bezprzewodowej transmisji danych, urządzenie w~swoich założeniach miało być energooszczędne. Stąd też prawdopodobnie druga najważniejsza zmiana względem poprzedniej rewizji, czyli
-        dodanie możliwości włączania i~wyłączania sensora, zrealizowane na kluczu tranzystorowym widocznym na rys. \ref{fig:rev2_sensor}. 
-        \begin{figure}[htbp]
-            \centering \includegraphics[width=0.5\textwidth]{rev2_sensor.png}
-            \caption{Rewizja druga -- interfejs sensora}
-            \label{fig:rev2_sensor}
-        \end{figure}
+%         Obok bezprzewodowej transmisji danych, urządzenie w~swoich założeniach miało być energooszczędne. Stąd też prawdopodobnie druga najważniejsza zmiana względem poprzedniej rewizji, czyli
+%         dodanie możliwości włączania i~wyłączania sensora, zrealizowane na kluczu tranzystorowym widocznym na rys. \ref{fig:rev2_sensor}. 
+%         \begin{figure}[htbp]
+%             \centering \includegraphics[width=0.5\textwidth]{rev2_sensor.png}
+%             \caption{Rewizja druga -- interfejs sensora}
+%             \label{fig:rev2_sensor}
+%         \end{figure}
 
-        W~nowej odsłonie projektu nie zabrakło zabezpieczeń ESD -- każde złącze szpilkowe ma swoją diodę zabezpieczającą przed wyładowaniem elektrostatycznym.
-        Przy wyborze i~umiejscowieniu elementów stosowano się do wskazówek zawartych w~\cite{ST_AN5612}.
-        \begin{figure}[htbp]
-            \centering \includegraphics[width=0.7\textwidth]{rev2_lcd_prog.png}
-            \caption{Rewizja druga -- interfejs LCD i~programatora}
-            \label{fig:rev2_lcd_prog}
-        \end{figure}
+%         W~nowej odsłonie projektu nie zabrakło zabezpieczeń ESD -- każde złącze szpilkowe ma swoją diodę zabezpieczającą przed wyładowaniem elektrostatycznym.
+%         Przy wyborze i~umiejscowieniu elementów stosowano się do wskazówek zawartych w~\cite{ST_AN5612}.
+%         \begin{figure}[htbp]
+%             \centering \includegraphics[width=0.7\textwidth]{rev2_lcd_prog.png}
+%             \caption{Rewizja druga -- interfejs LCD i~programatora}
+%             \label{fig:rev2_lcd_prog}
+%         \end{figure}
 
-        Urządzenia komunikujące się w~jakiejkolwiek sieci zazwyczaj mają unikalny adres, który je identyfikuje. Często jest to tzw. adres MAC (ang. \textit{Medium Access Control}),
-        dzięki któremu możliwe jest określenie, kto jest nadawcą lub odbiorcą danych. W~projekcie posłużono się uproszczoną wersją, opartą o~konfigurację rezystorów na
-        płytce PCB, co widoczne jest na \ref{fig:rev2_buzz_id} w~sekcji ID.
-        \begin{figure}[htbp]
-            \centering \includegraphics[width=1\textwidth]{rev2_buzz_id.png}
-            \caption{Rewizja druga -- brzęczyk i~ID}
-            \label{fig:rev2_buzz_id}
-        \end{figure}
-
-
-    \section{PCB}
-        \noindent Projekt obwodu drukowanego oparto na \cite{ST_REFERENCE}. Na początku, w~identyczny sposób jak w~projekcie referencyjnym, zaprojektowano tor 
-        radiowy i~następnie pozostałe elementy. Dużą uwagę poświęcono optymalizacji położenia kondensatorów filtrujących zasilanie. Uniwersalność i~większe komponenty
-        (stacja bazowa i~moduł pomiarowy w~jednym) przyczyniły się do powiększenia gabarytów obwodu. Nie było to problemem, gdyż nie zostały narzucone żadne wymagania techniczne
-        dotyczące wymiarów urządzenia. Gotowy projekt PCB jest na rys. \ref{fig:rev2_PCB}. Częściowo zlutowany jest na rys. \ref{fig:PCB_zlut}.
-
-        \begin{figure}[htbp]
-            \centering
-                \begin{subfigure}[b]{0.46\textwidth}
-                    \centering
-                    \includegraphics[width=\textwidth]{rev2_front.png}
-                \end{subfigure}
-                \hspace{0.05\textwidth} % odstęp między podrysunkami
-                \begin{subfigure}[b]{0.44\textwidth}
-                    \centering
-                    \includegraphics[width=\textwidth]{rev2_back.png}
-                \end{subfigure}
-            \caption{Rewizja druga -- gotowy projekt obwodu drukowanego}
-            \label{fig:rev2_PCB}
-        \end{figure}
+%         Urządzenia komunikujące się w~jakiejkolwiek sieci zazwyczaj mają unikalny adres, który je identyfikuje. Często jest to tzw. adres MAC (ang. \textit{Medium Access Control}),
+%         dzięki któremu możliwe jest określenie, kto jest nadawcą lub odbiorcą danych. W~projekcie posłużono się uproszczoną wersją, opartą o~konfigurację rezystorów na
+%         płytce PCB, co widoczne jest na \ref{fig:rev2_buzz_id} w~sekcji ID.
+%         \begin{figure}[htbp]
+%             \centering \includegraphics[width=1\textwidth]{rev2_buzz_id.png}
+%             \caption{Rewizja druga -- brzęczyk i~ID}
+%             \label{fig:rev2_buzz_id}
+%         \end{figure}
 
 
-        \begin{figure}[htbp]
-            \centering \includegraphics[width=0.8\textwidth]{PCB_zlut.JPG}
-            \caption{Rewizja druga -- częściowo zlutowany projekt}
-            \label{fig:PCB_zlut}
-        \end{figure}
+%     \section{PCB}
+%         \noindent Projekt obwodu drukowanego oparto na \cite{ST_REFERENCE}. Na początku, w~identyczny sposób jak w~projekcie referencyjnym, zaprojektowano tor 
+%         radiowy i~następnie pozostałe elementy. Dużą uwagę poświęcono optymalizacji położenia kondensatorów filtrujących zasilanie. Uniwersalność i~większe komponenty
+%         (stacja bazowa i~moduł pomiarowy w~jednym) przyczyniły się do powiększenia gabarytów obwodu. Nie było to problemem, gdyż nie zostały narzucone żadne wymagania techniczne
+%         dotyczące wymiarów urządzenia. Gotowy projekt PCB jest na rys. \ref{fig:rev2_PCB}. Częściowo zlutowany jest na rys. \ref{fig:PCB_zlut}.
+
+%         \begin{figure}[htbp]
+%             \centering
+%                 \begin{subfigure}[b]{0.46\textwidth}
+%                     \centering
+%                     \includegraphics[width=\textwidth]{rev2_front.png}
+%                 \end{subfigure}
+%                 \hspace{0.05\textwidth} % odstęp między podrysunkami
+%                 \begin{subfigure}[b]{0.44\textwidth}
+%                     \centering
+%                     \includegraphics[width=\textwidth]{rev2_back.png}
+%                 \end{subfigure}
+%             \caption{Rewizja druga -- gotowy projekt obwodu drukowanego}
+%             \label{fig:rev2_PCB}
+%         \end{figure}
+
+
+%         \begin{figure}[htbp]
+%             \centering \includegraphics[width=0.8\textwidth]{PCB_zlut.JPG}
+%             \caption{Rewizja druga -- częściowo zlutowany projekt}
+%             \label{fig:PCB_zlut}
+%         \end{figure}
 
 \clearpage\chapter{Testy}
  
@@ -1156,39 +1162,46 @@ etapie, mając na uwadze ilość zaistniałych problemów, zadecydowano o~koniec
             \label{fig:rev2_sen_trymming}
         \end{figure}
 
+        
         \begin{table}[H] \centering
                 \caption{Poziomy impedancji wejściowej przed i~po dopasowaniu obwodu}
                 \label{tab:trymming}
                 \begin{tabular}{r c c}
                     \hline\hline 
                     \multicolumn{1}{r}{\textbf{urządzenie}}&\multicolumn{1}{c}{\textbf{impedancja przed dopasowaniem [$\Omega$]}}&\multicolumn{1}{c}{\textbf{impedancja po dopasowaniu [$\Omega$]}} \\\hline
-                    \textbf{moduł pomiarowy}                                                & 46,5 - j33,6  &               65,1 - j13,5                  \\  
-                    \textbf{stacja bazowa}                                                  & 44,2 - j36,7  &               64,9 - j8,8                   \\ 
+                    \textbf{moduł pomiarowy}                                                & $46,5 - 33,6j$  &               $65,1 - 13,5j$                  \\  
+                    \textbf{stacja bazowa}                                                  & $44,2 - 36,7j$  &               $64,9 - 8,8j$                   \\ 
                     \hline\hline
                 \end{tabular}
         \end{table}
 
-        Na podstawie zebranych wyników przeprowadzono obliczenia parametrów takich jak SWR (ang. \textit{standing wave ratio}) oraz $\Gamma$ (współczynnik odbicia)--do łatwiejszego oszacowania poziomu dopasowania toru.
-        Współczynnik odbicia $\Gamma$:
-
+        % dopisane
+            Istnieje pojęcie takie jak \ac{acr_wdt}. Odpowiednikiem \ac{acr_wdt} jest współczynnika odbicia $\mathit{\Gamma}$. W~torach radiowych kluczowym etapem projektowania jest uzyskanie dopasowania impedancji pomiędzy wyjściem nadajnika $Z_L$ a~impedancją anteny $Z_O$.
+            Niedopasowanie powoduje wzrost $\mathit{\Gamma}$, a~tym samym zwiększenie mocy odbitej oraz pogorszenie efektywności promieniowania. Dla częstotliwości $f = 868,0\,\text{MHz}$
+            przyjmuje się, że dopasowanie jest akceptowalne, gdy moduł współczynnika odbicia spełnia warunek  $\mathit{\Gamma} < 0,2$. 
+        % dopisane
+        Na podstawie zebranych wyników przeprowadzono obliczenia parametrów takich jak $\mathit{SWR}$ (ang. \textit{standing wave ratio}) oraz $\mathit{\Gamma}$ do łatwiejszego oszacowania poziomu dopasowania toru.
+        
         \begin{align}
             \label{eq:gamma}
-            \Gamma &= \frac{Z_L - Z_0}{Z_L + Z_0} = \frac{(46.5 - j33.6) - 50}{(46.5 - j33.6) + 50}  \\
-            \Gamma &= \frac{-3.5 - j33.6}{96.5 - j33.6} = 0,075 - j0,322  
+            \mathit{\Gamma} &= \frac{Z_L - Z_0}{Z_L + Z_0} = \frac{(46,5 - 33,6j)\,\Omega - 50\,\Omega}{(46,5 - 33,6j)\,\Omega + 50\,\Omega}  \\
+            \mathit{\Gamma} &= \frac{(-3,5 - 33,6j)\,\Omega}{(96,5 - 33,6j)\,\Omega} = 0,075 - 0,322j  
         \end{align}
         
         Stąd moduł wyrażenia:
         \begin{align}
-            |\Gamma| &= \sqrt{(0,075)^2 + (0,322)^2} = 0.331 
+            \mathit{\Gamma} &= \sqrt{(0,075)^2 + (-0,322)^2} = 0,331
         \end{align}
        
-        Na tej podstawie SWR oraz procent mocy odbitej od anteny (moc strat):
+        Na tej podstawie SWR: 
         \begin{align}
-            P_{\text{odbita}} &=  |\Gamma|^2 \cdot 100\% =  0.331^2 \cdot 100\% = 10,9\% \\
-            SWR &= \frac{1 + |\Gamma|}{1 - |\Gamma|} = \frac{1 + 0.331}{1 - 0.331} = 1.99 
+            \mathit{SWR} &= \frac{1 + |\Gamma|}{1 - |\Gamma|} = \frac{1 + 0,331}{1 - 0,331} = 1,99 
         \end{align}
 
+        Moc odbita od anteny wyraża się wzorem $\mathit{P_{\text{odbita}}} = |\Gamma|^2 \cdot 100\,\% =  0,331^2 \cdot 100\,\% = 10,9\,\%.$
+        
         W~identyczny sposób obliczono parametry dopasowania we wszystkich pozostałych trzech przypadkach. Wyniki zebrano w~tabeli poniżej:
+
         \begin{table}[H] \centering
                 \caption{Poziomy SWR, współczynnika odbicia i~procent mocy strat modułów przed i~po trymowaniu obwodu}
                 \label{tab:trymming_params}
@@ -1218,39 +1231,39 @@ etapie, mając na uwadze ilość zaistniałych problemów, zadecydowano o~koniec
             \label{fig:ch_ka_mocy}
         \end{figure}
     
-        Przyczyną był prawdopodobnie fakt przeprowadzania testów na zaszumionych obszarach miejskich oraz trzymanie urządzeń nisko nad ziemią. Przeprowadzono test w~skrajnie niekorzystnych warunkach, co oznacza
+        Przyczyną był prawdopodobnie fakt przeprowadzania testów na \textit{zaszumionych} obszarach miejskich oraz trzymanie urządzeń nisko nad ziemią. Przeprowadzono test w~skrajnie niekorzystnych warunkach, co oznacza
         że w~docelowych lokalizacjach, w~których przewiduje się eksploatację urządzeń, zasięg może być istotnie większy.
 
-\clearpage\chapter{Wnioski}
-\noindent 
-    Przeprowadzone testy potwierdziły, że urządzenie spełnia założenia techniczne przyjęte na początkowym etapie pracy. Efekt można zobaczyć na rys. \ref{fig:final} i~\ref{fig:bazowa_oon}.
-    Bezprzewodowy czujnik do kontroli poziomu w~zbiornikach asenizacyjnych został zrealizowany w~dwóch rewizjach. Urządzenia w~ramach pierwszej rewizji nie komunikowały się 
-    ze sobą, prawdopodobnie z~powodu efektów pasożytniczych w~torze radiowym. Oprócz tego wystąpiły tam inne problemy, a~najpoważniejszym było to, że nie przewidziano kluczowania zasilania w~module sensora,
-    który powinien być maksymalnie energooszczędny, co w~efekcie mogło doprowadzić do drastycznego skrócenia czasu życia na baterii, sprawiając, że urządzenie nie spełniałoby podstawowych założeń.
+% \clearpage\chapter{Wnioski}
+% \noindent 
+%     Przeprowadzone testy potwierdziły, że urządzenie spełnia założenia techniczne przyjęte na początkowym etapie pracy. Efekt można zobaczyć na rys. \ref{fig:final} i~\ref{fig:bazowa_oon}.
+%     Bezprzewodowy czujnik do kontroli poziomu w~zbiornikach asenizacyjnych został zrealizowany w~dwóch rewizjach. Urządzenia w~ramach pierwszej rewizji nie komunikowały się 
+%     ze sobą, prawdopodobnie z~powodu efektów pasożytniczych w~torze radiowym. Oprócz tego wystąpiły tam inne problemy, a~najpoważniejszym było to, że nie przewidziano kluczowania zasilania w~module sensora,
+%     który powinien być maksymalnie energooszczędny, co w~efekcie mogło doprowadzić do drastycznego skrócenia czasu życia na baterii, sprawiając, że urządzenie nie spełniałoby podstawowych założeń.
     
-    Kolejna rewizja została lepiej przemyślana -- postawiono na sprawdzone rozwiązanie. Tor radiowy zaprojektowano wzorując się na przykładzie układu referencyjnego od STMicroelectronics.
-    Zrezygnowano też z~dwóch bardzo podobnych układów na rzecz jednego, który z~powodzeniem mógłby realizować funkcję zarówno stacji bazowej, jak i~modułu pomiarowego w~zależności od tego, czy 
-    założony zostałby ekran LCD, czy czujnik poziomu cieczy. Przy drugim podejściu skupiono się na minimalizacji popełnianych błędów i~rozwiązaniu problemów rewizji pierwszej, co zaowocowało działającym urządzeniem.
+%     Kolejna rewizja została lepiej przemyślana -- postawiono na sprawdzone rozwiązanie. Tor radiowy zaprojektowano wzorując się na przykładzie układu referencyjnego od STMicroelectronics.
+%     Zrezygnowano też z~dwóch bardzo podobnych układów na rzecz jednego, który z~powodzeniem mógłby realizować funkcję zarówno stacji bazowej, jak i~modułu pomiarowego w~zależności od tego, czy 
+%     założony zostałby ekran LCD, czy czujnik poziomu cieczy. Przy drugim podejściu skupiono się na minimalizacji popełnianych błędów i~rozwiązaniu problemów rewizji pierwszej, co zaowocowało działającym urządzeniem.
     
-    Wnioski płynące z~realizacji pracy są następujące:
-    \begin{enumerate}
-        \item Należy poszukiwać sprawdzonych rozwiązań, ponieważ skraca to czas potrzebny na realizację projektu i~ryzyko na popełnienie błędów.
-        \item Nie należy przyspieszać ani pomijać etapu sprawdzania projektu, gdyż jest on równie ważny jak etap projektowania -- w~przeciwnym razie cała praca może pójść na marne.
-        \item Na etapie obmyślania koncepcji urządzenia trzeba myśleć również o~tym, jak dane urządzenie będzie testowane.
-    \end{enumerate}
-    Realizacja tego projektu podkreśla znaczenie starannego planowania oraz przemyślanego podejścia do~procesu projektowego. Pierwsza rewizja stanowi przykład, jak pośpiech i~brak dokładnej analizy
-    mogą prowadzić do niepowodzenia, natomiast druga pokazuje, że wdrażanie sprawdzonych rozwiązań oraz uwzględnianie doświadczeń z~wcześniejszych etapów pozwala osiągnąć zamierzony, pozytywny efekt.
+%     Wnioski płynące z~realizacji pracy są następujące:
+%     \begin{enumerate}
+%         \item Należy poszukiwać sprawdzonych rozwiązań, ponieważ skraca to czas potrzebny na realizację projektu i~ryzyko na popełnienie błędów.
+%         \item Nie należy przyspieszać ani pomijać etapu sprawdzania projektu, gdyż jest on równie ważny jak etap projektowania -- w~przeciwnym razie cała praca może pójść na marne.
+%         \item Na etapie obmyślania koncepcji urządzenia trzeba myśleć również o~tym, jak dane urządzenie będzie testowane.
+%     \end{enumerate}
+%     Realizacja tego projektu podkreśla znaczenie starannego planowania oraz przemyślanego podejścia do~procesu projektowego. Pierwsza rewizja stanowi przykład, jak pośpiech i~brak dokładnej analizy
+%     mogą prowadzić do niepowodzenia, natomiast druga pokazuje, że wdrażanie sprawdzonych rozwiązań oraz uwzględnianie doświadczeń z~wcześniejszych etapów pozwala osiągnąć zamierzony, pozytywny efekt.
 
 
 
-    \begin{figure}[H]
-        \centering \includegraphics[width=0.8\textwidth]{final.JPG}
-        \caption{Złożone stacja bazowa i~moduł pomiarowy}
-        \label{fig:final}
-    \end{figure}
+%     \begin{figure}[H]
+%         \centering \includegraphics[width=0.8\textwidth]{final.JPG}
+%         \caption{Złożone stacja bazowa i~moduł pomiarowy}
+%         \label{fig:final}
+%     \end{figure}
 
-       \begin{figure}[H]
-        \centering \includegraphics[width=0.8\textwidth]{bazowa_oon.JPG}
-        \caption{Stacja bazowa z~wyświetlaną grafiką}
-        \label{fig:bazowa_oon}
-    \end{figure}
+%        \begin{figure}[H]
+%         \centering \includegraphics[width=0.8\textwidth]{bazowa_oon.JPG}
+%         \caption{Stacja bazowa z~wyświetlaną grafiką}
+%         \label{fig:bazowa_oon}
+%     \end{figure}
