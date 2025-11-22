@@ -1120,57 +1120,7 @@ etapie, mając na uwadze ilość zaistniałych problemów, zadecydowano o~koniec
         \end{figure}
 
 \clearpage\chapter{Testy}
-    \section{Testy elektryczne}
-        \noindent W~celu sprawdzenia, czy urządzenie po jego zmontowaniu działa poprawnie, zdecydowano się zmierzyć najważniejsze napięcia i~pobór prądu. Na początku zasilono moduł pomiarowy oraz
-        stację bazową i~sprawdzono czy napięcia w~węzłach pokrywają się z~założonymi. W~tabeli \ref{tab:measured_voltages} znajdują się wyniki, które świadczą o~poprawnym działaniu stopnia
-        zasilającego oraz o~braku zwarć. Dalej upewniono się, że komunikacja bezprzewodowa również działa. Napisano kod obsługujący następujące elementy: czujnik poziomu, moduł radiowy, wyświetlacz LCD,
-        brzęczyk, a~także wysterowano w~odpowiedni sposób przełączniki RF. W~przypadku czujnika upewniono się, że w~czasie bezczynności zużywa możlwie mało energii, więc wymuszono
-        wejście w~tryb ograniczonego zużycia energii. Po pomyślnym skomunikowaniu obu modułów zmierzono prądy pobierane ze źródeł zasilania. 
-
-        \begin{table}[H] \centering
-                    \caption{Zmierzone napięcia i~prądy}
-                    \label{tab:measured_voltages}
-                    \begin{tabular}{r c c}
-                        \hline\hline 
-                        \multicolumn{1}{r}{\textbf{Punkt}}&\multicolumn{1}{c}{\textbf{Napięcie nominalne [V]}}&\multicolumn{1}{c}{\textbf{Napięcie zmierzone [V]}} \\\hline
-                                            \textbf{VIN}               &               -                              &    4,92                           \\  
-                                            \textbf{+3V3D}             &               3,3                            &    3,21                           \\ 
-                                            \textbf{VDDRF1V55}         &               1,55                           &    1,53                           \\  \hline
-                        \multicolumn{1}{r}{\textbf{Urządzenie}}&\multicolumn{2}{c}{\textbf{Średni pobierany prąd [mA]}}                                   \\\hline 
-                        \multicolumn{1}{r}{\textbf{moduł pomiarowy -- transmisja}} & \multicolumn{2}{c}{  21,08}   \\ 
-                        \multicolumn{1}{r}{\textbf{moduł pomiarowy -- uśpienie}}   & \multicolumn{2}{c}{  0,060 }   \\ 
-                        \multicolumn{1}{r}{\textbf{stacja bazowa -- odbiór}}       & \multicolumn{2}{c}{  68,95 }   \\ 
-                        \multicolumn{1}{r}{\textbf{stacja bazowa}}                 & \multicolumn{2}{c}{  62,80 }   \\ 
-                        \hline\hline
-                    \end{tabular}
-            \end{table}
-
-        Na podstawie pomiarów stwierdzono, że pobór prądu pokrywa się z~dokumentacją mikrokontrolera \cite[77--93]{ST_DS13105}. Następnym krokiem było oszacowanie czasu pracy modułu pomiarowego na baterii.
-        Przyjęto pewien reżim pracy modułu pomiarowego -- to, jak często dokonuje pomiarów. Z~obliczeń, które znajdują się pod spodem wynika, że czas pracy na baterii przewyższa założone pięć lat. Założenia:
-            \begin{itemize}
-                \item pojemność baterii: $C$ (3 $\times$ 1500 mAh);
-                \item 24 pomiary na dobę;
-                \item średni prąd w~trybie uśpienia: $I_\text{sen} = 60,0 ~\mu\text{A}$;
-                \item średni prąd w~trakcie transmisji: $I_\text{tr} = 21,08 \text{ mA}$;
-                \item czas trwania pomiaru i~trasmisji: $T_\text{tr} = 2 \text{ s}$.
-            \end{itemize}
-
-            Stąd średni pobierany prąd $I_{\text{śr}}$ oraz czas ciągłej pracy wyrażony w~latach $n$:
-            \begin{align}
-                \label{eq:life_expectancy_2}
-                I_{\text{śr}}      &= \frac{I_\text{sen} \cdot T_\text{sen} + I_\text{tr} \cdot T_\text{tr}}{24} = \frac{0,06 \text{ mA} \cdot 23,987\text{ h} + 21,08 \text { mA} \cdot 0,0133\text{ h}}{24} = 0,072 \text{ mA}  \\
-                n~                 &= \frac{C}{I_{\text{śr}}} = \frac{4500 \text{ mAh}}{0,072 \text{ mA}} = 62781,0 \text{ godzin} \approx 7,7 \text{ lat} 
-            \end{align}
-
-        Na zakończenie testów elektrycznych postanowiono jeszcze sprawdzić stan zewnętrznego generatora TCXO. Na oscylogramie poniżej widoczny jest sygnał wyprowadzenia MCO mikrokontrolera o~spodziewanej
-        częstotliwości 32 MHz. Kształt powinien odpowiadać przyciętemu sygnałowi sinusoidalnemu (ang. \textit{clipped sine wave}), ale ze względu na pojemność sondy oscyloskopowej, uległ zniekształceniu. Amplituda
-        odpowiada wartościom katalogowym.
-        \begin{figure}[H]
-            \centering \includegraphics[width=0.85\textwidth]{mco.png}
-            \caption{Przebieg sygnału zegarowego na wyjściu MCO}
-            \label{fig:mco}
-        \end{figure}
-
+ 
     \section{Testy komunikacji bezprzewodowej}
     \noindent Początkowo, bez żadnej optymalizacji, zasięg komunikacji bezprzewodowej wynosił około 10 metrów. Pierwszym krokiem było zbadanie dopasowania nowego toru radiowego do anteny.
     Zły poziom dopasowania obu układów poprawiono do akceptowalnego poziomu oraz upewniono się, że radia są skonfigurowane pod kątem maksymalnego zasięgu komunikacji.
