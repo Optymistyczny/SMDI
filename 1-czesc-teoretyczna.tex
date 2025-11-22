@@ -120,216 +120,23 @@
             może negatywnie wpłynąć na dokładność wskazania poziomierza wagowego. Ponadto, zastosowanie pływaka wymaga stworzenia dodatkowej infrastruktury -- mechanizmu z~liną oraz 
             systemu przekształcającego przemieszczenie ciężarka połączonego z~pływakiem na sygnał elektryczny.
 
-        \section{Poziomierze ciśnieniowe} 
-            \noindent\textbf{Poziomierz hydrostatyczny} to typ, w~którym wysokość słupa cieczy obliczana jest na podstawie ciśnienia panującego w~zbiorniku. W~najprostszym przypadku na dnie zbiornika znajduje się
-            króciec pomiarowy 1 (rys.~\ref{fig:poz_ciśnieniowe}) z~czujnikiem ciśnienia albo zastosowana jest sonda, przesyłająca sygnał do układu przetwarzania poza zbiornikiem. Na podstawie jego wskazań oraz znajomości
-            ciśnienia atmosferycznego i~gęstości badanej cieczy możliwe jest obliczenie wysokości zgodnie ze wzorem:
-            \begin{align}
-                P~& = P_{at} + \rho \cdot g~\cdot h~
-            \end{align}
-            gdzie:
-            \begin{itemize}
-                \item $P$ -- całkowite ciśnienie,
-                \item $P_{at}$ -- ciśnienie zewnętrzne wywierane na ciecz (np. atmosferyczne),
-                \item $\rho$ -- gęstość cieczy,
-                \item $g$ -- przyspieszenie ziemskie,
-                \item $h$ -- wysokość słupa cieczy.
-            \end{itemize}   
-            \begin{figure}[!htbp] 
-                \centering \includegraphics[width=0.75\textwidth]{poz_ciśnieniowe.jpg}
-                \caption{Schemat poziomierza hydrostatycznego \cite[243]{Piotrowski2017}}
-                \label{fig:poz_ciśnieniowe}
-            \end{figure}
-            W~przypadku zbiorników zamkniętych (ciśnieniowych) konieczne jest stosowanie różnicowych czujników ciśnienia, ponieważ kluczową kwestią dla dokładności pomiaru jest znajomość
-            ciśnienia gazu lub pary znajdującego się nad cieczą. W~tym wypadku króciec pomiarowy znajduje się zarówno na dnie jak i~ponad lustrem cieczy 2. Doprowadzenie ciśnienia znad cieczy do czujnika
-            odbywa się za pomocą przewodu impulsowego 3. Zaletą poziomierzy hydrostatycznych
-            jest ich dokładność, stabilność oraz odporność na zanieczyszcznia \cite{Termipol-metody}. Do wad należy zależność wskazania od gęstości cieczy oraz kontakt czujnika z~medium. Należy również
-            mieć na uwadze, że w~przypadku pomiaru różnicowego wewnątrz króćca górnego będzie się gromadził kondensat, który powinien zbierać się w~dodatkowym zbiorniku 4. 
-        
-            \textbf{Poziomierz piezometryczny} zwany jest również pneumatycznym, a~jego zasada działania polega na pomiarze ciśnienia powietrza w~rurce piezometrycznej 3 (rys. \ref{fig:piezo}), które rośnie lub maleje w~zależności
-            od ciśnienia hydrostatycznego panującego na wysokości umieszczonej w~cieczy rurki pomiarowej 1. Ciśnienie hydrostatyczne jest kompensowane przez ciśnienie powietrza wtłaczanego do rurki przez kompresor albo reduktor --
-            w~efekcie mierzona ciecz nie dostaje się do rurki piezometrycznej.
-            Istnieje również wariant dla zbiorników zamkniętych, jednak nie jest on zalecany. W~takim wypadku wykorzystywany jest różnicowy czujnik ciśnienia 4.
-            \begin{figure}[!htbp]
-                \centering \includegraphics[width=0.75\textwidth]{piezo.jpg}
-                \caption{Schemat poziomierza piezometrycznego \cite[245]{Piotrowski2017}}
-                \label{fig:piezo}
-            \end{figure}
-            Zaletą tej metody jest możliwość stosowania do cieczy agresywnych. Wady to: potrzeba ciągłego dostarczania powietrza, niebezpieczeństwo zanieczyszczenia rurki piezometrycznej,
-            występujący błąd systematyczny związany ze spadkiem ciśnienia w~rurce wskutek dużej ilości przepłwającego gazu oraz wpływ gęstości na wynik pomiaru \cite{Piotrowski2017}.
-
-    \section{Poziomierze elektryczne} 
-        \noindent\textbf{Poziomierze oporowe} występują w~różnych wariantach (rys. \ref{fig:poz_oporowe}). Pomiar polega na badaniu zmian konduktancji układu sonda 2 -- ścianka zbiornika 1 lub sonda 4 -- sonda 4.
-        W~przypadku pierwszym konduktancja ulega zmianie, ponieważ wraz ze wzrostem poziomu cieczy skraca się długość ,,rezystora'', czyli sondy oraz ścianki zbiornika. W~drugim przypadku dwie sondy (taśmy oporowe)
-        są zamknięte wewnątrz koszulki izolacyjnej 4, a~opływająca je ciecz powoduje ich zbliżenie oraz zwarcie, co przekłada się na zmianę przewodności. 
-        \begin{figure}[!htbp]
-            \centering \includegraphics[width=0.35\textwidth]{poz_oporowe.jpg}
-            \caption{Schemat poziomierza oporowego (konduktancyjnego). Od lewej: układ z~jedną sondą, układ z~dwiema sondami \cite[246]{Piotrowski2017}}
-            \label{fig:poz_oporowe}
-        \end{figure}
-        Zaletami są bardzo prosta budowa oraz niski koszt. Niestety rozwiązanie to nie sprawdza się w~przypadku cieczy o~dużej zmienności przewodności. Dodatkowo sondy mają kontakt z~medium.
-        
-        \noindent\textbf{Poziomierze pojemnościowe} działają na zasadzie zmiany pojemności układu (rys.~\ref{fig:poz_pojemnosciowe}). Wewnątrz zbiornika z~badaną cieczą znajdują się dwa elementy imitujące okładki
-        kondensatora, mogą być to kombinacje: sonda -- rura, sonda -- zbiornik, sonda -- sonda. Jedna z~,,okładek'' jest zawsze pokryta izolacją elektryczną. Zmiana pojemności układu występuje wskutek zmian 
-        przenikalności elektrycznej ośrodka pomiędzy okładkami kondensatora -- jeżeli poziom cieczy podnosi się, to pojemność kondensatora ulega zwiększeniu, ponieważ jest ona proporcjonalna do współczynnika
-        przenikalności względnej ośrodka, zgodnie ze wzorem (\ref{kondzior}) dla idealnego kondensatora płaskiego wypełnionego dielektrykiem:
-        
-
-        \begin{align}
-            \label{kondzior}
-            C~& = \frac{\varepsilon \cdot S}{d}
-        \end{align}
-        gdzie:
-        \begin{itemize}
-            \item $S$ -- powierzchnia okładek kondensatora,
-            \item $C$ -- pojemność kondensatora,
-            \item $\varepsilon$ -- względny współczynnik przenikalności elektrycznej ,
-            \item $\rho$ -- odległość okładek kondensatora.
-        \end{itemize}   
-        
-        Zaletami poziomierzy pojemnościowych są: możliwość stosowania dla cieczy (kwasy, zasady, oleje, ciecze lepkie) i~ciał stałych oraz możliwość stosowania w~agresywnych środowiskach (wysokie ciśnienia i~temperatury). 
-        Wadą są niepewność pomiaru sięgająca od 2 do 3 \% oraz dodatkowe błędy wynikające ze zmiany przenikalności dielektrycznej materiału na skutek m.in. wahań wilgotności.
-
-        \begin{figure}[!htbp] 
-            \centering \includegraphics[width=0.5\textwidth]{poz_pojemnosciowe.jpg}
-            \caption{Schemat poziomierza pojemnościowego. Od lewej: czujnik cylindryczny, strunowy \cite[248]{Piotrowski2017}}
-            \label{fig:poz_pojemnosciowe}
-        \end{figure}
-
-    \section{Poziomierze wykorzystujące fale mechaniczne} 
-        \noindent\textbf{Poziomierze akustyczne} i~\textbf{ultradźwiękowe} działają na podobnej zasadzie. Fala mechaniczna z~nadajnika wysyłana jest w~kierunku mierzonego lustra cieczy, po czym w~wyniku gwałtownej
-        zmiany gęstości ośrodka, odbija się od granicy ośrodka i~powraca do odbiornika. Różnica między jednym i~drugim rozwiązaniem polega na tym, że w~przypadku fali akustycznej zmieniana jest częstotliwość sygnału tak,
-        aby po odbiciu powstała fala stojąca, co poprawia jakość odebranego sygnału. W~przypadku czujników ultradźwiękowych mierzony jest czas powrotu fali. Zaletą czujników tego rodzaju jest brak kontaktu z~cieczą,
-        wysoka dokładność oraz szybkość. Do wad należą: wrażliwość na warunki atmosferyczne -- zmianę temperatury i~wilgotności oraz wysoki koszt \cite{Termipol-metody}. 
-        W~związku z~istnieniem systematycznego błędu związanego z~temperaturą, przewidziane zostały rozwiązania, które pozwalają go wyeliminować. Można użyć reflektora 2, który umieszczany jest w~znanej odległości od
-        sensora 1, co kompensuje zmienność prędkości fali w~funkcji temperatury. Wtedy pomiar poziomu może zostać obliczony według wzoru (\ref{ultra_a}):
-        
-        \begin{align}
-            \label{ultra_a}
-            h~& = h_0 -  \frac{c \cdot t}{2}
-        \end{align}
-        gdzie:
-        \begin{itemize}
-            \item $h$ -- wysokość słupa cieczy,
-            \item $h_0$ -- odległość czujnika i~dna zbiornika,
-            \item $c$ -- prędkość fali w~ośrodku,
-            \item $t$ -- czas od nadania do odebrania sygnału.
-        \end{itemize}   
-        W~przypadku, kiedy zastosowany zostanie element odbijający falę, wzór upraszcza się do postaci (\ref{ultra_b}):
-        \begin{align}
-            \label{ultra_b}
-            h~& = h_0 -  \frac{h_1 \cdot t}{t_1}
-        \end{align}
-        gdzie:
-        \begin{itemize}
-            \item $h$ -- wysokość słupa cieczy,
-            \item $h_0$ -- odległość czujnika i~dna zbiornika,
-            \item $h_1$ -- odległość czujnika i~reflektora,
-            \item $t$ -- czas od nadania do odebrania sygnału,
-            \item $t_1$ -- czas od nadania do odebrania sygnału przy odbiciu od reflektora.
-        \end{itemize}  
-        
-        Umieszczenie czujnika na dnie zbiornika upraszcza równanie jeszcze bardziej (\ref{ultra_c}):
-        \begin{align}
-            \label{ultra_c}
-            h~& =\frac{c \cdot t}{2} + h_2 
-        \end{align}
-        gdzie:
-        \begin{itemize}
-            \item $h$ -- wysokość słupa cieczy,
-            \item $h_2$ -- odległość czujnika od dna zbiornika,
-            \item $c$ -- prędkość fali w~ośrodku,
-            \item $t$ -- czas od nadania do odebrania sygnału.
-        \end{itemize}  
-
-        \begin{figure}[!htbp] 
-            \centering \includegraphics[width=0.7\textwidth]{poz_ultra.jpg}
-            \caption{Poziomierze ultradźwiękowe. Od lewej: czujnik nad poziomem cieczy, z~reflektorem, czujnik wewnątrz badanego medium \cite[252]{Piotrowski2017}}
-            \label{fig:poz_ultra}
-        \end{figure}
-
-        
-        \section{Poziomierze wykorzystujące fale elektromangetyczne} 
-            \noindent\textbf{Poziomierze radarowe} wykorzystujące mikrofale, podobnie jak ultradźwiękowe, mierzą czas nadejścia odbitej fali. Istnieją rozwiązania, w~których fala porusza się w~powietrzu -- poziomierze z~
-            anteną stożkową, lub takie, w~których wykorzystany jest falowód w~postaci pręta -- poziomierze z~anteną prętową \cite{Piotrowski2017}. Fala odbija się od granicy między ośrodkami różniącymi
-            się względną przenikalnością elektryczną. Ten typ czujników to tak zwane czujniki radarowe impulsowe \cite{Musz2023}. Istnieją jeszcze czujniki typu FMCW (ang. \textit{Frequency-Modulated Continuous-Wave})
-            z~modulacją częstotliwościową, gdzie różnica częstotliwości sygnału nadawanego i~odbieranego w~danym momencie jest zamieniana na informację o~odległości obiektu zgodnie ze wzorem (\ref{fmcw_eq}):
-            \begin{align}
-                \label{fmcw_eq}
-                L~& = \frac{c_{0} \cdot |\Delta  t|}{2}  =  \frac{c_0 \cdot |\Delta f|}{2 \cdot \frac{df}{dt}}
-            \end{align}
-            gdzie:
-            \begin{itemize}
-                \item $L$ -- odległość,
-                \item $c_{0}$ -- prędkość światła,
-                \item $\delta t$ -- różnica czasu między sygnałem odebranym i~nadawanym,
-                \item $f$ -- częstotliwość fali. 
-            \end{itemize}  
-            \begin{figure}[!htbp] 
-                \centering \includegraphics[width=0.7\textwidth]{fmcw_or.png}
-                \caption{Przesunięcie częstotliwości sygnału odebranego i~nadanego w~sygnale piłokształtnym \cite{Musz2023}}
-                \label{fig:fmcw}
-            \end{figure}
-            Zaletami czujników FMCW jest niemal zerowa strefa martwa pomiaru (porównywalna z~długością użytej fali) oraz bardzo wysoka dokładność pomiarów  \cite{WolffRadar}.
-            
-            \textbf{Poziomierze z~tłumieniem promieniowania} nie ogarniczają się jedynie do tłumienia promieniowania izotopowego -- może to być również fala ultradźwiękowa lub elektromagnetyczna. Tłumienie promieniowania
-            izotopowego jest wykorzystywane w~bardzo niesprzyjających warunkach -- wysokiej temperaturze, czy ciśnieniu, w~przypadku ciężkich i~lepkich ośrodków oraz różnych agresywnych środowiskach. Z~uwagi na właściwości
-            promieniowania gamma to właśnie ono jest najczęściej wykorzystywane, ponieważ przechodzi przez ścianki zbiorników \cite{Piotrowski2017}. Każdy system pomiarowy z~tłumieniem promieniowania składa się z~nadajnika
-            i~detektora.  Na ilustracji \ref{fig:gamma}. zobrazowane zostały metody ze stałym położeniem źródła promieniowania oraz w~układzie nadążnym, gdzie położenie źródła promieniowania 1 i~detektora 3 porusza się w~górę
-            w~miarę zapełniania zbiornika tak, aby moc przechodzącego promieniowania była stała, co zapewnia sprzężenie zwrotne sygnału, który trafia do przetwornika wtórnego i~regulatora 9 aż do urządzenia odczytowego pomiaru 10.
-            Oba te elementy umieszczone są na ułożyskowanych śrubach pociągowych 2, które napędzane są przez kątową przekładnię zębatą 7 i~8. 
-            Nadajnik i~detektor umocowane są na wózkach poruszających się wzdłóż śruby pociągowej. W~wózkach znajdują się gwintowane otwory. Pozbawione możliwości obrotu przez prowadnice 5 i~6 poruszają się góra -- dół. 
-            \begin{figure}[!htbp] 
-                \centering
-                \begin{subfigure}[b]{0.55\textwidth}
-                    \centering
-                    \includegraphics[width=\textwidth]{promienieowanie_1.jpg}
-                \end{subfigure}
-                \hspace{0.05\textwidth} % odstęp między podrysunkami
-                \begin{subfigure}[b]{0.35\textwidth}
-                    \centering
-                    \includegraphics[width=\textwidth]{promieniowanie_2.jpg}
-                \end{subfigure}
-                \caption{Zasada działania czujników z~tłumieniem promieniowania. Po lewej w~układzie ze stałym położeniem nadajnika. Po prawej w~układzie nadążnym}
-                \label{fig:gamma}
-            \end{figure}
-
-        \section{Inne czujniki odległości} 
-            \noindent\textbf{Czujniki triangulacyjne} opisują drugą obok czujników ToF (ang. \textit{Time of Flight}) grupę czujników. Czujniki triangulacyjne wykorzystują techniki bazujące
-            na zależnościach geometrycznych. Do tej grupy należą między innymi detektory na podczerwień PSD (rys. \ref{fig:triangulacja}) emitujące światło podczerwone, które po odbiciu od badanego obiektu pada na matrycę światłoczułą,
-            generującą fotoprąd i~w~zależności od~natężenia prądu wypływającego z~każdego z~wyjść pozwala ustalić położenie plamki na matrycy \cite{Matusiak2012}. Wykorzystanie tych czujników byłoby możliwe do określenia
-            poziomu zapełnienia zbiornika, ale wymagałoby to elementu odbijającego światło, który unosiłby się na powierzchni cieczy. W~dodatku musiałby on zawsze znajdować się w~tym samym położeniu, żeby nie stracić
-            zależności geometrycznych.
-            \begin{figure}[!htbp] 
-                \centering
-                \begin{subfigure}[b]{0.45\textwidth}
-                    \centering
-                    \includegraphics[width=\textwidth]{PSD.png}
-                \end{subfigure}
-                \hspace{0.05\textwidth} % odstęp między podrysunkami
-                \begin{subfigure}[b]{0.45\textwidth}
-                    \centering
-                    \includegraphics[width=\textwidth]{odbiciaaa.png}
-                \end{subfigure}
-                \caption{Zasada działania czujników triangulacyjnych \cite{Matusiak2012}}
-                \label{fig:triangulacja}
-            \end{figure}
+        % wywaliłem większą część z tej części nie licząc poziomierzy siłowych i wstępu
             
         \clearpage %Brzydko się łamało 
         \section{Mierniki stosowane w~zbiornikach asenizacyjnych}
             \subsection{Rejestrator poziomu Wi-Fi RU Solid IP65}
                 \noindent Czujnik firmy Termipol (rys. \ref{fig:termipol_dev}) z~siedzibą w~Lublińcu. Koszt około \textbf{800 PLN}. Specyfikacja techniczna:
-                \begin{itemize}
+                \begin{enumerate}
                     \item czujnik ultradźwiękowy z~gumowym przewodem o~długości 5 m;
                     \item zakres pomiarowy: 28 –- 750 cm;
                     \item zasilanie: akumulator PCM oraz zasilacz sieciowy 5V (w zestawie);
                     \item łączność: Wi-Fi 2,4 GHz;
                     \item zasięg komunikacji: do 150 m;
-                    \item czas pracy na baterii: do 365 dni
+                    \item czas pracy na baterii: do 365 dni;
                     \item stopień ochrony: IP65;
                     \item warunki pracy: temperatura od -25°C do 60°C, wilgotność poniżej 80\% RH;
                     \item typ pomiaru: ciągły.
-                \end{itemize}
+                \end{enumerate}
                 \begin{figure}[!htbp] 
                     \centering
                     \begin{subfigure}[b]{0.45\textwidth}
@@ -344,102 +151,6 @@
                     \caption{Czujnik poziomu Wi-Fi RU Solid IP65}
                     \label{fig:termipol_dev}
                 \end{figure}
-
-            \clearpage
-            \subsection{Novabo}
-                \noindent Czujnik firmy Novabo (rys. \ref{fig:novabo}) z~siedzibą w~Gdańsku. Koszt około \textbf{2339 PLN} (polski dystrybutor \textit{Aquatechnika Water Recycling Technology}). Specyfikacja techniczna:
-                \begin{itemize}
-                    \item typ: pływakowy lub konduktancyjny, hermetyczny;
-                    \item długość przewodu czujnika: 5 m;
-                    \item zasilanie: 230 V;
-                    \item typ pomiaru: sygnalizacja.
-                    \item certyfikacja CE.
-                \end{itemize}
-                \begin{figure}[!htbp] 
-                    \centering \includegraphics[width=0.35\textwidth]{novabo_1.jpg}
-                    \caption{Czujnik poziomu Novabo}
-                    \label{fig:novabo}
-                \end{figure}
-
-            
-            \subsection{Signax}
-                \noindent Urządzenie firmy Signax (rys. \ref{fig:signax}) z~siedzibą w~Opolu. Koszt około \textbf{335 PLN}. Specyfikacja techniczna:
-                \begin{itemize}
-                    \item czujnik zanurzeniowy konduktancyjny;
-                    \item sygnalizacja osiągnięcia określonego poziomu;
-                    \item zasięg komunikacji: do 250 m~w~terenie otwartym;
-                    \item częstotliwość pracy: 868 MHz;
-                    \item zasilanie nadajnika: 2 baterie AA,
-                    \item zasilanie odbiornika: 2 baterie AA lub opcjonalnie zasilacz sieciowy;
-                    \item wymiary: 25 $\times$  16 $\times$ 12 cm;
-                    \item waga: 1,3 kg;
-                    \item typ pomiaru: sygnalizacja.
-                \end{itemize}
-                \begin{figure}[!htbp] 
-                    \centering
-                    \begin{subfigure}[b]{0.45\textwidth}
-                        \centering
-                        \includegraphics[width=\textwidth]{signax_1.jpg}
-                    \end{subfigure}
-                    \hspace{0.05\textwidth} % odstęp między podrysunkami
-                    \begin{subfigure}[b]{0.45\textwidth}
-                        \centering
-                        \includegraphics[width=\textwidth]{signax_2.jpg}
-                    \end{subfigure}
-                    \caption{Czujnik poziomu Signax}
-                    \label{fig:signax}
-                \end{figure}
-                
-                \subsection{SZ-02}
-                    \noindent Czujnik firmy \href{https://www.mojdomek.eu/products.php}{mojdomek.eu} (rys. \ref{fig:mojdomek}) z~siedzibą w~Sadach. Koszt około \textbf{599 PLN}. Specyfikacja techniczna:
-                    \begin{itemize}
-                        \item typ czujnika: hydrostatyczny;
-                        \item zasilanie: 4 baterie AA, zapewniające do 4 lat pracy;
-                        \item temperatura pracy: Od -30°C do +50°C;
-                        \item łączność Wi-Fi;
-                        \item powiadomienia PUSH;
-                        \item aplikacja mobilna i~internetowa;
-                        \item możliwość połączenia z~firmą wywożącą nieczystości;
-                        \item typ pomiaru: ciągły.
-                    \end{itemize}
-                    \begin{figure}[!htbp] 
-                        \centering
-                        \begin{subfigure}[b]{0.45\textwidth}
-                            \centering
-                            \includegraphics[width=\textwidth]{mojdomek_1.jpg}
-                        \end{subfigure}
-                        \hspace{0.05\textwidth} % odstęp między podrysunkami
-                        \begin{subfigure}[b]{0.45\textwidth}
-                            \centering
-                            \includegraphics[width=\textwidth]{mojdomek_2.jpg}
-                        \end{subfigure}
-                        \caption{Czujnik poziomu SZ-02}
-                        \label{fig:mojdomek}
-                    \end{figure}
-                
-                \clearpage
-                \subsection{ALERT GM-S II}
-                    \noindent Czujnik firmy HPD (rys. \ref{fig:alert}) z~siedzibą w~Słupnie. Koszt około \textbf{329 PLN}. Specyfikacja techniczna:
-                    \begin{itemize}
-                        \item zasilanie: 230 V;
-                        \item typ czujnika: konduktancyjny.
-                        \item długość przewodu czujnika: > 100 m;
-                        \item typ pomiaru: sygnalizacja.
-                    \end{itemize}
-                    \begin{figure}[h!] 
-                        \centering
-                        \begin{subfigure}[b]{0.2\textwidth}
-                            \centering
-                            \includegraphics[width=\textwidth]{alert_1.png}
-                        \end{subfigure}
-                        \hspace{0.05\textwidth} % odstęp między podrysunkami
-                        \begin{subfigure}[b]{0.65\textwidth}
-                            \centering
-                            \includegraphics[width=\textwidth]{alert_2.png}
-                        \end{subfigure}
-                        \caption{Czujnik poziomu ALERT GM-S II}
-                        \label{fig:alert}
-                    \end{figure}
 
         \section{Porównanie gotowych rozwiązań} 
             \noindent Analiza dostępnych na rynku rozwiązań wykazała brak urządzeń, które spełniałyby wszystkie przyjęte na wstępie założenia. Najbardziej zaawansowany i jednocześnie oferujący bezkontaktowy pomiar
@@ -463,19 +174,6 @@
                     \hline\hline
                 \end{tabular}
             \end{table}        
-                
-        \section{Wybór rodzaju czujnika} 
-            \noindent W~przeglądzie technik pomiarowych do monitorowania poziomu cieczy przedstawiono różnorodne podejścia: od bezpośrednich, takich jak poziomierze wziernikowe czy prętowe, po metody pośrednie,
-            w~tym wykorzystujące siły wyporu, ciśnienie, właściwości elektryczne (konduktancję i pojemność), fale mechaniczne i elektromagnetyczne. W~analizie uwzględniono ich zalety i~wady. Po rozważeniu różnych
-            metod zdecydowano się na zastosowanie czujników ultradźwiękowych. Czujniki ultradźwiękowe zostały wybrane ze względu na swoje kluczowe zalety:
-            \begin{itemize}
-                \item brak kontaktu z~medium, co zapobiega problemom związanym z~degradacją i osadzaniem zanieczyszczeń;
-                \item wysoka dokładność i~szybkość działania;
-                \item szeroki zakres pomiarowy;
-                \item brak zależności od gęstości, czy przewodności badanej cieczy.
-            \end{itemize}
-            Choć ultradźwięki mogą być wrażliwe na zmiany temperatury i~wilgotności, zastosowanie kompensacji błędów, takich jak wykorzystanie wzorcowego reflektora, pozwala skutecznie poprawić ich dokładność.
-            Te cechy czynią je optymalnym wyborem dla monitorowania poziomu w~zbiornikach bezodpływowych.
 
     \clearpage\chapter{Założenia projektowe}
     \noindent Na podstawie analizy istniejących rozwiązań oraz przeglądu literatury określono szereg wymagań technicznych, jakie powinno spełniać urządzenie. Wiadomo, że będzie pracowało w~środowisku zewnętrznym,
@@ -492,4 +190,173 @@
         \item koszt: do 300 złotych.
     \end{itemize}
 
+% \section{In progess}
+% clearpage \appendix{Zestawienie elementów -- BOM}
+% \label{app:zalB}
+% \vspace{5.5cm}
+% \begin{table}[H]
+%   \centering
+%   \begin{adjustbox}{angle=90, max totalsize={\textheight}{\textwidth}}
+%     \begin{minipage}{\textwidth} % szerokość po obrocie
+%       \caption{\textcolor{red}{Przykładowe}  zestawienie elementów}
+%       \label{tab:bom_main}
+%       \begin{tabular}{c l~l l~l l~l}
+%         \hline\hline
+%         \textbf{Ilość} & \textbf{Oznaczenie} & \textbf{Part Number} &
+%         \textbf{Wartość} & \textbf{Cena [PLN]} & \textbf{Producent} & \textbf{Uwagi} \\ \hline
+%                 1  & Antena   & --- & ---  & 7,66  & ---         & Antena 868 MHz SMA \\
+%                 1             & B1                 & CMT-8503-85B-SMT-TR & ---                    & 3,72                & Same Sky                      & Brzęczyk \\
+%                 2             & C1, C2             & TMK316BJ106MLHT     & 10 $\mu$F              & 2,08                & TAIYO YUDEN                   & Kondensator MLCC \\
+%                 1             & C11                & GRT188R61E475KE13D  & 4,7 $\mu$F             & 0,68                & Murata Electronics            & Kondensator MLCC \\
+%                 1             & C13                & KGM15ACG1H100FT     & 10 pF                  & 0,68                & KYOCERA AVX                   & Kondensator MLCC \\
+%                 1             & C20                & GJM1555C1H2R8WB01D  & 2,8 pF                 & 0,64                & Murata Electronics            & Kondensator MLCC \\
+%                 2             & C21, C24           & GJM1555C1H4R5WB01D  & 3,8 pF                 & 1,28                & Murata Electronics            & Kondensator MLCC \\
+%                 1             & C22                & GJM1555C1H1R3WB01D  & 1,3 pF                 & 0,60                & Murata Electronics            & Kondensator MLCC \\
+%                 3             & C4, C5, C10        & GMK107B7104KAHT     & 100 nF                 & 1,20                & TAIYO YUDEN                   & Kondensator MLCC \\
+%                 2             & C6, C7             & C1608X5R1E475K080AC & 4,7 $\mu$F             & 1,52                & TDK                           & Kondensator MLCC \\
+%                 1             & C8                 & 885012106030        & 1 $\mu$F               & 0,40                & Wurth Elektronik              & Kondensator MLCC \\
+%                 2             & C9, C12            & C1608X5R1H103K080AA & 10 nF                  & 0,80                & TDK                           & Kondensator MLCC \\
+%                 1             & D1                 & LTST-C197KGKSKTCS2  & ---                    & 0,56                & Lite-On                       & Dioda LED \\
+%                 1             & FB1                & BLM18KN101EH1D      & 100 $\Omega$ @ 100 MHz & 0,92                & Murata Electronics            & Koralik ferrytowy \\
+%                 1             & J1, J2, J3         & G800W268018EU       & 40 pin                 & 3,11                & TE Connectivity               & Złącze szpilkowe \\
+%                 1             & J4                 & SMACONNECTOR        & ---                    & 8,73                & \makecell[l]{Amphenol\\Commercial Products}  & Złącze SMA \\
+%                 1             & L1                 & CDRH4D28NP-100NC    & 10 $\mu$H              & 3,12                & Sumida                        & Dławik mocy \\
+%         \multicolumn{4}{r}{\textbf{Suma}} & 111,68 & \multicolumn{2}{l}{} \\
+%         \hline\hline
+%       \end{tabular}
+%     \end{minipage}
+%   \end{adjustbox}
+% \end{table}
+% \begin{table}[h]
+%     \centering
+%     \begin{adjustbox}{angle=90}
+%         \begin{minipage}{\textheight} % zmieniamy na wysokość strony po obrocie
+%             \caption{Zestawienie elementów -- stacja bazowa}
+%             \label{tab:bom_main}
+%             \begin{tabular}{c l~l l~l l~l}
+%                 \hline\hline
+%                 \textbf{Ilość} & \textbf{Oznaczenie} & \textbf{Part Number} & \textbf{Wartość} & \textbf{Cena [PLN]} & \textbf{Producent} & \textbf{Uwagi} \\ \hline
+%                 1  & Antena   & ---                 & ---  & 7,66  & ---         & Antena 868 MHz SMA \\
+%                 1             & Antena             & ---                 & ---                    & 7,66                & ---                           & Antena 868 MHz SMA \\
+%                 1             & B1                 & CMT-8503-85B-SMT-TR & ---                    & 3,72                & Same Sky                      & Brzęczyk \\
+%                 2             & C1, C2             & TMK316BJ106MLHT     & 10 $\mu$F              & 2,08                & TAIYO YUDEN                   & Kondensator MLCC \\
+%                 1             & C11                & GRT188R61E475KE13D  & 4,7 $\mu$F             & 0,68                & Murata Electronics            & Kondensator MLCC \\
+%                 1             & C13                & KGM15ACG1H100FT     & 10 pF                  & 0,68                & KYOCERA AVX                   & Kondensator MLCC \\
+%                 1             & C20                & GJM1555C1H2R8WB01D  & 2,8 pF                 & 0,64                & Murata Electronics            & Kondensator MLCC \\
+%                 2             & C21, C24           & GJM1555C1H4R5WB01D  & 3,8 pF                 & 1,28                & Murata Electronics            & Kondensator MLCC \\
+%                 1             & C22                & GJM1555C1H1R3WB01D  & 1,3 pF                 & 0,60                & Murata Electronics            & Kondensator MLCC \\
+%                 3             & C4, C5, C10        & GMK107B7104KAHT     & 100 nF                 & 1,20                & TAIYO YUDEN                   & Kondensator MLCC \\
+%                 2             & C6, C7             & C1608X5R1E475K080AC & 4,7 $\mu$F             & 1,52                & TDK                           & Kondensator MLCC \\
+%                 1             & C8                 & 885012106030        & 1 $\mu$F               & 0,40                & Wurth Elektronik              & Kondensator MLCC \\
+%                 2             & C9, C12            & C1608X5R1H103K080AA & 10 nF                  & 0,80                & TDK                           & Kondensator MLCC \\
+%                 1             & D1                 & LTST-C197KGKSKTCS2  & ---                    & 0,56                & Lite-On                       & Dioda LED \\
+%                 1             & FB1                & BLM18KN101EH1D      & 100 $\Omega$ @ 100 MHz & 0,92                & Murata Electronics            & Koralik ferrytowy \\
+%                 1             & J1, J2, J3         & G800W268018EU       & 40 pin                 & 3,11                & TE Connectivity               & Złącze szpilkowe \\
+%                 1             & J4                 & SMACONNECTOR        & ---                    & 8,73                & \makecell[l]{Amphenol\\Commercial Products}  & Złącze SMA \\
+%                 1             & L1                 & CDRH4D28NP-100NC    & 10 $\mu$H              & 3,12                & Sumida                        & Dławik mocy \\
+%                 1             & L2                 & ASMPH-0603-2R2M-T   & 2,2 $\mu$H             & 1,12                & Abracon                       & Dławik mocy \\
+%                 \multicolumn{4}{r}{\textbf{Suma}} & 111,68 & \multicolumn{2}{l}{} \\
+%                 \hline\hline
+%             \end{tabular}
+%         \end{minipage}
+%     \end{adjustbox}
+% \end{table}
+
+
+%     \begin{sidewaystable}[H] % Standardowa tabela
+%         \centering
+%         \footnotesize
+%         \caption{Zestawienie elementów -- stacja bazowa}
+%         \label{tab:bom_main}
+%         \begin{tabular}{c l~l l~l l~l}
+%             \hline\hline
+%             \textbf{Ilość} & \textbf{Oznaczenie} & \textbf{Part Number} & \textbf{Wartość} & \textbf{Cena [PLN]} & \textbf{Producent} & \textbf{Uwagi} \\ \hline
+%             1             & Antena             & ---                 & ---                    & 7,66                & ---                           & Antena 868 MHz SMA \\
+%             1             & B1                 & CMT-8503-85B-SMT-TR & ---                    & 3,72                & Same Sky                      & Brzęczyk \\
+%             2             & C1, C2             & TMK316BJ106MLHT     & 10 $\mu$F              & 2,08                & TAIYO YUDEN                   & Kondensator MLCC \\
+%             1             & C11                & GRT188R61E475KE13D  & 4,7 $\mu$F             & 0,68                & Murata Electronics            & Kondensator MLCC \\
+%             1             & C13                & KGM15ACG1H100FT     & 10 pF                  & 0,68                & KYOCERA AVX                   & Kondensator MLCC \\
+%             1             & C20                & GJM1555C1H2R8WB01D  & 2,8 pF                 & 0,64                & Murata Electronics            & Kondensator MLCC \\
+%             2             & C21, C24           & GJM1555C1H4R5WB01D  & 3,8 pF                 & 1,28                & Murata Electronics            & Kondensator MLCC \\
+%             1             & C22                & GJM1555C1H1R3WB01D  & 1,3 pF                 & 0,60                & Murata Electronics            & Kondensator MLCC \\
+%             3             & C4, C5, C10        & GMK107B7104KAHT     & 100 nF                 & 1,20                & TAIYO YUDEN                   & Kondensator MLCC \\
+%             2             & C6, C7             & C1608X5R1E475K080AC & 4,7 $\mu$F             & 1,52                & TDK                           & Kondensator MLCC \\
+%             1             & C8                 & 885012106030        & 1 $\mu$F               & 0,40                & Wurth Elektronik              & Kondensator MLCC \\
+%             2             & C9, C12            & C1608X5R1H103K080AA & 10 nF                  & 0,80                & TDK                           & Kondensator MLCC \\
+%             1             & D1                 & LTST-C197KGKSKTCS2  & ---                    & 0,56                & Lite-On                       & Dioda LED \\
+%             1             & FB1                & BLM18KN101EH1D      & 100 $\Omega$ @ 100 MHz & 0,92                & Murata Electronics            & Koralik ferrytowy \\
+%             1             & J1, J2, J3         & G800W268018EU       & 40 pin                 & 3,11                & TE Connectivity               & Złącze szpilkowe \\
+%             1             & J4                 & SMACONNECTOR        & ---                    & 8,73                & \makecell[l]{Amphenol\\Commercial Products}  & Złącze SMA \\
+%             1             & L1                 & CDRH4D28NP-100NC    & 10 $\mu$H              & 3,12                & Sumida                        & Dławik mocy \\
+%             1             & L2                 & ASMPH-0603-2R2M-T   & 2,2 $\mu$H             & 1,12                & Abracon                       & Dławik mocy \\
+%             1             & L3                 & LQW15AN11NJ8ZD      & 11 nH                  & 0,76                & Murata Electronics            & Cewka indukcyjna \\
+%             1             & L4                 & LQW15AN16NG8ZD      & 16 nH                  & 0,84                & Murata Electronics            & Cewka indukcyjna \\
+%             1             & LCD                & ---                 & ---                    & 31,97               & ---                           & Wyświetlacz LCD \\ 
+%             1             & Q1                 & BSS806NEH6327XTSA1  & ---                    & 1,44                & Infineon Technologies         & Tranzystor MOSFET \\
+%             1             & R10                & CRCW0603220RFKEC    & 220 $\Omega$           & 0,40                & Vishay                        & Rezystor \\
+%             1             & R12                & ERJ-2RKF1000X       & 100 $\Omega$           & 0,40                & Panasonic                     & Rezystor \\
+%             8             &\makecell[l]{R3, R4, R14, R15,\\R16, R17, R18, R19}&CRCW040210R0FKEDHP& 10 $\Omega$      & 3,62                          & Vishay    & Rezystor \\
+%             2             & R5, R11            & RMC10-472JTH        & 4,7 k$\Omega$          & 0,80                & Kayama                        & Rezystor \\
+%             7             &\makecell[l]{R6, R13,R7, R22,\\R23, R24, R25}& ERJ-2GE0R00X        & 0 $\Omega$          & 2,80                          & Panasonic& Rezystor \\
+%             2             & R8, R9             & ERJ-2RKF2740X       & 274 $\Omega$           & 0,80                & Panasonic                     & Rezystor \\
+%             1             & TCXO               & ECS-TXO-20CSMV4-320-AY-TR & 32 MHz           & 6,58                & ECS                           & TCXO \\
+%             1             & U1                 & TPS62026DGQR        & ---                    & 3,27                & Texas Instruments             & Przetwornica Step-Down \\
+%             1             & U2                 & STM32WLE5C8U6       & ---                    & 19,18               & STMicroelectronis             & Mikrokontroler \\ \hline
+%             \multicolumn{4}{r}{\textbf{Suma}}                                                 & 111,68              & \multicolumn{2}{l}{} \\
+%             \hline\hline
+%         \end{tabular}
+%     \end{sidewaystable}
+%   !(na koniec należy sprawdzić BOM i~zmienić w~nim np. kondensatory -- po trymowaniu).
+
+%     \begin{sidewaystable}[t] % Standardowa tabela
+%         \centering
+%         \caption{Zestawienie elementów -- moduł pomiarowy}
+%         \label{tab:bom_sensor}
+%         \begin{tabular}{c l~l l~l l~l}
+%             \hline\hline
+%             \textbf{Ilość} & \textbf{Oznaczenie} & \textbf{Part Number} & \textbf{Wartość} & \textbf{Cena [PLN]} & \textbf{Producent} & \textbf{Uwagi} \\ \hline
+%             1              & Antena              & ---                  & ---              & 7,66                & ---                & Antena 868 MHz SMA \\
+%             3              & C1, C2, C7          & 885012106030         & 1 $\mu$F         & 1,2                 & Wurth Elektronik   & Kondensatory MLCC \\
+%             1              & C10                 & C1608X5R1H103K080AA  & 10 nF            & 0,4                 & TDK                & Kondensator MLCC \\
+%             1              & C11                 & GRT188R61E475KE13D   & 4,7 $\mu$F       & 0,679               & Murata Electronics & Kondensator MLCC \\
+%             1              & C13                 & KGM15ACG1H100FT      & 10 pF            & 0,679               & KYOCERA AVX        & Kondensator MLCC \\
+%             1              & C20                 & GRM155R71E473JA88D   & 47 nF            & 0,4                 & Murata Electronics & Kondensator MLCC \\
+%             1              & C21                 & GRM0225C1H680GA02L   & 68 pF            & 0,4                 & Murata Electronics & Kondensator MLCC \\
+%             1              & C22                 & GJM1555C1H5R5CB01D   & 5,5 pF           & 0,4                 & Murata Electronics & Kondensator MLCC \\
+%             1              & C23                 & GJM1555C1H2R3WB01D   & 2,3 pF           & 0,60                & Murata Electronics & Kondensator MLCC \\
+%             2              & C2, C25             & GJM1555C1H3R5BB01D   & 3,5 pF           & 0,8                 & Murata Electronics & Kondensator MLCC \\
+%             3              & C3, C4, C9          & GMK107B7104KAHT      & 100 nF           & 1,2                 & TAIYO YUDEN        & Kondensatory MLCC \\
+%             2              & C5, C6              & C1608X5R1E475K080AC  & 4,7 $\mu$F       & 1,52                & TDK                & Kondensatory MLCC \\
+%             1              & C8                  & C1608X5R1H103K080AA  & 10 nF            & 0,4                 & TDK                & Kondensator MLCC \\
+%             1              & D1                  & LTST-C197KGKSKTCS2   & ---              & 0,56                & Lite-On            & Dioda LED \\
+%             1              & FB1                 & BLM18KN101EH1D       & ---              & 0,92                & Murata Electronics & Koralik ferrytowy \\
+%             1              & J1, J2, J3\textsuperscript{a}& G800W268018EU & ---            & 0                   & ---                & Złącze szpilkowe \\
+%             1              & J6                  & SMACONNECTOR         & ---              & 8,73                & LPRS               & Złącze SMA \\
+%             1              & L1                  & ASMPH-0603-2R2M-T    & 2,2 $\mu$H       & 1,12                & Abracon            & Dławik mocy \\
+%             1              & L2                  & LQW15AN4N7B8ZD       & 4,7 nH           & 0,84                & Murata Electronics & Kondensator MLCC \\
+%             1              & L3                  & LQW15AN4N5B8ZD       & 4,5 nH           & 0,52                & Murata Electronics & Cewka indukcyjna \\
+%             1              & L4                  & LQW15AN3N6B80D       & 3,6 nH           & 0,76                & Murata Electronics & Cewka indukcyjna \\
+%             1              & L5                  & LQW15AN9N2G00D       & 9,2 nH           & 0,60                & Murata Electronics & Cewka indukcyjna \\
+%             1              & L7                  & LQW15AN47NG80D       & 47 nH            & 0,80                & Murata Electronics & Cewka indukcyjna \\
+%             1              & R1                  & CR0603-FX-1653ELF    & 165 k$\Omega$    & 0,40                & Bourns             & Rezystor \\
+%             2              & R15, R16            & ERJ-2RKF2740X        & 274 $\Omega$     & 0,80                & Panasonic          & Rezystor \\
+%             1              & R2                  & CR0603-FX-2942ELF    & 29,4 k$\Omega$   & 0,40                & Bourns             & Rezystor \\
+%             6              & \makecell[l]{R3, R4, R13, R14,\\ R22, R23} & ERJ-2GE0R00X     & 0 $\Omega$& 2,00    & Panasonic          & Rezystor \\
+%             3              & R5, R6, R12         & RMC10-472JTH         & 4,7 k$\Omega$    & 1,20                & Kayama             & Rezystor \\
+%             4              & R7, R8, R10, R11    & RMC1/16SK10R0DTH     & 10 $\Omega$      & 1,60                & Vishay             & Rezystor \\ 
+%             1              & R9                  & CRCW0603220RFKEC     & 220 $\Omega$     & 0,40                & Vishay             & Rezystor \\
+%             1              & TCXO                & ECS-TXO-20CSMV4-320-AY-TR & 32 MHz      & 6,58                & ECS                & TCXO \\
+%             1              & U1                  & STM32WLE5C8U6        & ---              & 19,18               & STMicroelectronix  & Mikrokontroler \\
+%             1              & U2                  & ADP123AUJZ-R7        & ---              & 8,30                & Analog Devices     & Regulator napięcia \\ 72,05+
+%             1              & Sensor              & A02YYUW              & ---              & 109,00              & DF Robot           & Sensor odległości \\ \hline
+%             \multicolumn{4}{r}{\textbf{Suma}}                                              & 181,05              & \multicolumn{2}{l}{} \\
+%             \hline\hline
+%         \end{tabular}
+%         \begin{minipage}{\textwidth}
+%             \footnotesize
+%             \raggedright
+%             \vspace{0.2cm}
+%             \hspace{3cm}\textsuperscript{a} Złącze szpilkowe znajduje się w~BOM stacji bazowej w~tabeli \ref{tab:bom_main}.
+%         \end{minipage}
+%     \end{sidewaystable}
 

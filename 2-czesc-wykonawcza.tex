@@ -30,47 +30,47 @@ który nie jest częścią tej pracy.
 \noindent W~tej sekcji omówiono dobór kluczowych komponentów obu urządzeń, takich jak: czujnik ultradźwiękowy, mikrokontrolery z~modułem radiowym, oscylatory oraz anteny. 
 Pozostałe elementy zostały opisane przy okazji tworzenia schematów elektrycznych.
 
-\section{Czujnik ultradźwiękowy}
-\noindent Obecnie na rynku można wyróżnić dwie cenowe grupy sensorów ultradźwiękowych. Pierwsza z~nich to grupa przemysłowych czujników, których koszt jest często wyższy niż 1000 złotych, dlatego 
-czujniki te nie były brane pod uwagę ze względu na wymaganą niską cenę końcową urządzenia. Przykładowi producenci czujników w~klasie przemysłowej:
-\begin{itemize}
-    \item \href{https://www.pepperl-fuchs.com/poland/pl/classid_186.htm}{Pepperl+Fuchs},
-    \item \href{https://www.ifm.com/pl/pl/category/200_010_050_001#/best/1/100}{Ifm Electronic},
-    \item \href{https://www.balluff.com/en-de/products/areas/A0001/groups/G0104}{Balluff},
-    \item \href{https://www.turck.de/en/productgroup/Sensors/Ultrasonic%20Sensors}{Turck},
-    \item \href{https://czujniki.com.pl/produkty/1-czujniki-detekcja-i-pomiar/czujniki-ultradzwiekowe,2,147}{Sels}.
-\end{itemize}
+% \section{Czujnik ultradźwiękowy}
+% \noindent Obecnie na rynku można wyróżnić dwie cenowe grupy sensorów ultradźwiękowych. Pierwsza z~nich to grupa przemysłowych czujników, których koszt jest często wyższy niż 1000 złotych, dlatego 
+% czujniki te nie były brane pod uwagę ze względu na wymaganą niską cenę końcową urządzenia. Przykładowi producenci czujników w~klasie przemysłowej:
+% \begin{itemize}
+%     \item \href{https://www.pepperl-fuchs.com/poland/pl/classid_186.htm}{Pepperl+Fuchs},
+%     \item \href{https://www.ifm.com/pl/pl/category/200_010_050_001#/best/1/100}{Ifm Electronic},
+%     \item \href{https://www.balluff.com/en-de/products/areas/A0001/groups/G0104}{Balluff},
+%     \item \href{https://www.turck.de/en/productgroup/Sensors/Ultrasonic%20Sensors}{Turck},
+%     \item \href{https://czujniki.com.pl/produkty/1-czujniki-detekcja-i-pomiar/czujniki-ultradzwiekowe,2,147}{Sels}.
+% \end{itemize}
 
-Druga grupa to sensory pochodzące od mało znanych producentów, najczęściej z~Chin. Znaleziono jednego renomowanego producenta z~USA -- Maxbotix, który posiada certyfikowane
-sensory ultradźwiękowe, dobrą dokumentację techniczną, a~także modele CAD. Sensory można zakupić za mniej niż 200 złotych.
-Niestety, tańsze modele nie są wodoodporne ani wodoszczelne, więc nie mogą zostać wykorzystane w~środowisku zewnętrznym.
+% Druga grupa to sensory pochodzące od mało znanych producentów, najczęściej z~Chin. Znaleziono jednego renomowanego producenta z~USA -- Maxbotix, który posiada certyfikowane
+% sensory ultradźwiękowe, dobrą dokumentację techniczną, a~także modele CAD. Sensory można zakupić za mniej niż 200 złotych.
+% Niestety, tańsze modele nie są wodoodporne ani wodoszczelne, więc nie mogą zostać wykorzystane w~środowisku zewnętrznym.
 
-Wśród amatorów--hobbystów elektroniki i~systemów wbudowanych najbardziej znanym i~najpowszechnieszym czujnikiem jest HC-SR04. Jego cechami charakterystycznymi są:
-\begin{itemize}
-    \item napięcie zasilania: 5 V,
-    \item średni pobór prądu": 15 mA,
-    \item zakres pomiarowy: od 2 cm do 200 cm,
-    \item wymiary: 40$\times$20$\times$15 mm,
-    \item kąt pomiaru: 15$^\circ$,
-    \item wyjście: impuls czasowy.
-\end{itemize}
-Powstało wiele klonów na bazie tego czujnika. Oferują inne zakresy pomiarowe, posiadają wyjścia cyfrowe, są dostosowane do poziomów napięć 3,3 V. Koszt tych czujników mieści się w~zakresie od 5 
-do~20 złotych. Czujniki tego typu, choć tanie, również nie są wodoodporne, dlatego nie zostały wybrane. 
+% Wśród amatorów--hobbystów elektroniki i~systemów wbudowanych najbardziej znanym i~najpowszechnieszym czujnikiem jest HC-SR04. Jego cechami charakterystycznymi są:
+% \begin{itemize}
+%     \item napięcie zasilania: 5 V,
+%     \item średni pobór prądu": 15 mA,
+%     \item zakres pomiarowy: od 2 cm do 200 cm,
+%     \item wymiary: 40$\times$20$\times$15 mm,
+%     \item kąt pomiaru: 15$^\circ$,
+%     \item wyjście: impuls czasowy.
+% \end{itemize}
+% Powstało wiele klonów na bazie tego czujnika. Oferują inne zakresy pomiarowe, posiadają wyjścia cyfrowe, są dostosowane do poziomów napięć 3,3 V. Koszt tych czujników mieści się w~zakresie od 5 
+% do~20 złotych. Czujniki tego typu, choć tanie, również nie są wodoodporne, dlatego nie zostały wybrane. 
 
-Ostatecznie zdecydowano się na czujnik \textbf{A02YYUW (SEN0311)} producenta DFRobot -- chińskiego dostawcy sprzętu typu \textit{open--source}. Spełnia on wszystkie postawione
-wymagania -- jest tani i~wodoodporny, ma niewielki średni pobór prądu, więc jest energooszczędny oraz pokrywa wymagany zakres pomiarowy. Jego specyfikacja została przedstawiona poniżej: 
-\begin{itemize}
-    \item koszt: około 100 złotych;
-    \item rozdzielczość: 1 cm;
-    \item napięcie zasilania: od 3,3 V do 5 V;
-    \item średni pobór prądu: 8 mA;
-    \item zakres pomiarowy: od 3 cm do 450 cm;
-    \item kąt pomiaru: 60$^\circ$;
-    \item temperatura pracy: od -15$^\circ$C do 60$^\circ$C;
-    \item wymiary: 63$\times$84$\times$18,5 mm;
-    \item wyjście: UART,
-    \item klasa szczelności: IP67.
-\end{itemize}
+% Ostatecznie zdecydowano się na czujnik \textbf{A02YYUW (SEN0311)} producenta DFRobot -- chińskiego dostawcy sprzętu typu \textit{open--source}. Spełnia on wszystkie postawione
+% wymagania -- jest tani i~wodoodporny, ma niewielki średni pobór prądu, więc jest energooszczędny oraz pokrywa wymagany zakres pomiarowy. Jego specyfikacja została przedstawiona poniżej: 
+% \begin{itemize}
+%     \item koszt: około 100 złotych;
+%     \item rozdzielczość: 1 cm;
+%     \item napięcie zasilania: od 3,3 V do 5 V;
+%     \item średni pobór prądu: 8 mA;
+%     \item zakres pomiarowy: od 3 cm do 450 cm;
+%     \item kąt pomiaru: 60$^\circ$;
+%     \item temperatura pracy: od -15$^\circ$C do 60$^\circ$C;
+%     \item wymiary: 63$\times$84$\times$18,5 mm;
+%     \item wyjście: UART,
+%     \item klasa szczelności: IP67.
+% \end{itemize}
 
 \section{Mikrokontrolery}
 \label{czesc_wykonawcza:wybor_mikrokontrolera}
@@ -134,29 +134,29 @@ Ma jeden rdzeń Cortex M4 oraz najmniejszą ilość pamięci z~dostępnych możl
 Dodatkową zaletą jest to, że w~ramach serii WLE5 w~tej samej obudowie znajdują się jeszcze dwa układy, które posiadają kolejno 128 KB/48 KB i~256 KB/64 KB pamięci flash i~RAM,
 co może być przydatne w~przypadku zwiększonego zapotrzebowania pamięci w~przyszłości. Seria WL55 została odrzucona, ponieważ posiada tylko jedną wersję pamięciową.
  
-\section{Oscylatory}
-\noindent Zgodnie z~notą aplikacyjną \cite{ST_AN5646} moduł radiowy wymaga do swojego działania oscylatora kwarcowego 32 MHz o~odpowiedniej dokładności (rys. \ref{fig:ppm_vs_bw}), od której 
-zależy to w~jakim paśmie BW (ang. \textit{bandwidth}) może być modulowany sygnał, co wpływa na szybkość przesyłu informacji, pobór energii oraz zasięg transmisji.
-\begin{figure}[!h]
-    \centering \includegraphics[width=1\textwidth]{ppm_vs_bw.png}
-    \caption{Minimalna dokładność oscylatora w~ppm w~stosunku do wykorzystanego pasma modulacji}
-    \label{fig:ppm_vs_bw}
-\end{figure}
-Żeby móc wykorzystać potencjał komunikacji LoRa, zdecydowano się zapewnić możliwość pracy w~bardzo wąskich pasmach modulacji w~celu wydłużenia zasięgu transmisji.
-Dlatego wybrano oscylator kompensowany temperaturowo \textit{TCXO} (ang. \textit{Temperature Compensated Cristal Oscillator}). Układ został wykorzystany w~obu 
-urządzeniach, czyli w~stacji bazowej i~module pomiarowym, ponieważ zarówno odbiornik i~nadajnik muszą spełniać wymagania co do dokładności oscylacji. Teoretycznie
-można użyć standardowych oscylatorów kwarcowych, jednak producent zaleca w~takich przypadkach większą ostrożność przy projektowaniu PCB -- użycie barier termicznych
-oraz odpowiednich pojemności szeregowych, jednak należy wtedy przeprowadzić badania dryftu częstotliwości dla skrajnych temperatur pracy układu zgodnie z\cite{ST_AN5646}. 
+% \section{Oscylatory}
+% \noindent Zgodnie z~notą aplikacyjną \cite{ST_AN5646} moduł radiowy wymaga do swojego działania oscylatora kwarcowego 32 MHz o~odpowiedniej dokładności (rys. \ref{fig:ppm_vs_bw}), od której 
+% zależy to w~jakim paśmie BW (ang. \textit{bandwidth}) może być modulowany sygnał, co wpływa na szybkość przesyłu informacji, pobór energii oraz zasięg transmisji.
+% \begin{figure}[!h]
+%     \centering \includegraphics[width=1\textwidth]{ppm_vs_bw.png}
+%     \caption{Minimalna dokładność oscylatora w~ppm w~stosunku do wykorzystanego pasma modulacji}
+%     \label{fig:ppm_vs_bw}
+% \end{figure}
+% Żeby móc wykorzystać potencjał komunikacji LoRa, zdecydowano się zapewnić możliwość pracy w~bardzo wąskich pasmach modulacji w~celu wydłużenia zasięgu transmisji.
+% Dlatego wybrano oscylator kompensowany temperaturowo \textit{TCXO} (ang. \textit{Temperature Compensated Cristal Oscillator}). Układ został wykorzystany w~obu 
+% urządzeniach, czyli w~stacji bazowej i~module pomiarowym, ponieważ zarówno odbiornik i~nadajnik muszą spełniać wymagania co do dokładności oscylacji. Teoretycznie
+% można użyć standardowych oscylatorów kwarcowych, jednak producent zaleca w~takich przypadkach większą ostrożność przy projektowaniu PCB -- użycie barier termicznych
+% oraz odpowiednich pojemności szeregowych, jednak należy wtedy przeprowadzić badania dryftu częstotliwości dla skrajnych temperatur pracy układu zgodnie z\cite{ST_AN5646}. 
 
-\href{https://www.mouser.pl/ProductDetail/ECS/ECS-TXO-20CSMV4-320-AY-TR?qs=Jm2GQyTW%2FbhklRtAEeJs7A%3D%3D&srsltid=AfmBOooeSpJQeVHP5OJGR43soBQrlJaRoepbbev2RtHKFU5CmzG-BHa4}{ECS-TXO-20CSMV4-320-AY-TR} 
-o dokładności $\pm$ 1 ppm. Specyfikacja:
-\begin{itemize}
-    \item wyjście: \textit{clipped sine wave} od 0,8 V;
-    \item zasilanie: od 1,7 V do 3,6 V;
-    \item pobór prądu: 2 mA;
-    \item obciążenie wyjścia: 10 k$\Omega$ // 10 pF;
-    \item czas startu: 2 s.
-\end{itemize}
+% \href{https://www.mouser.pl/ProductDetail/ECS/ECS-TXO-20CSMV4-320-AY-TR?qs=Jm2GQyTW%2FbhklRtAEeJs7A%3D%3D&srsltid=AfmBOooeSpJQeVHP5OJGR43soBQrlJaRoepbbev2RtHKFU5CmzG-BHa4}{ECS-TXO-20CSMV4-320-AY-TR} 
+% o dokładności $\pm$ 1 ppm. Specyfikacja:
+% \begin{itemize}
+%     \item wyjście: \textit{clipped sine wave} od 0,8 V;
+%     \item zasilanie: od 1,7 V do 3,6 V;
+%     \item pobór prądu: 2 mA;
+%     \item obciążenie wyjścia: 10 k$\Omega$ // 10 pF;
+%     \item czas startu: 2 s.
+% \end{itemize}
 
 % W~tabeli \ref{tab:zasieg_lora}. znajduje się porównanie wykorzystanego pasma i~zasięgu. Wartości pochodzą z~internetowego kalkulatora  producenta Semtech dla układu SX1272.
 % Do obliczeń zostały przyjęte następujące najważniejsze parametry komunikacji:
@@ -181,35 +181,35 @@ o dokładności $\pm$ 1 ppm. Specyfikacja:
 %     \end{tabular}
 % \end{table}
 
-\section{Anteny}
-\noindent Z~uwagi na wybór interfejsu LoRa należało dobrać odpowiednią antenę. LoRa pracuje w~paśmie częstotliwości nielicencjonowanych ISM (ang. \textit{Industrial, Scientific, Medical}). 
-\href{https://pl.farnell.com/podstawy-lorawan}{W Europie jest to konkretnie częstotliwość 868 MHz}. Zdecydowano się na anteny dedykowane dla systemów LoRa z~popularnym złączem
-SMA (ang. \textit{Sub Miniature version A}), takie same dla obu urządzeń. 
-\href{https://kamami.pl/anteny-i-akcesoria/1185255-lpwa-antenna-2dbi-gain-lora-antenna-options-for-frequency-version-5906623423774.html}
-{Specyfikacja dobranej anteny od Waveshare (P/N 1185255)}:
-\begin{itemize}
-    \item częstotliwość pracy: od 833 do 903 MHz;
-    \item zysk energetyczny: 2 dBi;
-    \item złącze: wtyk męski SMA;
-    \item polaryzacja: pionowa;
-    \item typ anteny: wielokierunkowa;
-    \item impedancja: 50 $\Omega$;
-    \item SWR < 2,0;
-    \item długość 110 mm.
-\end{itemize}
+% \section{Anteny}
+% \noindent Z~uwagi na wybór interfejsu LoRa należało dobrać odpowiednią antenę. LoRa pracuje w~paśmie częstotliwości nielicencjonowanych ISM (ang. \textit{Industrial, Scientific, Medical}). 
+% \href{https://pl.farnell.com/podstawy-lorawan}{W Europie jest to konkretnie częstotliwość 868 MHz}. Zdecydowano się na anteny dedykowane dla systemów LoRa z~popularnym złączem
+% SMA (ang. \textit{Sub Miniature version A}), takie same dla obu urządzeń. 
+% \href{https://kamami.pl/anteny-i-akcesoria/1185255-lpwa-antenna-2dbi-gain-lora-antenna-options-for-frequency-version-5906623423774.html}
+% {Specyfikacja dobranej anteny od Waveshare (P/N 1185255)}:
+% \begin{itemize}
+%     \item częstotliwość pracy: od 833 do 903 MHz;
+%     \item zysk energetyczny: 2 dBi;
+%     \item złącze: wtyk męski SMA;
+%     \item polaryzacja: pionowa;
+%     \item typ anteny: wielokierunkowa;
+%     \item impedancja: 50 $\Omega$;
+%     \item SWR < 2,0;
+%     \item długość 110 mm.
+% \end{itemize}
 
-\section{Wyświetlacz}
-\noindent W~przypadku wyświetlacza istotne były: jego cena, rozmiar, wbudowany kontroler oraz dostępność zewnętrznych bibliotek. Zdecydowano się na tani wyświetlacz dotykowy TFT 
-(ang. \textit{thin-field transistor}) LCD, sprowadzany z~Chin od nieznanego producenta. Specyfikacja:
-\begin{itemize}
-    \item matryca: TFT 2,4";
-    \item rozdzielczość: 320$\cdot$240 pikseli;
-    \item głębia kolorów: 16 bitów;
-    \item kontroler: ILI9341;
-    \item interfejs: SPI;
-    \item zasilanie: 3,3 V;
-    \item slot na kartę SD;
-\end{itemize}
+% \section{Wyświetlacz}
+% \noindent W~przypadku wyświetlacza istotne były: jego cena, rozmiar, wbudowany kontroler oraz dostępność zewnętrznych bibliotek. Zdecydowano się na tani wyświetlacz dotykowy TFT 
+% (ang. \textit{thin-field transistor}) LCD, sprowadzany z~Chin od nieznanego producenta. Specyfikacja:
+% \begin{itemize}
+%     \item matryca: TFT 2,4";
+%     \item rozdzielczość: 320$\cdot$240 pikseli;
+%     \item głębia kolorów: 16 bitów;
+%     \item kontroler: ILI9341;
+%     \item interfejs: SPI;
+%     \item zasilanie: 3,3 V;
+%     \item slot na kartę SD;
+% \end{itemize}
 
 \clearpage\chapter{Schematy elektrycze, obwody drukowane, obliczenia i~symulacje}
 
