@@ -1,0 +1,495 @@
+\clearpage\chapter*{Wprowadzenie}
+\phantomsection\addcontentsline{toc}{chapter}{Wprowadzenie}
+    \noindent Rozwój Internetu Rzeczy (IoT) jest jednym z~głównych filarów Czwartej Rewolucji Przemysłowej. Z~tego powodu inteligentne urządzenia elektroniczne zyskują coraz
+    większą popularność, stopniowo dominując rynek konsumencki. Powstaje coraz więcej rozwiązań, których celem jest oszczędzanie czasu oraz
+    ułatwianie użytkownikom codziennych czynności. Są to przykładowo obsługiwane zdalnie, z~poziomu telefonu, czujniki temperatury, inteligentne programatory świateł
+    lub gniazdek, czy systemy zdalnej kontroli wizualnej. 
+    Rozwiązania niektórych problemów pozostawiają wciąż szerokie możliwości poprawy. Jednym z~nich jest monitorowanie poziomu zapełnienia przydomowego zbiornika asenizacyjnego.
+    Na terenach, do których nie została doprowadzona sieć kanalizacyjna, powszechne jest instalowanie podziemnych, bezodpływowych
+    zbiorników na ścieki. Rozwiązanie to stawia przed użytkownikiem szereg dylematów, począwszy od dobrania odpowiedniego umiejscowienia, poprzez kontrolowanie
+    szczelności pojemnika i~stopnia jego zapełnienia, aż do zaplanowania wywozu nieczystości. Następstwa związane z~użytkowaniem nieszczelnego lub przepełnionego
+    szamba są wielopoziomowe: bakteriologiczne, toksykologiczne i~prawne. Konsekwencje natury prawnej wiążą się z~karami pieniężnymi, w~kwotach nawet do 500
+    złotych. W~świetle obecnie rosnącego znaczenia ekologii, warto również zwrócić uwagę na problem, jakim jest przedostanie się do gruntu materiałów
+    zakaźnych, takich jak wirusy, bakterie i~pasożyty oraz toksycznych związków chemicznych. Zatrucie agresywną chemią może być trwałe i~utrzymywać 
+    się latami. Konsekwencje są tym groźniejsze, im bliżej uszkodzonego zbiornika znajdują się cieki wodne czy studnie.
+
+    Analiza rynku konsumenckiego wykazała, że dostępne są gotowe rozwiązania opisanego problemu monitorowania poziomu zapełnienia przydomowego szamba.
+    Tradycyjne podejścia najczęściej opierają się na rozwiązaniach takich jak pływaki mechaniczne czy czujniki zanurzeniowe, 
+    i~są obarczone szeregiem ograniczeń. Wspomniane urządzenia pomiarowe wymagają ciągłego kontaktu z~medium w~agresywnym środowisku, co prowadzi do ich stopniowego
+    zużycia i~potencjalnych awarii, a~tym samym kosztownych dla użytkownika częstych przeglądów technicznych i~wymian. Problem z~tradycyjnymi metodami pojawia się
+    również podczas regularnego opróżniania zbiornika, kiedy konieczne jest wcześniejsze wyjęcie czujnika lub zastosowanie specjalnych środków ostrożności w~celu
+    jego ochrony.
+    Wprowadzenie bardziej zaawansowanych, bezkontaktowych metod pomiaru pozwoliłoby na poprawę komfortu użytkowników oraz na uproszczenie monitorowania przydomowego
+    szamba.W~wielu branżach coraz częściej stawia się na bezprzewodowe i~energooszczędne urządzenia elektroniczne. Stosowanie
+    takich rozwiązań pozwala nie tylko na automatyzację procesu, ale również na integrację systemów z~innymi urządzeniami w~ramach Internetu Rzeczy (IoT -- ang.\ \textit{Internet of Things}).
+    Przegląd dostępnych rozwiązań pozwolił wysnuć wniosek, że większość istniejących urządzeń do pomiaru poziomu zapełnienia zbiornika asenizacyjnego, choć skuteczna,
+    nie spełnia wszystkich wymagań gospodarstw domowych. Wady, jakimi są obarczone, to najczęściej wysokie zużycie energii lub konieczność zasilania sieciowego, co
+    znacząco ogranicza miejsca, gdzie możemy je zastosować.
+
+    Celem niniejszej pracy jest opracowanie energooszczędnego, bezprzewodowego urządzenia badającego poziom zapełnienia przydomowego zbiornika asenizacyjnego.
+    Proponowane rozwiązanie wykorzystuje technologię ultradźwiękową, która, jak pokazano w~następnym rozdziale pracy, gwarantuje wysoką dokładność, bez konieczności kontaktu 
+    czujnika z~medium, jakim są ścieki kanalizacyjne. Wykorzystanie zasilania bateryjnego umożliwia stosowanie urządzenia w~każdym miejscu, bez potrzeby stałego 
+    podłączenia do sieci elektrycznej. Ważnym aspektem projektu jest również modularność, czyli możliwość dostosowania
+    urządzenia do potrzeb użytkownika poprzez zastosowanie innego rodzaju czujników poziomu. Dzięki modularności możliwa jest także łatwa wymiana poszczególnych
+    elementów systemu, co pozytywnie wpływa na obniżenie kosztów serwisowania urządzenia i~wydłużenie jego żywotności. Projekt zakłada poszukiwanie równowagi między jakością a~ceną.
+    Niniejsza praca ma na celu nie tylko do opracowania funkcjonalnego
+    urządzenia, ale też do wykazania, że wbrew temu co sugerują dostępne na rynku urządzenia, możliwe jest połączenie takich cech jak energooszczędność,
+    przystępna cena, niezawodność oraz modularność w~jednym. Tym sposobem powstanie system, który nie tylko ułatwi obsługę szamb, ale także
+    wpisze się w~globalny trend automatyzacji, optymalizacji procesów monitorowania środowiska oraz rozwoju Internetu Rzeczy.
+
+\cleardoublepage
+\part{Analiza stanu wiedzy i dobór narzędzi}
+\clearpage\chapter{Przegląd technik pomiarowych i istniejących rozwiązań}
+    \noindent Metody pomiaru poziomu cieczy można podzielić między innymi na  bezpośrednie i~pośrednie \cite{Piotrowski2017}.
+    Metody bezpośrednie wymagają obecności osoby, która może odczytać wartość pomiaru --  odczyt jest wzrokowy. Metody pośrednie wykorzystują najczęściej jakieś urządzenie
+    lub wielkość fizyczną, za~pomocą których pośrednio można zmierzyć poziom cieczy. 
+    
+    Poziomierze do pomiaru \textbf{bezpośredniego}:
+    \begin{itemize}
+        \item wziernikowe,
+        \item prętowe,
+        \item sondujące:
+        \begin{itemize}
+            \item strunowe,
+            \item taśmowe.
+        \end{itemize}
+    \end{itemize}
+
+    Poziomierze do pomiaru \textbf{pośredniego}:
+    \begin{itemize}
+        \item siłowe:
+            \begin{itemize}
+                \item pływakowe,
+                \item wyporowe,
+                \item wagowe,
+            \end{itemize}
+        \item ciśnieniowe:
+            \begin{itemize}
+                \item hydrostatyczne,
+                \item piezometryczne,
+            \end{itemize}
+        \item elektryczne:
+            \begin{itemize}
+                \item oporowe,
+                \item pojemnościowe,
+            \end{itemize}
+        \item wykorzystujące fale mechaniczne:
+            \begin{itemize}
+                \item akustyczne,
+                \item ultradźwiękowe,
+            \end{itemize}
+        \item wykorzystujące fale elektromagnetyczne:
+            \begin{itemize}
+                \item radarowe,
+                \item optyczne,
+                \item jądrowe.
+            \end{itemize}
+    \end{itemize}
+
+    W~ramach niniejszej pracy zdecydowano się wykorzystać metody pozwalające na autonomiczne działanie urządzenia. W~związku z~tym metody bezpośrednie w~dalszej części przeglądu
+    literaturowego zostaną pominięte. 
+        \section{Poziomierze siłowe} 
+            \noindent\textbf{Poziomierz pływakowy} opiera swoje działanie na unoszącym się na powierzchni 
+            elemencie -- pływaku, którego ruch, na przykład poprzez linę, przekłada się na przemieszczenie ciężarka lub innego przedmiotu będącego poza zbiornikiem, co pozwala uzyskać informację o~szukanym
+            poziomie cieczy --~zgodnie ze schematem na rys. \ref{fig:poz_pływak}. Do ich zalet należą: prosta budowa, bardzo duże zakresy pomiarowe (do 40 metrów) i~dokładność \cite{Piotrowski2017}. Do wad należy kontakt pływaka
+            z~badanym medium, co może doprowadzić z~czasem do jego degradacji. 
+            \begin{figure}[!htbp]
+                \centering \includegraphics[width=0.35\textwidth]{poz_pływak.jpg}
+                \caption{Schemat poziomierza pływakowego \cite[241]{Piotrowski2017}}
+                \label{fig:poz_pływak}
+            \end{figure}
+
+            \textbf{Poziomierz wyporowy} jest odmianą opisanego wcześniej poziomierza pływakowego. W~tym wariancie na pływak 1 (rys. \ref{fig:poz_wypor}),
+            działa pewna siła wyporu związana z~zanurzeniem, która jest następnie przekazywana za pomocą dźwigni 5 lub sprężyny 2~do czujnika 4 (na przykład tensometrycznego)
+            i~przeliczna na szukaną wielkość -- poziom cieczy. Podstawa sprężyny zamocowana jest w~miejscu 3. Zaletą takiego podejścia jest dokładność. Wadą jest fakt, że wskazanie zależy od
+            gęstości cieczy \cite{Piotrowski2017}. 
+            \begin{figure}[!htbp]
+                \centering \includegraphics[width=0.6\textwidth]{poz_wypor.jpg}
+                \caption{Schemat poziomierza wyporowego \cite[242]{Piotrowski2017}}
+                \label{fig:poz_wypor}
+            \end{figure}
+
+            \textbf{Poziomierz wagowy} jest koncepcyjnie naprostszym rozwiązaniem, ponieważ opiera się na pomiarze masy. Urządzenia te bazują na tensometrach i~przekształcają przyłożoną
+            siłę w~postaci ciężaru ciała w~sygnał elektryczny. Zaletami są wysoka dokładność, szeroki zakres pomiarowy, długowieczność oraz niska wrażliwość na zmiany temperatur \cite{Futek}.
+            W~kontekście pomiarów zbiornika bezodpływowego zamontowanego pod ziemią istnieje jedna krytyczna wada czujników tensometrycznych -- problemy z~instalacją. Zbiornik na 
+            odpady musi zostać umieszczony na platformie wagowej lub innej strukturze, która umożliwi pomiar ciężaru tylko zbiornika wraz z~zawartością. 
+            
+            Opisane wyżej poziomierze siłowe nie nadają się do monitorowania poziomu wypełnienia w~zbiornikach bezodpływowych. Wynika to z~faktu, że zawartość zbiornika nie jest jednorodna
+            -- nie ma jednakowej gęstości, która wpływa między innymi na siłę wyporu nurnika, więc wskazania mogą być zniekształcone.
+            Dodatkowo, na dnie szamba z~czasem gromadzą się ciężkie zanieczyszczenia -- kamień moczowy oraz osad denny, które są trudne do wypompowania \cite{eko-natural}. Ich obecność
+            może negatywnie wpłynąć na dokładność wskazania poziomierza wagowego. Ponadto, zastosowanie pływaka wymaga stworzenia dodatkowej infrastruktury -- mechanizmu z~liną oraz 
+            systemu przekształcającego przemieszczenie ciężarka połączonego z~pływakiem na sygnał elektryczny.
+
+        \section{Poziomierze ciśnieniowe} 
+            \noindent\textbf{Poziomierz hydrostatyczny} to typ, w~którym wysokość słupa cieczy obliczana jest na podstawie ciśnienia panującego w~zbiorniku. W~najprostszym przypadku na dnie zbiornika znajduje się
+            króciec pomiarowy 1 (rys.~\ref{fig:poz_ciśnieniowe}) z~czujnikiem ciśnienia albo zastosowana jest sonda, przesyłająca sygnał do układu przetwarzania poza zbiornikiem. Na podstawie jego wskazań oraz znajomości
+            ciśnienia atmosferycznego i~gęstości badanej cieczy możliwe jest obliczenie wysokości zgodnie ze wzorem:
+            \begin{align}
+                P~& = P_{at} + \rho \cdot g~\cdot h~
+            \end{align}
+            gdzie:
+            \begin{itemize}
+                \item $P$ -- całkowite ciśnienie,
+                \item $P_{at}$ -- ciśnienie zewnętrzne wywierane na ciecz (np. atmosferyczne),
+                \item $\rho$ -- gęstość cieczy,
+                \item $g$ -- przyspieszenie ziemskie,
+                \item $h$ -- wysokość słupa cieczy.
+            \end{itemize}   
+            \begin{figure}[!htbp] 
+                \centering \includegraphics[width=0.75\textwidth]{poz_ciśnieniowe.jpg}
+                \caption{Schemat poziomierza hydrostatycznego \cite[243]{Piotrowski2017}}
+                \label{fig:poz_ciśnieniowe}
+            \end{figure}
+            W~przypadku zbiorników zamkniętych (ciśnieniowych) konieczne jest stosowanie różnicowych czujników ciśnienia, ponieważ kluczową kwestią dla dokładności pomiaru jest znajomość
+            ciśnienia gazu lub pary znajdującego się nad cieczą. W~tym wypadku króciec pomiarowy znajduje się zarówno na dnie jak i~ponad lustrem cieczy 2. Doprowadzenie ciśnienia znad cieczy do czujnika
+            odbywa się za pomocą przewodu impulsowego 3. Zaletą poziomierzy hydrostatycznych
+            jest ich dokładność, stabilność oraz odporność na zanieczyszcznia \cite{Termipol-metody}. Do wad należy zależność wskazania od gęstości cieczy oraz kontakt czujnika z~medium. Należy również
+            mieć na uwadze, że w~przypadku pomiaru różnicowego wewnątrz króćca górnego będzie się gromadził kondensat, który powinien zbierać się w~dodatkowym zbiorniku 4. 
+        
+            \textbf{Poziomierz piezometryczny} zwany jest również pneumatycznym, a~jego zasada działania polega na pomiarze ciśnienia powietrza w~rurce piezometrycznej 3 (rys. \ref{fig:piezo}), które rośnie lub maleje w~zależności
+            od ciśnienia hydrostatycznego panującego na wysokości umieszczonej w~cieczy rurki pomiarowej 1. Ciśnienie hydrostatyczne jest kompensowane przez ciśnienie powietrza wtłaczanego do rurki przez kompresor albo reduktor --
+            w~efekcie mierzona ciecz nie dostaje się do rurki piezometrycznej.
+            Istnieje również wariant dla zbiorników zamkniętych, jednak nie jest on zalecany. W~takim wypadku wykorzystywany jest różnicowy czujnik ciśnienia 4.
+            \begin{figure}[!htbp]
+                \centering \includegraphics[width=0.75\textwidth]{piezo.jpg}
+                \caption{Schemat poziomierza piezometrycznego \cite[245]{Piotrowski2017}}
+                \label{fig:piezo}
+            \end{figure}
+            Zaletą tej metody jest możliwość stosowania do cieczy agresywnych. Wady to: potrzeba ciągłego dostarczania powietrza, niebezpieczeństwo zanieczyszczenia rurki piezometrycznej,
+            występujący błąd systematyczny związany ze spadkiem ciśnienia w~rurce wskutek dużej ilości przepłwającego gazu oraz wpływ gęstości na wynik pomiaru \cite{Piotrowski2017}.
+
+    \section{Poziomierze elektryczne} 
+        \noindent\textbf{Poziomierze oporowe} występują w~różnych wariantach (rys. \ref{fig:poz_oporowe}). Pomiar polega na badaniu zmian konduktancji układu sonda 2 -- ścianka zbiornika 1 lub sonda 4 -- sonda 4.
+        W~przypadku pierwszym konduktancja ulega zmianie, ponieważ wraz ze wzrostem poziomu cieczy skraca się długość ,,rezystora'', czyli sondy oraz ścianki zbiornika. W~drugim przypadku dwie sondy (taśmy oporowe)
+        są zamknięte wewnątrz koszulki izolacyjnej 4, a~opływająca je ciecz powoduje ich zbliżenie oraz zwarcie, co przekłada się na zmianę przewodności. 
+        \begin{figure}[!htbp]
+            \centering \includegraphics[width=0.35\textwidth]{poz_oporowe.jpg}
+            \caption{Schemat poziomierza oporowego (konduktancyjnego). Od lewej: układ z~jedną sondą, układ z~dwiema sondami \cite[246]{Piotrowski2017}}
+            \label{fig:poz_oporowe}
+        \end{figure}
+        Zaletami są bardzo prosta budowa oraz niski koszt. Niestety rozwiązanie to nie sprawdza się w~przypadku cieczy o~dużej zmienności przewodności. Dodatkowo sondy mają kontakt z~medium.
+        
+        \noindent\textbf{Poziomierze pojemnościowe} działają na zasadzie zmiany pojemności układu (rys.~\ref{fig:poz_pojemnosciowe}). Wewnątrz zbiornika z~badaną cieczą znajdują się dwa elementy imitujące okładki
+        kondensatora, mogą być to kombinacje: sonda -- rura, sonda -- zbiornik, sonda -- sonda. Jedna z~,,okładek'' jest zawsze pokryta izolacją elektryczną. Zmiana pojemności układu występuje wskutek zmian 
+        przenikalności elektrycznej ośrodka pomiędzy okładkami kondensatora -- jeżeli poziom cieczy podnosi się, to pojemność kondensatora ulega zwiększeniu, ponieważ jest ona proporcjonalna do współczynnika
+        przenikalności względnej ośrodka, zgodnie ze wzorem (\ref{kondzior}) dla idealnego kondensatora płaskiego wypełnionego dielektrykiem:
+        
+
+        \begin{align}
+            \label{kondzior}
+            C~& = \frac{\varepsilon \cdot S}{d}
+        \end{align}
+        gdzie:
+        \begin{itemize}
+            \item $S$ -- powierzchnia okładek kondensatora,
+            \item $C$ -- pojemność kondensatora,
+            \item $\varepsilon$ -- względny współczynnik przenikalności elektrycznej ,
+            \item $\rho$ -- odległość okładek kondensatora.
+        \end{itemize}   
+        
+        Zaletami poziomierzy pojemnościowych są: możliwość stosowania dla cieczy (kwasy, zasady, oleje, ciecze lepkie) i~ciał stałych oraz możliwość stosowania w~agresywnych środowiskach (wysokie ciśnienia i~temperatury). 
+        Wadą są niepewność pomiaru sięgająca od 2 do 3 \% oraz dodatkowe błędy wynikające ze zmiany przenikalności dielektrycznej materiału na skutek m.in. wahań wilgotności.
+
+        \begin{figure}[!htbp] 
+            \centering \includegraphics[width=0.5\textwidth]{poz_pojemnosciowe.jpg}
+            \caption{Schemat poziomierza pojemnościowego. Od lewej: czujnik cylindryczny, strunowy \cite[248]{Piotrowski2017}}
+            \label{fig:poz_pojemnosciowe}
+        \end{figure}
+
+    \section{Poziomierze wykorzystujące fale mechaniczne} 
+        \noindent\textbf{Poziomierze akustyczne} i~\textbf{ultradźwiękowe} działają na podobnej zasadzie. Fala mechaniczna z~nadajnika wysyłana jest w~kierunku mierzonego lustra cieczy, po czym w~wyniku gwałtownej
+        zmiany gęstości ośrodka, odbija się od granicy ośrodka i~powraca do odbiornika. Różnica między jednym i~drugim rozwiązaniem polega na tym, że w~przypadku fali akustycznej zmieniana jest częstotliwość sygnału tak,
+        aby po odbiciu powstała fala stojąca, co poprawia jakość odebranego sygnału. W~przypadku czujników ultradźwiękowych mierzony jest czas powrotu fali. Zaletą czujników tego rodzaju jest brak kontaktu z~cieczą,
+        wysoka dokładność oraz szybkość. Do wad należą: wrażliwość na warunki atmosferyczne -- zmianę temperatury i~wilgotności oraz wysoki koszt \cite{Termipol-metody}. 
+        W~związku z~istnieniem systematycznego błędu związanego z~temperaturą, przewidziane zostały rozwiązania, które pozwalają go wyeliminować. Można użyć reflektora 2, który umieszczany jest w~znanej odległości od
+        sensora 1, co kompensuje zmienność prędkości fali w~funkcji temperatury. Wtedy pomiar poziomu może zostać obliczony według wzoru (\ref{ultra_a}):
+        
+        \begin{align}
+            \label{ultra_a}
+            h~& = h_0 -  \frac{c \cdot t}{2}
+        \end{align}
+        gdzie:
+        \begin{itemize}
+            \item $h$ -- wysokość słupa cieczy,
+            \item $h_0$ -- odległość czujnika i~dna zbiornika,
+            \item $c$ -- prędkość fali w~ośrodku,
+            \item $t$ -- czas od nadania do odebrania sygnału.
+        \end{itemize}   
+        W~przypadku, kiedy zastosowany zostanie element odbijający falę, wzór upraszcza się do postaci (\ref{ultra_b}):
+        \begin{align}
+            \label{ultra_b}
+            h~& = h_0 -  \frac{h_1 \cdot t}{t_1}
+        \end{align}
+        gdzie:
+        \begin{itemize}
+            \item $h$ -- wysokość słupa cieczy,
+            \item $h_0$ -- odległość czujnika i~dna zbiornika,
+            \item $h_1$ -- odległość czujnika i~reflektora,
+            \item $t$ -- czas od nadania do odebrania sygnału,
+            \item $t_1$ -- czas od nadania do odebrania sygnału przy odbiciu od reflektora.
+        \end{itemize}  
+        
+        Umieszczenie czujnika na dnie zbiornika upraszcza równanie jeszcze bardziej (\ref{ultra_c}):
+        \begin{align}
+            \label{ultra_c}
+            h~& =\frac{c \cdot t}{2} + h_2 
+        \end{align}
+        gdzie:
+        \begin{itemize}
+            \item $h$ -- wysokość słupa cieczy,
+            \item $h_2$ -- odległość czujnika od dna zbiornika,
+            \item $c$ -- prędkość fali w~ośrodku,
+            \item $t$ -- czas od nadania do odebrania sygnału.
+        \end{itemize}  
+
+        \begin{figure}[!htbp] 
+            \centering \includegraphics[width=0.7\textwidth]{poz_ultra.jpg}
+            \caption{Poziomierze ultradźwiękowe. Od lewej: czujnik nad poziomem cieczy, z~reflektorem, czujnik wewnątrz badanego medium \cite[252]{Piotrowski2017}}
+            \label{fig:poz_ultra}
+        \end{figure}
+
+        
+        \section{Poziomierze wykorzystujące fale elektromangetyczne} 
+            \noindent\textbf{Poziomierze radarowe} wykorzystujące mikrofale, podobnie jak ultradźwiękowe, mierzą czas nadejścia odbitej fali. Istnieją rozwiązania, w~których fala porusza się w~powietrzu -- poziomierze z~
+            anteną stożkową, lub takie, w~których wykorzystany jest falowód w~postaci pręta -- poziomierze z~anteną prętową \cite{Piotrowski2017}. Fala odbija się od granicy między ośrodkami różniącymi
+            się względną przenikalnością elektryczną. Ten typ czujników to tak zwane czujniki radarowe impulsowe \cite{Musz2023}. Istnieją jeszcze czujniki typu FMCW (ang. \textit{Frequency-Modulated Continuous-Wave})
+            z~modulacją częstotliwościową, gdzie różnica częstotliwości sygnału nadawanego i~odbieranego w~danym momencie jest zamieniana na informację o~odległości obiektu zgodnie ze wzorem (\ref{fmcw_eq}):
+            \begin{align}
+                \label{fmcw_eq}
+                L~& = \frac{c_{0} \cdot |\Delta  t|}{2}  =  \frac{c_0 \cdot |\Delta f|}{2 \cdot \frac{df}{dt}}
+            \end{align}
+            gdzie:
+            \begin{itemize}
+                \item $L$ -- odległość,
+                \item $c_{0}$ -- prędkość światła,
+                \item $\delta t$ -- różnica czasu między sygnałem odebranym i~nadawanym,
+                \item $f$ -- częstotliwość fali. 
+            \end{itemize}  
+            \begin{figure}[!htbp] 
+                \centering \includegraphics[width=0.7\textwidth]{fmcw_or.png}
+                \caption{Przesunięcie częstotliwości sygnału odebranego i~nadanego w~sygnale piłokształtnym \cite{Musz2023}}
+                \label{fig:fmcw}
+            \end{figure}
+            Zaletami czujników FMCW jest niemal zerowa strefa martwa pomiaru (porównywalna z~długością użytej fali) oraz bardzo wysoka dokładność pomiarów  \cite{WolffRadar}.
+            
+            \textbf{Poziomierze z~tłumieniem promieniowania} nie ogarniczają się jedynie do tłumienia promieniowania izotopowego -- może to być również fala ultradźwiękowa lub elektromagnetyczna. Tłumienie promieniowania
+            izotopowego jest wykorzystywane w~bardzo niesprzyjających warunkach -- wysokiej temperaturze, czy ciśnieniu, w~przypadku ciężkich i~lepkich ośrodków oraz różnych agresywnych środowiskach. Z~uwagi na właściwości
+            promieniowania gamma to właśnie ono jest najczęściej wykorzystywane, ponieważ przechodzi przez ścianki zbiorników \cite{Piotrowski2017}. Każdy system pomiarowy z~tłumieniem promieniowania składa się z~nadajnika
+            i~detektora.  Na ilustracji \ref{fig:gamma}. zobrazowane zostały metody ze stałym położeniem źródła promieniowania oraz w~układzie nadążnym, gdzie położenie źródła promieniowania 1 i~detektora 3 porusza się w~górę
+            w~miarę zapełniania zbiornika tak, aby moc przechodzącego promieniowania była stała, co zapewnia sprzężenie zwrotne sygnału, który trafia do przetwornika wtórnego i~regulatora 9 aż do urządzenia odczytowego pomiaru 10.
+            Oba te elementy umieszczone są na ułożyskowanych śrubach pociągowych 2, które napędzane są przez kątową przekładnię zębatą 7 i~8. 
+            Nadajnik i~detektor umocowane są na wózkach poruszających się wzdłóż śruby pociągowej. W~wózkach znajdują się gwintowane otwory. Pozbawione możliwości obrotu przez prowadnice 5 i~6 poruszają się góra -- dół. 
+            \begin{figure}[!htbp] 
+                \centering
+                \begin{subfigure}[b]{0.55\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{promienieowanie_1.jpg}
+                \end{subfigure}
+                \hspace{0.05\textwidth} % odstęp między podrysunkami
+                \begin{subfigure}[b]{0.35\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{promieniowanie_2.jpg}
+                \end{subfigure}
+                \caption{Zasada działania czujników z~tłumieniem promieniowania. Po lewej w~układzie ze stałym położeniem nadajnika. Po prawej w~układzie nadążnym}
+                \label{fig:gamma}
+            \end{figure}
+
+        \section{Inne czujniki odległości} 
+            \noindent\textbf{Czujniki triangulacyjne} opisują drugą obok czujników ToF (ang. \textit{Time of Flight}) grupę czujników. Czujniki triangulacyjne wykorzystują techniki bazujące
+            na zależnościach geometrycznych. Do tej grupy należą między innymi detektory na podczerwień PSD (rys. \ref{fig:triangulacja}) emitujące światło podczerwone, które po odbiciu od badanego obiektu pada na matrycę światłoczułą,
+            generującą fotoprąd i~w~zależności od~natężenia prądu wypływającego z~każdego z~wyjść pozwala ustalić położenie plamki na matrycy \cite{Matusiak2012}. Wykorzystanie tych czujników byłoby możliwe do określenia
+            poziomu zapełnienia zbiornika, ale wymagałoby to elementu odbijającego światło, który unosiłby się na powierzchni cieczy. W~dodatku musiałby on zawsze znajdować się w~tym samym położeniu, żeby nie stracić
+            zależności geometrycznych.
+            \begin{figure}[!htbp] 
+                \centering
+                \begin{subfigure}[b]{0.45\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{PSD.png}
+                \end{subfigure}
+                \hspace{0.05\textwidth} % odstęp między podrysunkami
+                \begin{subfigure}[b]{0.45\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{odbiciaaa.png}
+                \end{subfigure}
+                \caption{Zasada działania czujników triangulacyjnych \cite{Matusiak2012}}
+                \label{fig:triangulacja}
+            \end{figure}
+            
+        \clearpage %Brzydko się łamało 
+        \section{Mierniki stosowane w~zbiornikach asenizacyjnych}
+            \subsection{Rejestrator poziomu Wi-Fi RU Solid IP65}
+                \noindent Czujnik firmy Termipol (rys. \ref{fig:termipol_dev}) z~siedzibą w~Lublińcu. Koszt około \textbf{800 PLN}. Specyfikacja techniczna:
+                \begin{itemize}
+                    \item czujnik ultradźwiękowy z~gumowym przewodem o~długości 5 m;
+                    \item zakres pomiarowy: 28 –- 750 cm;
+                    \item zasilanie: akumulator PCM oraz zasilacz sieciowy 5V (w zestawie);
+                    \item łączność: Wi-Fi 2,4 GHz;
+                    \item zasięg komunikacji: do 150 m;
+                    \item czas pracy na baterii: do 365 dni
+                    \item stopień ochrony: IP65;
+                    \item warunki pracy: temperatura od -25°C do 60°C, wilgotność poniżej 80\% RH;
+                    \item typ pomiaru: ciągły.
+                \end{itemize}
+                \begin{figure}[!htbp] 
+                    \centering
+                    \begin{subfigure}[b]{0.45\textwidth}
+                        \centering
+                        \includegraphics[width=\textwidth]{termipol_device.jpg}
+                    \end{subfigure}
+                    \hspace{0.05\textwidth} % odstęp między podrysunkami
+                    \begin{subfigure}[b]{0.45\textwidth}
+                        \centering
+                        \includegraphics[width=\textwidth]{termipol_device_2.jpg}
+                    \end{subfigure}
+                    \caption{Czujnik poziomu Wi-Fi RU Solid IP65}
+                    \label{fig:termipol_dev}
+                \end{figure}
+
+            \clearpage
+            \subsection{Novabo}
+                \noindent Czujnik firmy Novabo (rys. \ref{fig:novabo}) z~siedzibą w~Gdańsku. Koszt około \textbf{2339 PLN} (polski dystrybutor \textit{Aquatechnika Water Recycling Technology}). Specyfikacja techniczna:
+                \begin{itemize}
+                    \item typ: pływakowy lub konduktancyjny, hermetyczny;
+                    \item długość przewodu czujnika: 5 m;
+                    \item zasilanie: 230 V;
+                    \item typ pomiaru: sygnalizacja.
+                    \item certyfikacja CE.
+                \end{itemize}
+                \begin{figure}[!htbp] 
+                    \centering \includegraphics[width=0.35\textwidth]{novabo_1.jpg}
+                    \caption{Czujnik poziomu Novabo}
+                    \label{fig:novabo}
+                \end{figure}
+
+            
+            \subsection{Signax}
+                \noindent Urządzenie firmy Signax (rys. \ref{fig:signax}) z~siedzibą w~Opolu. Koszt około \textbf{335 PLN}. Specyfikacja techniczna:
+                \begin{itemize}
+                    \item czujnik zanurzeniowy konduktancyjny;
+                    \item sygnalizacja osiągnięcia określonego poziomu;
+                    \item zasięg komunikacji: do 250 m~w~terenie otwartym;
+                    \item częstotliwość pracy: 868 MHz;
+                    \item zasilanie nadajnika: 2 baterie AA,
+                    \item zasilanie odbiornika: 2 baterie AA lub opcjonalnie zasilacz sieciowy;
+                    \item wymiary: 25 $\times$  16 $\times$ 12 cm;
+                    \item waga: 1,3 kg;
+                    \item typ pomiaru: sygnalizacja.
+                \end{itemize}
+                \begin{figure}[!htbp] 
+                    \centering
+                    \begin{subfigure}[b]{0.45\textwidth}
+                        \centering
+                        \includegraphics[width=\textwidth]{signax_1.jpg}
+                    \end{subfigure}
+                    \hspace{0.05\textwidth} % odstęp między podrysunkami
+                    \begin{subfigure}[b]{0.45\textwidth}
+                        \centering
+                        \includegraphics[width=\textwidth]{signax_2.jpg}
+                    \end{subfigure}
+                    \caption{Czujnik poziomu Signax}
+                    \label{fig:signax}
+                \end{figure}
+                
+                \subsection{SZ-02}
+                    \noindent Czujnik firmy \href{https://www.mojdomek.eu/products.php}{mojdomek.eu} (rys. \ref{fig:mojdomek}) z~siedzibą w~Sadach. Koszt około \textbf{599 PLN}. Specyfikacja techniczna:
+                    \begin{itemize}
+                        \item typ czujnika: hydrostatyczny;
+                        \item zasilanie: 4 baterie AA, zapewniające do 4 lat pracy;
+                        \item temperatura pracy: Od -30°C do +50°C;
+                        \item łączność Wi-Fi;
+                        \item powiadomienia PUSH;
+                        \item aplikacja mobilna i~internetowa;
+                        \item możliwość połączenia z~firmą wywożącą nieczystości;
+                        \item typ pomiaru: ciągły.
+                    \end{itemize}
+                    \begin{figure}[!htbp] 
+                        \centering
+                        \begin{subfigure}[b]{0.45\textwidth}
+                            \centering
+                            \includegraphics[width=\textwidth]{mojdomek_1.jpg}
+                        \end{subfigure}
+                        \hspace{0.05\textwidth} % odstęp między podrysunkami
+                        \begin{subfigure}[b]{0.45\textwidth}
+                            \centering
+                            \includegraphics[width=\textwidth]{mojdomek_2.jpg}
+                        \end{subfigure}
+                        \caption{Czujnik poziomu SZ-02}
+                        \label{fig:mojdomek}
+                    \end{figure}
+                
+                \clearpage
+                \subsection{ALERT GM-S II}
+                    \noindent Czujnik firmy HPD (rys. \ref{fig:alert}) z~siedzibą w~Słupnie. Koszt około \textbf{329 PLN}. Specyfikacja techniczna:
+                    \begin{itemize}
+                        \item zasilanie: 230 V;
+                        \item typ czujnika: konduktancyjny.
+                        \item długość przewodu czujnika: > 100 m;
+                        \item typ pomiaru: sygnalizacja.
+                    \end{itemize}
+                    \begin{figure}[h!] 
+                        \centering
+                        \begin{subfigure}[b]{0.2\textwidth}
+                            \centering
+                            \includegraphics[width=\textwidth]{alert_1.png}
+                        \end{subfigure}
+                        \hspace{0.05\textwidth} % odstęp między podrysunkami
+                        \begin{subfigure}[b]{0.65\textwidth}
+                            \centering
+                            \includegraphics[width=\textwidth]{alert_2.png}
+                        \end{subfigure}
+                        \caption{Czujnik poziomu ALERT GM-S II}
+                        \label{fig:alert}
+                    \end{figure}
+
+        \section{Porównanie gotowych rozwiązań} 
+            \noindent Analiza dostępnych na rynku rozwiązań wykazała brak urządzeń, które spełniałyby wszystkie przyjęte na wstępie założenia. Najbardziej zaawansowany i jednocześnie oferujący bezkontaktowy pomiar
+            czujnik --~RU Solid IP65 oferuje szeroki zakres pomiarowy i~zasięg rzędu 150~m, lecz czas pracy przy zasilaniu z baterii jest ograniczony, a~cena najwyższa ze wszystkich. Rozwiązania pływakowe, konduktancyjne
+            i~hydrostatyczne (np. Novabo, Signax, ALERT GM-S II, SZ-02) są koncepcyjnie prostsze, jednak wymagają kontaktu z~medium, co stoi w~sprzeczności z~założeniami. W~związku z~powyższym,
+            projektowany czujnik ma za zadanie wypełnić lukę rynkową: zapewnić pomiar bezkontaktowy, komunikację radiową o większym zasięgu niż Wi-Fi, niskie zużycie energii umożliwiające wieloletnią pracę na baterii
+            oraz cenę konkurencyjną lub niższą niż jakiegolokwiek czujnika. Zbiorcze porównanie czujników znajduje się w \ref{tab:comparision}.
+            
+            \begin{table}[!htbp] \centering
+                \caption{Porównanie gotowych rozwiązań}
+                \label{tab:comparision}
+                \small
+                \begin{tabular}{l l l l l l}
+                    \hline\hline
+                    \textbf{\uline{Urządzenie}} & \textbf{\uline{Czujnik}} & \textbf{\uline{Interfejs}} & \textbf{\uline{Zasięg}} & \textbf{\uline{Żywotność}} & \textbf{\uline{Cena [zł]}}      \\ \hline
+                    Wi-Fi RU Solid IP65         & ultradźwiękowy                & Wi-Fi 2,4 GHz              & 150 m~                  & 1 rok                       & 800                       \\  
+                    SZ--02                      & hydrostatyczny                & Wi-Fi 2,4 GHz              & 150 m~                  & 4 lata                      & 599                       \\  
+                    Signax                      & konduktancyjny                & radiowy 868 MHz            & 250 m~                  & $\infty$                    & 335                       \\  
+                    ALERT GM-S II               & konduktancyjny                & przewodowy                 & 100 m~                  & $\infty$                    & 329                       \\  
+                    Novabo                      & \makecell[l]{pływakowy/\\konduktancyjny}   & przewodowy    & 5 m~                    & $\infty$                    & 2339                      \\  
+                    \hline\hline
+                \end{tabular}
+            \end{table}        
+                
+        \section{Wybór rodzaju czujnika} 
+            \noindent W~przeglądzie technik pomiarowych do monitorowania poziomu cieczy przedstawiono różnorodne podejścia: od bezpośrednich, takich jak poziomierze wziernikowe czy prętowe, po metody pośrednie,
+            w~tym wykorzystujące siły wyporu, ciśnienie, właściwości elektryczne (konduktancję i pojemność), fale mechaniczne i elektromagnetyczne. W~analizie uwzględniono ich zalety i~wady. Po rozważeniu różnych
+            metod zdecydowano się na zastosowanie czujników ultradźwiękowych. Czujniki ultradźwiękowe zostały wybrane ze względu na swoje kluczowe zalety:
+            \begin{itemize}
+                \item brak kontaktu z~medium, co zapobiega problemom związanym z~degradacją i osadzaniem zanieczyszczeń;
+                \item wysoka dokładność i~szybkość działania;
+                \item szeroki zakres pomiarowy;
+                \item brak zależności od gęstości, czy przewodności badanej cieczy.
+            \end{itemize}
+            Choć ultradźwięki mogą być wrażliwe na zmiany temperatury i~wilgotności, zastosowanie kompensacji błędów, takich jak wykorzystanie wzorcowego reflektora, pozwala skutecznie poprawić ich dokładność.
+            Te cechy czynią je optymalnym wyborem dla monitorowania poziomu w~zbiornikach bezodpływowych.
+
+    \clearpage\chapter{Założenia projektowe}
+    \noindent Na podstawie analizy istniejących rozwiązań oraz przeglądu literatury określono szereg wymagań technicznych, jakie powinno spełniać urządzenie. Wiadomo, że będzie pracowało w~środowisku zewnętrznym,
+    bez dostępu do sieci energetycznej lub innych źródeł energii. Dokładność odczytów poziomu szamba nie jest kluczowa i~odchylenia rzędu centymetrów nie wpłyną na użyteczność systemu. Istotna z~punktu widzenia 
+    potencjalnego nabywcy jest wygoda użytkowania, czyli urządzenie powinno być proste w~instalacji oraz niewymagające serwisowania. Na tej podstawie sformułowano następujące główne założenia funkcjonalne i~projektowe
+    urządzenia:
+
+    \begin{itemize}
+        \item zasilanie bateryjne,
+        \item praca na baterii: minimum 5 lat,
+        \item komunikacja bezprzewodowa,
+        \item zasięg komunikacji: minimum 50 metrów,
+        \item dokładność pomiaru: do 10 centymetrów,
+        \item koszt: do 300 złotych.
+    \end{itemize}
+
+

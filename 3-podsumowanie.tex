@@ -1,0 +1,28 @@
+\clearpage\chapter*{Podsumowanie}
+    \phantomsection\addcontentsline{toc}{chapter}{Podsumowanie} % Dodanie go do spisu treści
+        \noindent Na bazie przeprowadzonych testów stwierdzam, że założony cel pracy został osiągnięty. Powstałe urządzenie spełnia wszystkie założone wymagania techniczne, czyli umożliwia
+        bezprzewodowy odczyt poziomu zapełnienia zbiornika asenizacyjnego oddalonego do 180 metrów, z~zadaną dokładnością. Jest w~stanie pracować bez przerwy przez ponad 5 lat bez wymiany baterii, a~jego 
+        koszt oscyluje w~granicach od 400 złotych przy produkcji jednostkowej do około 270 złotych przy zamówieniu tysiąca sztuk.
+        (Koszt nie uwzględnia ceny wyprodukowania i~montażu płytek PCB).
+
+        W~trakcie testów gotowego urządzenia zauważyłem problem związany z~czujnikiem, który polegał na przekłamywaniu odczytów w~zależności od umiejscowienia czujnika.
+        Przyczyną był prawdopodobnie wielokrotnie odbijający się sygnał ultradźwiękowy, co można rozwiązać prostymi algorytmami przetwarzającymi dane. W~najprostszym wypadku można zapamiętywać najmniejsze 
+        wskazania czujnika, albo korzystać ze średniej kroczącej odczytów. Uważam, że pomimo spełnienia wymagań jest jeden kluczowy aspekt, który wymaga poprawy i~dalszych badań -- jest to zasięg komunikacji.
+        Przy konstruowaniu skupiłem się na optymalizacji kosztów, dlatego też użyłem najtańszych dostępnych komponentów. Wybór anteny kierunkowej o~lepszych parametrach mógłby znacznie wpływnąć na poprawę
+        osiągów. Można przewidzieć róże warianty urządzenia i~założyć, że najtańsza wersja korzystałaby z~obecnej anteny, a~wersja lepsza z~anteny kierunkowej -- są to różne potencjalne strategie biznesowe, które
+        można wykorzystać.
+        
+        W~przyszłości konieczne byłoby zapewnienie aktualizacji oprogramowania bezprzewodowo w~ramach FUOTA (ang. \textit{firmware update over the air}), co w~oczywisty sposób podniosłoby komfort użytkowania.
+        W~przypadku systemu składającego się z~kilkunastu, czy nawet kilkudziesięciu tego typu urządzeń, ręczna aktualizacja oprogramowania jest niedopuszczalna. Z~punktu widzenia bezpieczeństwa modułu 
+        pomiarowego należałoby zastanowić się także nad wykorzystaną obudową. Obecna formuła, czyli druk 3D, może sprawdzić się w~przypadku stacji bazowej, jednak moduł z~czujnikiem wymaga obudowy, która będzie
+        w~najwyższych klasach szczelności IP, ponieważ otoczenie, w~jakim pracuje sensor, jest potencjalnie niebezpieczne z~powodu występowania w~nim metanu \cite{Biofos}, który jest gazem łatwopalnym i~w
+        stężeniach już od 5\% do 15\% może eksplodować. Stąd też na dalszych etapach rozwoju projektu powinna zostać rozważona możliwość zmiany obudowy. Możliwe jest również zalanie wnętrza obudowy żywicą 
+        -- również celem zabezpieczenia samego urządzenia przed kopiowaniem rozwiązań. 
+
+        Uważam, że urządzenie jest warte uwagi, ponieważ na rynku nie ma zbyt wielu podobnych rozwiązań, a~na pewno nie ma takich, które spełniałyby postawione wymagania. Wynika to głównie z~faktu, że 
+        większość z~nich opiera się o~przewodowy interfejs między czujnikiem a~odbiornikiem, co jest mało wygodne. Dalszy rozwój obecnego projektu mógłby wiele zmienić. Kolejne wersje mogłby korzystać 
+        z~sieci LoRaWAN, co pozwoliłoby teoretycznie na pomiary w~każdym miejscu, do którego dochodziłaby sieć. Nieustannie rozwijający się rynek IoT wraz z~technologiami LPWAN (ang. \textit{low-power wide-area network}),
+        do których należy również LoRaWAN, doprowadzi do masowej popularyzacji podobnych czujników, które nie muszą być obecne jedynie w~przemyśle. Tanie czujniki bezprzewodowe dalekiego zasięgu to coś, co może
+        przynieść wiele pożytku. W~przyszłości możliwe byłoby rozszerzenie funkcjonalności urządzenia o~pomiary dodatkowych parametrów takich jak temperatura, wilgotność lub obecność szkodliwych gazów, co zwiększyłoby jego atrakcyjność 
+        dla potencjalnego użytkownika, a~także uniwersalność. Integracja z~aplikacją mobilną lub chmurową zapewniłaby maksymalny poziom komfortu i~urządzenie nie odstawałoby w~ten sposób od współczesnych 
+        czujników oferowanych przez duże firmy. Projekt stanowi solidną podstawę do dalszego rozwoju systemów zdalnego monitorowania, które mogą znaleźć zastosowanie między innymi także w~rolnictwie. 
